@@ -79,7 +79,7 @@
             @endif
 
             <div class="content">
-               
+
                 <div id="app">
                     <test></test>
                 </div>

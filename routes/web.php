@@ -20,3 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/root', 'AppRoot@index')->name('appRoot');
+Route::get('user/{id}', 'PacientController@showPacient');
