@@ -11,4 +11,8 @@ class PacientController extends Controller {
     public function showPacient($id){
         return view('profile', ['pacient' => Pacient::findOrFail($id)]);
     }
+
+    public function showPacients(){
+        return view('mainComponents/pacients');
+    }
 }
