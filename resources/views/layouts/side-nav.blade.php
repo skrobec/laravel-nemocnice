@@ -92,7 +92,7 @@
             .nav-item:hover {
                 background-color: #FFFFFF;
                 border-radius: 5px;
-               
+
             }
             .ico-box {
                 display: flex;
@@ -126,12 +126,12 @@
         <div class="side-nav">
             <div class="nav-item">
                 <div class="ico-box"><i class="material-icons">hotel</i></div>
-               
-                <a href="{{URL::route('pacients')}}">Pacienti</a>
+
+                <a href="{{URL::route('patients')}}">Pacienti</a>
             </div>
             <div class="nav-item">
                 <div class="ico-box"><i class="material-icons">accessibility</i></div>
-                 <a  href="">Vyšetření</a>
+                 <a  href="{{URL::route('exams')}}">Vyšetření</a>
             </div>
             <div class="nav-item">
                 <div class="ico-box"><i class="material-icons">local_hospital</i></div>
@@ -145,13 +145,13 @@
                 <div class="ico-box"><i class="material-icons">local_pharmacy</i></div>
                 <a  href="">Léky</a>
             </div>
-           
+
         </div>
         <div class="content">
             @yield('content')
         </div>
     </div>
-        
+
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

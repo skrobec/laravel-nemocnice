@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/root', 'AppRoot@index')->name('appRoot');
-Route::get('user/{id}', 'PacientController@showPacient');
-Route::get('/pacients', 'PacientController@showPacients')->name('pacients');
-
+Route::get('user/{id}', 'PatientController@showPatient');
+Route::get('/patients', 'PatientController@showPatients')->name('patients');
+Route::get('/vysetreni', 'ExamController@showExams')->name('exams');
 
