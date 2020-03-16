@@ -13,6 +13,6 @@ class PatientController extends Controller {
     }
 
     public function showPatients(){
-        return view('mainViews/patients', ['patients' => Patient::all()]);
+        return view('mainViews.patients', ['patients' => Patient::all()]);
     }
 }

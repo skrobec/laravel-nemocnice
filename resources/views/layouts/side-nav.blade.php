@@ -135,7 +135,7 @@
             </div>
             <div class="nav-item">
                 <div class="ico-box"><i class="material-icons">local_hospital</i></div>
-                <a  href="">Oddělení</a>
+                <a  href="{{URL::route('sections')}}">Oddělení</a>
             </div>
             <div class="nav-item">
                 <div class="ico-box"><i class="material-icons">work</i></div>
@@ -143,7 +143,7 @@
             </div>
             <div class="nav-item">
                 <div class="ico-box"><i class="material-icons">local_pharmacy</i></div>
-                <a  href="">Léky</a>
+                <a  href="{{URL::route('drugs')}}">Léky</a>
             </div>
 
         </div>

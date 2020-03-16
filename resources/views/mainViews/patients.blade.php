@@ -1,7 +1,7 @@
 
 @extends('layouts.side-nav')
 @section('content')
-
+<h2>Pacienti</h2>
     @foreach($patients as $patient)
         ID: {{$patient->id}}<br>
         Jmeno: {{$patient->name}}<br>

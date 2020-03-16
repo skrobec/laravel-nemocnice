@@ -11,6 +11,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,4 +26,5 @@ Route::get('/root', 'AppRoot@index')->name('appRoot');
 Route::get('user/{id}', 'PatientController@showPatient');
 Route::get('/patients', 'PatientController@showPatients')->name('patients');
 Route::get('/vysetreni', 'ExamController@showExams')->name('exams');
-
+Route::get('/leky', 'DrugController@showDrugs')->name('drugs');
+Route::get('/oddeleni', 'SectionController@showSections')->name('sections');
