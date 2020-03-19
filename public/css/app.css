@@ -10698,7 +10698,23 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-item .page-li
   display: inline-block !important;
 }
 
-.pacients-input {
-  height: 200px;
+.standard-input {
+  border-top-color: #ced4da;
+  border-top-style: solid;
+  border-top-width: 0px;
+  border-right-color: #ced4da;
+  border-right-style: solid;
+  border-right-width: 0px;
+  border-bottom-color: #ced4da;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-left-color: #ced4da;
+  border-left-style: solid;
+  border-left-width: 0px;
+  outline-width: 0;
+}
+
+input:focus {
+  outline: none !important;
 }
 

@@ -1,7 +1,5 @@
 
 @extends('layouts.side-nav')
 @section('content')
-
-pacients
-
+<patients-form></patients-form>
 @endsection
