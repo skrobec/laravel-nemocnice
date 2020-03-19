@@ -3,8 +3,9 @@
         @extends('layouts.side-nav')
         @section('content')
 
+        
         <div class="flex-center position-ref full-height">
-
+            @include('mainComponents.pacient-search')
             <div class="content">
 
                 <div id="app">

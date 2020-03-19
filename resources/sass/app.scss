@@ -5,6 +5,10 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 
 @import '~material-design-icons/iconfont/material-icons.css';
+
+@import '~@jkryszto/mdb-for-laravel/scss/mdb';
+
+@import 'pacients.scss';
