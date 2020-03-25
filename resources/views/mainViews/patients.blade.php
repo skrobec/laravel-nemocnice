@@ -9,5 +9,5 @@
         Problemy: {{$patient->issues}}<br>
         Zákroky: {{$patient->interventions}}<br><br>
     @endforeach
-
+<patients-form></patients-form>
 @endsection

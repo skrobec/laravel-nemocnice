@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@jkryszto/mdb-for-laravel": "^1.0.0",
         "material-design-icons": "^3.0.1",
         "vue": "^2.6.11"
     }

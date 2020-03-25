@@ -6,8 +6,10 @@
 
         <title>Laravel</title>
         <!-- Fonts -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -92,6 +94,7 @@
             .nav-item:hover {
                 background-color: #FFFFFF;
                 border-radius: 5px;
+                cursor: pointer;
 
             }
             .ico-box {
@@ -105,6 +108,17 @@
             }
             .content {
                 width: 85%;
+            }
+            .nav-item span {
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: .1rem;
+                text-decoration: none;
+
+                text-transform: uppercase;
+                padding-bottom: 4px
             }
         </style>
     </head>
@@ -124,34 +138,39 @@
     @endif
     <div class="main-container">
         <div class="side-nav">
-            <div class="nav-item">
+        <div onclick="window.location='{{URL::route('patients')}}'" class="nav-item">
                 <div class="ico-box"><i class="material-icons">hotel</i></div>
-
-                <a href="{{URL::route('patients')}}">Pacienti</a>
+                <span>pacienti</span>
             </div>
-            <div class="nav-item">
+            <div onclick="window.location='{{URL::route('exams')}}'" class="nav-item">
                 <div class="ico-box"><i class="material-icons">accessibility</i></div>
-                 <a  href="{{URL::route('exams')}}">Vyšetření</a>
+                 <span>Vyšetření</span>
             </div>
-            <div class="nav-item">
+            <div onclick="window.location='{{URL::route('sections')}}'" class="nav-item">
                 <div class="ico-box"><i class="material-icons">local_hospital</i></div>
-                <a  href="{{URL::route('sections')}}">Oddělení</a>
+                <span>Oddělení</span>
             </div>
-            <div class="nav-item">
+            <div onclick="window.location='{{URL::route('patients')}}'" class="nav-item">
                 <div class="ico-box"><i class="material-icons">work</i></div>
-                <a  href="">Zákroky</a>
+                <span>Zákroky</span>
             </div>
-            <div class="nav-item">
+            <div onclick="window.location='{{URL::route('drugs')}}'" class="nav-item">
                 <div class="ico-box"><i class="material-icons">local_pharmacy</i></div>
-                <a  href="{{URL::route('drugs')}}">Léky</a>
+                <span>Léky</span>
             </div>
 
         </div>
         <div class="content">
-            @yield('content')
+            <div id="app">
+                   @yield('content')
+            </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-        <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/support/support.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
