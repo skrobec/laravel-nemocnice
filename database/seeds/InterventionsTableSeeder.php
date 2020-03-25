@@ -14,12 +14,14 @@ class InterventionsTableSeeder extends Seeder
             'date' => Carbon::now()->format('Y-m-d H:i:s'),
             'hospitalization_id' => 1,
             'record' => 'vse probehlo v poradku',
+            'patient_id' => 1
         ]);
 
         DB::table('interventions')->insert([
             'date' => Carbon::now()->format('Y-m-d H:i:s'),
             'hospitalization_id' => 1,
             'record' => 'vse probehlo v poradku',
+            'patient_id' => 1
         ]);
     }
 }
