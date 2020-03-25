@@ -6,7 +6,8 @@
         ID: {{$patient->id}}<br>
         Jmeno: {{$patient->name}}<br>
         Prijmeni: {{$patient->surname}}<br>
-        Problemy: {{$patient->issues}}<br><br>
+        Problemy: {{$patient->issues}}<br>
+        Zákroky: {{$patient->interventions}}<br><br>
     @endforeach
 
 @endsection

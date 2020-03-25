@@ -1,5 +1,4 @@
 
-
         @extends('layouts.side-nav')
         @section('content')
 
