@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 
 
 use App\Patient;
+use App\Exam;
+use App\Hospitalization;
+use App\Intervention;
+use App\Serving;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,5 +86,16 @@ class PatientController extends Controller {
 
     public function getPatients() {
         return (Patient::all());
+    }
+
+    public function getPatientInfo(Request $request) {
+        $patient = Patient::find($request->id);
+        return response()->json([
+            'exams' => $patient->exams,
+            'hospitalizations'    => $patient->hospitalizations,
+            'interventions'    => $patient->interventions,
+            'servings'    => $patient->servings,
+        ], 201);
+
     }
 }

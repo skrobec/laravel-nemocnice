@@ -1,0 +1,188 @@
+<template>
+<div class="screen-center">
+  <div class="middle-container">
+    <div class="back-cont">
+      <div v-on:click="back()" class="back">
+          <i class="material-icons">arrow_back</i>
+      </div>
+    </div>
+    <h2>Pacient: {{parentData.name}}</h2>
+    <div class="patient-info">
+      <div class="doctor">
+        
+      </div>
+      <div class="exams list scroll">
+        <h4>Prohlídky</h4>
+        <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.datum}}</div>
+      </div>
+      <div class="servings list scroll">
+        <h4>Podání léků</h4>
+        <div v-for="serving of servings" v-bind:key="serving.date">Datum: {{serving.date}}</div>
+      </div>
+      <div class="hospitalization list scroll">
+        <h4>Hospitalizace</h4>
+        <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek hospitalizace: {{hosp.date_start}} Konec hospitalizace: {{hosp.date_end}} </div>
+      </div>
+      <div class="interventions list scroll">
+        <h4>Zákroky</h4>
+        <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>
+      </div> 
+     
+    </div>
+    <div class="left"><label for="doctor">Doktor</label></div>
+    <div  class="wrap-detail">
+      <div class="auto-container">
+          
+          <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
+          <div class="option-container scroll">
+              <ul v-if="filteredResults.length > 0">
+                  <li class="option" v-on:click="setDoc(result)"  v-for="result in filteredResults" :key="result" v-text="result"></li>
+              </ul>
+          </div>
+      </div>
+    </div>
+ 
+  </div>
+</div>
+
+
+</template>
+
+
+<style>
+    .list {
+      max-height: 200;
+      overflow: auto;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
+    .wrap-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .option {
+        cursor: pointer;  
+    }
+    .option-container {
+        width: 300px;
+        overflow: auto;
+        height: 50px;
+        margin-top: 40px;
+    }
+    .auto-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .back {
+      height: 50px;
+      width: 50px;
+      font-size: 50px;
+      margin-right: -50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .back i{
+        font-size: 50px;
+    }
+    .back-cont {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .patient-info {
+      margin-top: 60px;
+      margin-bottom: 30px;
+      width: 100%;
+  
+    }
+    .middle-container {
+      width: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .left {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      hospitalizations: [],
+      servings: [],
+      exams: [],
+      interventions: [],
+      doctors: [],
+      current_doctor: '',
+      fields: {},
+      errors: {},
+      success: false,
+      loaded: true,
+      editing: false,
+      patientId: 0,
+      results: ['jjvcv','aaaaaaaaaa','cccccccccccc'],
+      doctor: ''
+    }
+  },
+  created(){
+      this.getInfo();
+  },
+  props: {
+    parentData: Object
+  },
+  computed: {
+    filteredResults () {
+      return this.doctor ? this.results.filter(row => row.search(new RegExp(`${this.doctor}`, 'i')) !== -1) : this.results
+    }
+  },
+  methods: {
+    back(){
+        this.$emit('detailToForm', 'hide')
+    },
+    setDoc(result) {
+        this.doctor = result;
+    },
+    getInfo(){
+        axios.post('/patient/getInfo',{id: this.parentData.id}).then(response => {
+          console.log(response);
+          this.exams = response.exams;
+          this.hospitalizations = response.hospitalizations;
+          this.interventions = response.interventions;
+          this.exams = response.exams;
+
+        });
+    },
+    setDoctor(){
+      if (this.loaded) {
+        this.loaded = false;
+        this.success = false;
+        this.errors = {};
+        const docId = doctors.find(doc => doc.name === this.doctor).id;
+        const postData = {id: this.parentData.id, doctorId: docId};
+        axios.post('/doctor/setPatient', postData).then(response => {
+          console.log(response);
+          this.fields = {}; 
+          this.loaded = true;
+          this.success = true;
+          this.getInfo();
+        }).catch(error => {
+          this.loaded = true;
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors || {};
+          }
+        });
+      }
+    }
+  },
+}
+</script>

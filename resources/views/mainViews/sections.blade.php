@@ -6,5 +6,5 @@
         Název: {{$section->name}}<br>
         Kapacita: {{$section->capacity}}<br><br>
     @endforeach
-
+<sections-form></sections-form>
 @endsection

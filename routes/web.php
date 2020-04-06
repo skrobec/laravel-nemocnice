@@ -43,3 +43,7 @@ Route::post('/patients/del', 'PatientController@deletePatient');
 Route::post('/patients/edit', 'PatientController@editPatient');
 Route::get('/patients/get', 'PatientController@getPatients');
 Route::post('/sections/add', 'SectionController@addSection');
+
+// VIEW routes
+Route::post('/patient/getInfo', 'PatientController@getPatientInfo');
+Route::post('/doctor/setPatient', 'DoctorController@setPatient');

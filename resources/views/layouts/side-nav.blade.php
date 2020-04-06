@@ -120,6 +120,9 @@
                 text-transform: uppercase;
                 padding-bottom: 4px
             }
+            #app {
+                height: 100%;
+            }
         </style>
     </head>
     <body>

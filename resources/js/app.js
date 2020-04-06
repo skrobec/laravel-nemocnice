@@ -22,6 +22,8 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('patients-form', require('./components/PatientsForm.vue').default);
+Vue.component('section-form', require('./components/SectionForm.vue').default);
+Vue.component('patient-detail', require('./components/details/PatientDetail.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
