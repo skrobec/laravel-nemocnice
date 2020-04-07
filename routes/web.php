@@ -32,10 +32,13 @@ Route::get('/patients', 'PatientController@showPatients')->name('patients');
 Route::get('/exams', 'ExamController@showExams')->name('exams');
 Route::get('/drugs', 'DrugController@showDrugs')->name('drugs');
 Route::get('/sections', 'SectionController@showSections')->name('sections');
-Route::get('/users', 'UserController@showUsers')->name('users');
+//Route::get('/users', 'UserController@showUsers')->name('users');
 Route::get('/interventions', 'InterventionController@showInterventions')->name('interventions');
 Route::get('/hospitalizations', 'HospitalizationController@showHospitalizations')->name('hositalizations');
 
+Route::get('/users', 'AdminController@users')
+    ->middleware('is_admin')
+    ->name('admin');
 // CRUD routes :)
 
 Route::post('/patients/add', 'PatientController@addPatients');

@@ -16,6 +16,8 @@ class CreateExamsTable extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('patient_id');
+            $table->unsignedInteger('doctor_id');
+            $table->unsignedInteger('nurse_id');
             $table->dateTime('datum');
             $table->text('zapis');
             $table->timestamps();

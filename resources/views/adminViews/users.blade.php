@@ -5,11 +5,7 @@
         ID: {{$user->id}}<br>
         Jmeno: {{$user->name}}<br>
         Email: {{$user->email}}<br>
-        @if($user->type==0)
-            Je doktor.<br>
-        @else
-            Je sestra.<br>
-        @endif
+
         <br>
     @endforeach
 @endsection

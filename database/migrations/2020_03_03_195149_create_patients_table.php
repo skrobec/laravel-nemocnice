@@ -18,6 +18,7 @@ class CreatePatientsTable extends Migration
             $table->char('name',255);
             $table->char('surname', 255);
             $table->text('issues');
+            $table->unsignedInteger('doctor_id');
             $table->timestamps();
         });
     }

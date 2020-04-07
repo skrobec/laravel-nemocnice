@@ -12,13 +12,22 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->delete();
 
         DB::table('users')->insert([
+           'name' => 'Admin',
+           'email' => 'admin@a.com',
+           'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
+           'password' => Hash::make('admin'),
+           'type' => 'admin',
+           'userable_type' => 'App\Doctor',
+           'userable_id' => 0,
+        ]);
+
+        DB::table('users')->insert([
             'name' => 'TestDoktor1',
             'email' => 'test1@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
-            'type' => 0,
-            'doctor_id' => 1,
-            'nurse_id' => 0,
+            'userable_type' => 'App\Doctor',
+            'userable_id' => 1,
         ]);
 
         DB::table('users')->insert([
@@ -26,9 +35,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'test2@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
-            'type' => 0,
-            'doctor_id' => 1,
-            'nurse_id' => 0,
+            'userable_type' => 'App\Doctor',
+            'userable_id' => 2,
         ]);
 
         DB::table('users')->insert([
@@ -36,9 +44,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'test3@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
-            'type' => 0,
-            'doctor_id' => 1,
-            'nurse_id' => 0,
+            'userable_type' => 'App\Doctor',
+            'userable_id' => 3,
         ]);
 
         DB::table('users')->insert([
@@ -46,9 +53,9 @@ class UsersTableSeeder extends Seeder
             'email' => 'test1@test.testt',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
-            'type' => 1,
-            'doctor_id' => 0,
-            'nurse_id' => 1,
+            'userable_type' => 'App\Nurse',
+            'userable_id' => 1,
+
         ]);
 
         DB::table('users')->insert([
@@ -56,9 +63,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'test2@test.testt',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
-            'type' => 1,
-            'doctor_id' => 0,
-            'nurse_id' => 1,
+            'userable_type' => 'App\Nurse',
+            'userable_id' => 2,
         ]);
 
         DB::table('users')->insert([
@@ -66,9 +72,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'test3@test.testt',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
-            'type' => 1,
-            'doctor_id' => 0,
-            'nurse_id' => 1,
+            'userable_type' => 'App\Nurse',
+            'userable_id' => 3,
         ]);
     }
 }

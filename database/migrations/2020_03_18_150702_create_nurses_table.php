@@ -15,7 +15,6 @@ class CreateNursesTable extends Migration
     {
         Schema::create('nurses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
             $table->bigInteger('section_id');
             $table->dateTime('entry_date');
             $table->dateTime('termination_date');

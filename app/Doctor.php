@@ -9,7 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
+    }
+
+    public function patients(){
+        return $this->hasMany(Patient::class);
+    }
+
+    public function exams(){
+        return $this->hasMany(Exam::class);
     }
 
     public function interventions(){
