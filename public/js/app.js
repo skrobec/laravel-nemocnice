@@ -2090,6 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       fields: {},
       errors: {},
+      enterId: 0,
       success: false,
       loaded: true,
       editing: false,
@@ -2099,21 +2100,36 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
+    var queryString = window.location.href;
+    var urlParams = new URL(queryString);
+    var id = urlParams.searchParams.get('id');
+    console.log(id);
+
+    if (id !== null && id !== undefined) {
+      this.enterId = id;
+    }
+
     this.getPatients();
   },
   methods: {
     hideDetail: function hideDetail(value) {
       this.detail = false;
+      this.connectId = 0;
+      window.history.replaceState({}, '', "http://homestead.test/patients");
     },
     connect: function connect(id) {
+      window.history.replaceState({}, '', "http://homestead.test/patients" + '?id=' + id);
       this.detailProp = this.patients.find(function (pat) {
-        return pat.id === id;
+        return pat.id == id;
       });
+      console.log(id);
+      console.log(this.patients);
+      console.log(this.detailProp);
       this.detail = true;
     },
     prepareEdit: function prepareEdit(id) {
       var patient = this.patients.find(function (pat) {
-        return pat.id === id;
+        return pat.id == id;
       });
       this.fields.name = patient.name;
       this.fields.surname = patient.surname;
@@ -2124,9 +2140,15 @@ __webpack_require__.r(__webpack_exports__);
     getPatients: function getPatients() {
       var _this = this;
 
-      axios.get('/patients/get').then(function (response) {
+      axios.get('/pat/get').then(function (response) {
         console.log(response);
+        console.log('hovna');
+        console.log(_this.enterId);
         _this.patients = response.data;
+
+        if (_this.enterId !== 0) {
+          _this.connect(_this.enterId);
+        }
       });
     },
     deletePatient: function deletePatient(id) {
@@ -2592,6 +2614,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.interventions = response.interventions;
         _this2.exams = response.exams;
       });
+    },
+    relink: function relink() {
+      window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.parentData.id);
     },
     setDoctor: function setDoctor() {
       var _this3 = this;

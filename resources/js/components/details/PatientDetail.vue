@@ -162,6 +162,10 @@ export default {
 
         });
     },
+    relink() {
+      window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.parentData.id);
+
+    },
     setDoctor(){
       if (this.loaded) {
         this.loaded = false;

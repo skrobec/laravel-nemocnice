@@ -136,7 +136,6 @@
 
 <script>
 
-//import Child from './components/details/PatientDetail.vue';
 export default {
   data() {
     return {
@@ -149,6 +148,7 @@ export default {
       },
       fields: {},
       errors: {},
+      enterId: 0,
       success: false,
       loaded: true,
       editing: false,
@@ -158,18 +158,33 @@ export default {
     }
   },
   created(){
+      const queryString = window.location.href;
+      const urlParams = new URL(queryString);
+      const id = urlParams.searchParams.get('id');
+      console.log(id);
+
+      if (id !== null && id !== undefined) {
+          this.enterId = id;
+      }
       this.getPatients();
+      
+     
   },
   methods: {
     hideDetail(value){
         this.detail = false;
+        this.connectId = 0;
+        window.history.replaceState({}, '',  "http://homestead.test/patients");
     },
     connect(id){
-        this.detailProp = this.patients.find(pat => pat.id === id);
+        window.history.replaceState({}, '', "http://homestead.test/patients" + '?id=' + id);
+        this.detailProp = this.patients.find(pat => pat.id == id);
+         console.log(id);
+        console.log(this.patients);
         this.detail = true;
     },
     prepareEdit(id){
-        const patient = this.patients.find(pat => pat.id === id);
+        const patient = this.patients.find(pat => pat.id == id);
         this.fields.name = patient.name;
         this.fields.surname = patient.surname;
         this.fields.issues = patient.issues;
@@ -177,9 +192,12 @@ export default {
         this.patientId = id;
     },
     getPatients(){
-        axios.get('/patients/get').then(response => {
-          console.log(response);
+        axios.get('/pat/get').then(response => {
+          console.log(this.enterId);
           this.patients = response.data;
+          if (this.enterId !== 0) {
+            this.connect(this.enterId);
+          }
         });
     },
     deletePatient(id){

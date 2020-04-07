@@ -123,9 +123,30 @@
             #app {
                 height: 100%;
             }
+            .acc-manage {
+
+            }
+            .acc-manage  a {
+                margin-right: 50px;
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: .1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+                position: absolute;
+                top: 10px;
+                right: 15px;
+            }
         </style>
     </head>
     <body>
+    <div class="acc-manage">
+        <a href="{{ route('logout') }}">
+            Logout
+        </a>    
+    </div>
     <div class="main-container">
         <div class="side-nav">
         <div onclick="window.location='{{URL::route('patients')}}'" class="nav-item">
