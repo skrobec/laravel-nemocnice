@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Drug;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DrugController extends Controller
 {
@@ -12,29 +13,38 @@ class DrugController extends Controller
     }
 
     public function addDrug(Request $request){
-        $request->validate([
+        $rules = array(
             'name'=>'required',
-            'description'=>'required',
-        ]);
+            'description'=>'required'
+        );
 
-        $drug = new Drug([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-        ]);
-        $drug->save();
-        return response()->json([
-            'status' => 'success',
-            'msg'    => 'Okay',
-        ], 201);
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        } else {
+            $drug = new Drug([
+                'name' => $request->get('name'),
+                'description' => $request->get('description'),
+            ]);
+            $drug->save();
+            return response()->json([
+                'status' => 'success',
+                'msg'    => 'Okay',
+            ], 201);
+        }
     }
 
-    public function editDrug(Request $request, $id){
+    public function editDrug(Request $request){
         $request->validate([
             'name'=>'required',
             'description'=>'required'
         ]);
 
-        $drug = Drug::find($id);
+        $drug = Drug::find($request->id);
         $drug->name =  $request->get('name');
         $drug->description = $request->get('description');
         $drug->save();
@@ -45,8 +55,8 @@ class DrugController extends Controller
         ], 201);
     }
 
-    public function deleteDrug($id){
-        $drug = Drug::find($id);
+    public function deleteDrug(Request $request){
+        $drug = Drug::find($request->id);
         $drug->delete();
 
         return response()->json([
