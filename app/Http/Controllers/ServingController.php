@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Drug;
+use App\Serving;
 use Illuminate\Http\Request;
 
-class DrugController extends Controller
+class ServingController extends Controller
 {
-    public function showDrugs(){
-        return view('mainViews.drugs', ["drugs" => Drug::all()]);
+    public function showServings(){
+        return view('mainViews.servings');
     }
 
-    public function getDrugs() {
-        return (Drug::all());
+    public function getServings() {
+        return (Serving::all());
     }
 
-    public function addDrug(Request $request){
+    public function addServing(Request $request){
         $request->validate([
             'name'=>'required',
             'description'=>'required',
@@ -32,7 +32,7 @@ class DrugController extends Controller
         ], 201);
     }
 
-    public function editDrug(Request $request, $id){
+    public function editServing(Request $request, $id){
         $request->validate([
             'name'=>'required',
             'description'=>'required'
@@ -49,7 +49,7 @@ class DrugController extends Controller
         ], 201);
     }
 
-    public function deleteDrug($id){
+    public function deleteServing($id){
         $drug = Drug::find($id);
         $drug->delete();
 
@@ -58,4 +58,14 @@ class DrugController extends Controller
             'msg'    => 'Okay',
         ], 201);
     }
+
+    public function getServingInfo(Request $request) {
+        $serving = Serving::find($request->id);
+        return response()->json([
+            'date' => $serving->date,
+            'nurse_id'    => $serving->nurse_id,
+            'patient_id'    => $serving->patient_id,
+        ], 201);
+    }
+
 }

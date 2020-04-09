@@ -22,8 +22,14 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('patients-form', require('./components/PatientsForm.vue').default);
+Vue.component('drug-form', require('./components/DrugForm.vue').default);
 Vue.component('section-form', require('./components/SectionForm.vue').default);
+Vue.component('serving-form', require('./components/ServingForm.vue').default);
+
+
+
 Vue.component('patient-detail', require('./components/details/PatientDetail.vue').default);
+Vue.component('serving-detail', require('./components/details/ServingDetail.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

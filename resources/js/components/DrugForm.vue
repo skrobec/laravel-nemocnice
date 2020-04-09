@@ -1,26 +1,20 @@
 <template>
 <div class="full">
-    <div v-if="detail" class="full">
-        <patient-detail :parentData="detailProp" v-on:detailToForm="hideDetail"></patient-detail>
-    </div>
-    <div v-else class="wrap">
-        <h1>Pacienti</h1>
-        <div class="patient-container">
+    
+    <div class="wrap">
+        <h1>Léky</h1>
+        <div class="drug-container">
             <div class="input-block">
-                <input class="form-control standard-input shadow-none" id="chosenPatient" type="text" v-model="chosenPatient">
+                <input class="form-control standard-input shadow-none" id="chosenDrug" type="text" v-model="chosenDrug">
             </div>
-            <div class="patient-block">
-                <div class="patient-item" v-for="patient of filteredResults" v-bind:key="patient.name">
-                    <span>Jméno: {{patient.name}}</span>
-                    <span>Přijmení: {{patient.surname}}</span>
-                    <span>Potíže: {{patient.issues}}</span>
-                    <div v-on:click="connect(patient.id)" class="connect">
-                        <i class="material-icons">build</i>
-                    </div>
-                    <div v-on:click="deletePatient(patient.id)" class="delete">
+            <div class="drug-block">
+                <div class="drug-item" v-for="drug of filteredResults" v-bind:key="drug.name">
+                    <span>Jméno: {{drug.name}}</span>
+                    <span>Popis: {{drug.description}}</span>
+                    <div v-on:click="deleteDrug(drug.id)" class="delete">
                         <i class="material-icons">clear</i>
                     </div>
-                    <div v-on:click="prepareEdit(patient.id)" class="edit">
+                    <div v-on:click="prepareEdit(drug.id)" class="edit">
                         <i class="material-icons">edit</i>
                     </div>
                 </div>
@@ -36,19 +30,14 @@
                     </div>
                 
                     <div class="form-group input-container">
-                        <label for="email">Přijmení</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="surname" id="surname" v-model="fields.surname" />
-                        <div v-if="errors && errors.surname" class="text-danger">{{ errors.surname[0] }}</div>
+                        <label for="email">Popis</label>
+                        <input type="text" class="form-control standard-input shadow-none" name="description" id="description" v-model="fields.description" />
+                        <div v-if="errors && errors.description" class="text-danger">{{ errors.description[0] }}</div>
                     </div>
                 
-                    <div class="form-group input-container">
-                        <label for="issues">Problémy</label>
-                        <textarea class="form-control shadow-none" id="issues" name="issues" rows="5" v-model="fields.issues"></textarea>
-                        <div v-if="errors && errors.issues" class="text-danger">{{ errors.issues[0] }}</div>
-                    </div>
 
                     <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editPatient()" class="btn btn-primary">Edit</button>
+                    <button v-if="editing" v-on:click="editDrug()" class="btn btn-primary">Edit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -80,7 +69,7 @@
         display: flex;
         justify-content: center;
     }
-    .patient-container {
+    .drug-container {
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -89,10 +78,10 @@
     .form-block {
         width: 60%;
     }
-    .patient-block {
+    .drug-block {
         width: 60%;
     }
-    .patient-item {
+    .drug-item {
         margin-top: 10px;
         display: flex;
         flex-direction: column;
@@ -102,7 +91,7 @@
         padding: 5px;
         position: relative;
     }
-    .patient-item span {
+    .drug-item span {
         font-weight: 300;
         font-size: 1.1em;
     }
@@ -148,12 +137,12 @@
 export default {
   data() {
     return {
-      patients: [],
-      chosenPatient: '',
-      patient: {
+      drugs: [],
+      chosenDrug: '',
+      drug: {
           id: '',
           name: '',
-          surname: '',
+          description: '',
           problem: ''
       },
       fields: {},
@@ -162,7 +151,7 @@ export default {
       success: false,
       loaded: true,
       editing: false,
-      patientId: 0,
+      drugId: 0,
       detail: false,
       detailProp: {}
     }
@@ -176,67 +165,51 @@ export default {
       if (id !== null && id !== undefined) {
           this.enterId = id;
       }
-      this.getPatients();
+      this.getDrugs();
       
      
   },
   computed: {
     filteredResults () {
-      return this.chosenPatient ? this.patients.filter(row => row.name.search(new RegExp(`${this.chosenPatient}`, 'i')) !== -1) : this.patients
+      return this.chosenDrug ? this.drugs.filter(row => row.name.search(new RegExp(`${this.chosenDrug}`, 'i')) !== -1) : this.drugs
     }
   },
   methods: {
-    
-    hideDetail(value){
-        this.detail = false;
-        this.connectId = 0;
-        window.history.replaceState({}, '',  "http://homestead.test/patients");
-    },
-    connect(id){
-        window.history.replaceState({}, '', "http://homestead.test/patients" + '?id=' + id);
-        this.detailProp = this.patients.find(pat => pat.id == id);
-         console.log(id);
-        console.log(this.patients);
-        this.detail = true;
-    },
+ 
     prepareEdit(id){
-        const patient = this.patients.find(pat => pat.id == id);
-        this.fields.name = patient.name;
-        this.fields.surname = patient.surname;
-        this.fields.issues = patient.issues;
+        const drug = this.drugs.find(pat => pat.id == id);
+        this.fields.name = drug.name;
+        this.fields.description = drug.description;
         this.editing = true;
-        this.patientId = id;
+        this.drugId = id;
     },
-    getPatients(){
-        axios.get('/pat/get').then(response => {
+    getDrugs(){
+        axios.get('/drugs/getAll').then(response => {
           console.log(this.enterId);
-          this.patients = response.data;
-          if (this.enterId !== 0) {
-            this.connect(this.enterId);
-          }
+          this.drugs = response.data;
         });
     },
-    deletePatient(id){
+    deleteDrug(id){
         this.fields.id = id;
-        axios.post('/patients/del', this.fields).then(response => {
+        axios.post('/drugs/del', this.fields).then(response => {
             console.log(response);
             this.fields = {};
-            this.getPatients();
+            this.getDrugs();
         });
     },
-    editPatient(id){
+    editDrug(id){
         if (this.loaded) {
             this.editing = false;
             this.loaded = false;
             this.success = false;
             this.errors = {};
-            this.fields.id = this.patientId;
-            axios.post('/patients/edit', this.fields).then(response => {
+            this.fields.id = this.drugId;
+            axios.post('/drugs/edit', this.fields).then(response => {
             console.log(response);
             this.fields = {}; 
             this.loaded = true;
             this.success = true;
-            this.getPatients();
+            this.getDrugs();
             }).catch(error => {
             this.loaded = true;
             if (error.response.status === 422) {
@@ -250,12 +223,12 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/patients/add', this.fields).then(response => {
+        axios.post('/drugs/add', this.fields).then(response => {
           console.log(response);
           this.fields = {}; 
           this.loaded = true;
           this.success = true;
-          this.getPatients();
+          this.getDrugs();
         }).catch(error => {
           this.loaded = true;
           if (error.response.status === 422) {

@@ -1,4 +1,4 @@
 @extends('layouts.side-nav')
 @section('content')
-<drug-form></drug-form>
+<serving-form></serving-form>
 @endsection

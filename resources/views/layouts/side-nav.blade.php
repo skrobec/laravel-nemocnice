@@ -169,6 +169,10 @@
                 <div class="ico-box"><i class="material-icons">local_pharmacy</i></div>
                 <span>Léky</span>
             </div>
+            <div onclick="window.location='{{URL::route('servings')}}'" class="nav-item">
+                <div class="ico-box"><i class="material-icons">add_alert</i></div>
+                <span>Podání</span>
+            </div>
 
         </div>
         <div class="content">

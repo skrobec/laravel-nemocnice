@@ -1,26 +1,25 @@
 <template>
 <div class="full">
     <div v-if="detail" class="full">
-        <patient-detail :parentData="detailProp" v-on:detailToForm="hideDetail"></patient-detail>
+        <serving-detail :parentData="detailProp" v-on:detailToForm="hideDetail"></serving-detail>
     </div>
     <div v-else class="wrap">
-        <h1>Pacienti</h1>
-        <div class="patient-container">
+        <h1>Podání</h1>
+        <div class="serving-container">
             <div class="input-block">
-                <input class="form-control standard-input shadow-none" id="chosenPatient" type="text" v-model="chosenPatient">
+                <input class="form-control standard-input shadow-none" id="chosenServing" type="text" v-model="chosenServing">
             </div>
-            <div class="patient-block">
-                <div class="patient-item" v-for="patient of filteredResults" v-bind:key="patient.name">
-                    <span>Jméno: {{patient.name}}</span>
-                    <span>Přijmení: {{patient.surname}}</span>
-                    <span>Potíže: {{patient.issues}}</span>
-                    <div v-on:click="connect(patient.id)" class="connect">
+            <div class="serving-block">
+                <div class="serving-item" v-for="serving of filteredResults" v-bind:key="serving.date">
+                    <span>Datum: {{serving.date}}</span>
+                    <span>Jméno pacienta: {{getPatient(serving.id)}}</span>
+                    <div v-on:click="connect(serving.id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
-                    <div v-on:click="deletePatient(patient.id)" class="delete">
+                    <div v-on:click="deleteServing(serving.id)" class="delete">
                         <i class="material-icons">clear</i>
                     </div>
-                    <div v-on:click="prepareEdit(patient.id)" class="edit">
+                    <div v-on:click="prepareEdit(serving.id)" class="edit">
                         <i class="material-icons">edit</i>
                     </div>
                 </div>
@@ -30,25 +29,14 @@
             <div class="form-block">
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
-                        <label for="name">Jméno</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="name" id="name" v-model="fields.name" />
+                        <label for="date">Datum</label>
+                        <input type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
                 
-                    <div class="form-group input-container">
-                        <label for="email">Přijmení</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="surname" id="surname" v-model="fields.surname" />
-                        <div v-if="errors && errors.surname" class="text-danger">{{ errors.surname[0] }}</div>
-                    </div>
-                
-                    <div class="form-group input-container">
-                        <label for="issues">Problémy</label>
-                        <textarea class="form-control shadow-none" id="issues" name="issues" rows="5" v-model="fields.issues"></textarea>
-                        <div v-if="errors && errors.issues" class="text-danger">{{ errors.issues[0] }}</div>
-                    </div>
 
                     <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editPatient()" class="btn btn-primary">Edit</button>
+                    <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Edit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -67,6 +55,9 @@
     }
     .full {
         height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .input-container {
        text-align: start;
@@ -80,7 +71,7 @@
         display: flex;
         justify-content: center;
     }
-    .patient-container {
+    .serving-container {
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -89,10 +80,10 @@
     .form-block {
         width: 60%;
     }
-    .patient-block {
+    .serving-block {
         width: 60%;
     }
-    .patient-item {
+    .serving-item {
         margin-top: 10px;
         display: flex;
         flex-direction: column;
@@ -102,13 +93,12 @@
         padding: 5px;
         position: relative;
     }
-    .patient-item span {
+    .serving-item span {
         font-weight: 300;
         font-size: 1.1em;
     }
     .wrap {
-        margin-top: 100px;
-        margin-bottom: 100px;
+        width: 100%;
     }
     .connect {
         width: 30px;
@@ -148,21 +138,17 @@
 export default {
   data() {
     return {
+      servings: [],
+      chosenServing: '',
+      serving: {},
       patients: [],
-      chosenPatient: '',
-      patient: {
-          id: '',
-          name: '',
-          surname: '',
-          problem: ''
-      },
       fields: {},
       errors: {},
       enterId: 0,
       success: false,
       loaded: true,
       editing: false,
-      patientId: 0,
+      servingId: 0,
       detail: false,
       detailProp: {}
     }
@@ -176,67 +162,74 @@ export default {
       if (id !== null && id !== undefined) {
           this.enterId = id;
       }
-      this.getPatients();
+      this.getServings();
       
      
   },
   computed: {
     filteredResults () {
-      return this.chosenPatient ? this.patients.filter(row => row.name.search(new RegExp(`${this.chosenPatient}`, 'i')) !== -1) : this.patients
+      return this.chosenServing ? this.servings.filter(row => row.date.search(new RegExp(`${this.chosenServing}`, 'i')) !== -1) : this.servings
     }
   },
   methods: {
-    
+    getPatient(id){
+        console.log(this.patients);
+        console.log(id);
+        return this.patients.find(pat => pat.id == id).name;
+    },
     hideDetail(value){
         this.detail = false;
         this.connectId = 0;
-        window.history.replaceState({}, '',  "http://homestead.test/patients");
+        window.history.replaceState({}, '',  "http://homestead.test/servings");
     },
     connect(id){
-        window.history.replaceState({}, '', "http://homestead.test/patients" + '?id=' + id);
-        this.detailProp = this.patients.find(pat => pat.id == id);
+        window.history.replaceState({}, '', "http://homestead.test/servings" + '?id=' + id);
+        this.detailProp = this.servings.find(pat => pat.id == id);
          console.log(id);
-        console.log(this.patients);
+        console.log(this.servings);
         this.detail = true;
     },
     prepareEdit(id){
-        const patient = this.patients.find(pat => pat.id == id);
-        this.fields.name = patient.name;
-        this.fields.surname = patient.surname;
-        this.fields.issues = patient.issues;
+        const serving = this.servings.find(pat => pat.id == id);
+        this.fields.name = serving.name;
+        this.fields.surname = serving.surname;
+        this.fields.issues = serving.issues;
         this.editing = true;
-        this.patientId = id;
+        this.servingId = id;
     },
-    getPatients(){
-        axios.get('/pat/get').then(response => {
+    getServings(){
+        axios.get('/servings/getAll').then(response => {
           console.log(this.enterId);
-          this.patients = response.data;
+          this.servings = response.data;
           if (this.enterId !== 0) {
             this.connect(this.enterId);
           }
         });
-    },
-    deletePatient(id){
-        this.fields.id = id;
-        axios.post('/patients/del', this.fields).then(response => {
-            console.log(response);
-            this.fields = {};
-            this.getPatients();
+        axios.get('/pat/get').then(response => {
+         this.patients = response.data;
         });
     },
-    editPatient(id){
+    deleteServing(id){
+        this.fields.id = id;
+        axios.post('/servings/del', this.fields).then(response => {
+            console.log(response);
+            this.fields = {};
+            this.getServings();
+        });
+    },
+    editServing(id){
         if (this.loaded) {
             this.editing = false;
             this.loaded = false;
             this.success = false;
             this.errors = {};
-            this.fields.id = this.patientId;
-            axios.post('/patients/edit', this.fields).then(response => {
+            this.fields.id = this.servingId;
+            axios.post('/servings/edit', this.fields).then(response => {
             console.log(response);
             this.fields = {}; 
             this.loaded = true;
             this.success = true;
-            this.getPatients();
+            this.getServings();
             }).catch(error => {
             this.loaded = true;
             if (error.response.status === 422) {
@@ -250,12 +243,12 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/patients/add', this.fields).then(response => {
+        axios.post('/servings/add', this.fields).then(response => {
           console.log(response);
           this.fields = {}; 
           this.loaded = true;
           this.success = true;
-          this.getPatients();
+          this.getServings();
         }).catch(error => {
           this.loaded = true;
           if (error.response.status === 422) {
