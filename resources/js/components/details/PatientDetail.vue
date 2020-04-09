@@ -9,7 +9,7 @@
     <h2>Pacient: {{parentData.name}}</h2>
     <div class="patient-info">
       <div class="doctor">
-        
+
       </div>
       <div class="exams list scroll">
         <h4>Prohlídky</h4>
@@ -26,13 +26,13 @@
       <div class="interventions list scroll">
         <h4>Zákroky</h4>
         <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>
-      </div> 
-     
+      </div>
+
     </div>
     <div class="left"><label for="doctor">Doktor</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
-          
+
           <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
           <div class="option-container scroll">
               <ul v-if="filteredResults.length > 0">
@@ -41,7 +41,7 @@
           </div>
       </div>
     </div>
- 
+
   </div>
 </div>
 
@@ -63,7 +63,7 @@
         align-items: center;
     }
     .option {
-        cursor: pointer;  
+        cursor: pointer;
     }
     .option-container {
         width: 300px;
@@ -98,7 +98,7 @@
       margin-top: 60px;
       margin-bottom: 30px;
       width: 100%;
-  
+
     }
     .middle-container {
       width: 600px;
@@ -175,7 +175,7 @@ export default {
         const postData = {id: this.parentData.id, doctorId: docId};
         axios.post('/doctor/setPatient', postData).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.getInfo();

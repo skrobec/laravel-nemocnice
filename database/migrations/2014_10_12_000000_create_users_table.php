@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('type')->default('default');
-            $table->integer('userable_id')->unsigned();
-            $table->string('userable_type');
+            $table->integer('userable_id')->unsigned()->default(0);
+            $table->string('userable_type')->default('none');
             $table->rememberToken();
             $table->timestamps();
         });

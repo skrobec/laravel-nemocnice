@@ -145,7 +145,7 @@
     <div class="acc-manage">
         <a href="{{ route('logout') }}">
             Logout
-        </a>    
+        </a>
     </div>
     <div class="main-container">
         <div class="side-nav">
