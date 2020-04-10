@@ -2616,58 +2616,105 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       sections: [],
+      chosenSection: '',
       section: {
         id: '',
         name: '',
-        capacity: ''
+        capacity: '',
+        problem: ''
       },
       fields: {},
       errors: {},
+      enterId: 0,
       success: false,
       loaded: true,
       editing: false,
-      sectionId: 0
+      sectionId: 0,
+      detail: false,
+      detailProp: {}
     };
   },
   created: function created() {
+    var queryString = window.location.href;
+    var urlParams = new URL(queryString);
+    var id = urlParams.searchParams.get('id');
+    console.log(id);
+
+    if (id !== null && id !== undefined) {
+      this.enterId = id;
+    }
+
     this.getSections();
+  },
+  computed: {
+    filteredResults: function filteredResults() {
+      var _this = this;
+
+      return this.chosenSection ? this.sections.filter(function (row) {
+        return row.name.search(new RegExp("".concat(_this.chosenSection), 'i')) !== -1;
+      }) : this.sections;
+    }
   },
   methods: {
     prepareEdit: function prepareEdit(id) {
       var section = this.sections.find(function (pat) {
-        return pat.id === id;
+        return pat.id == id;
       });
       this.fields.name = section.name;
-      this.fields.surname = section.surname;
-      this.fields.issues = section.issues;
+      this.fields.capacity = section.capacity;
       this.editing = true;
       this.sectionId = id;
     },
     getSections: function getSections() {
-      var _this = this;
+      var _this2 = this;
 
-      axios.get('/sections/get').then(function (response) {
-        console.log(response);
-        _this.sections = response.data;
+      axios.get('/sections/getAll').then(function (response) {
+        console.log(_this2.enterId);
+        _this2.sections = response.data;
       });
     },
     deleteSection: function deleteSection(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.fields.id = id;
       axios.post('/sections/del', this.fields).then(function (response) {
         console.log(response);
-        _this2.fields = {};
+        _this3.fields = {};
 
-        _this2.getSections();
+        _this3.getSections();
       });
     },
     editSection: function editSection(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.loaded) {
         this.editing = false;
@@ -2676,29 +2723,6 @@ __webpack_require__.r(__webpack_exports__);
         this.errors = {};
         this.fields.id = this.sectionId;
         axios.post('/sections/edit', this.fields).then(function (response) {
-          console.log(response);
-          _this3.fields = {};
-          _this3.loaded = true;
-          _this3.success = true;
-
-          _this3.getSections();
-        })["catch"](function (error) {
-          _this3.loaded = true;
-
-          if (error.response.status === 422) {
-            _this3.errors = error.response.data.errors || {};
-          }
-        });
-      }
-    },
-    submit: function submit() {
-      var _this4 = this;
-
-      if (this.loaded) {
-        this.loaded = false;
-        this.success = false;
-        this.errors = {};
-        axios.post('/sections/add', this.fields).then(function (response) {
           console.log(response);
           _this4.fields = {};
           _this4.loaded = true;
@@ -2710,6 +2734,29 @@ __webpack_require__.r(__webpack_exports__);
 
           if (error.response.status === 422) {
             _this4.errors = error.response.data.errors || {};
+          }
+        });
+      }
+    },
+    submit: function submit() {
+      var _this5 = this;
+
+      if (this.loaded) {
+        this.loaded = false;
+        this.success = false;
+        this.errors = {};
+        axios.post('/sections/add', this.fields).then(function (response) {
+          console.log(response);
+          _this5.fields = {};
+          _this5.loaded = true;
+          _this5.success = true;
+
+          _this5.getSections();
+        })["catch"](function (error) {
+          _this5.loaded = true;
+
+          if (error.response.status === 422) {
+            _this5.errors = error.response.data.errors || {};
           }
         });
       }
@@ -2728,24 +2775,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2910,19 +2939,8 @@ __webpack_require__.r(__webpack_exports__);
         return pat.id == id;
       }).name;
     },
-    hideDetail: function hideDetail(value) {
-      this.detail = false;
-      this.connectId = 0;
-      window.history.replaceState({}, '', "http://homestead.test/servings");
-    },
     connect: function connect(id) {
-      window.history.replaceState({}, '', "http://homestead.test/servings" + '?id=' + id);
-      this.detailProp = this.servings.find(function (pat) {
-        return pat.id == id;
-      });
-      console.log(id);
-      console.log(this.servings);
-      this.detail = true;
+      window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id;
     },
     prepareEdit: function prepareEdit(id) {
       var serving = this.servings.find(function (pat) {
@@ -3013,6 +3031,335 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/details/InterventionDetail.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      interventionObj: {
+        date: '',
+        record: ''
+      },
+      chosenNurses: [],
+      chosenDoctors: [],
+      doctors: [],
+      fields: {},
+      errors: {},
+      success: false,
+      loaded: true,
+      editing: false,
+      patientId: 0,
+      nurses: [],
+      patients: [],
+      nurse: '',
+      doctor: '',
+      loadedIntervention: {
+        date: ''
+      },
+      loadedNurse: {
+        name: ''
+      },
+      patientObj: {
+        name: ''
+      },
+      nurseObj: {
+        name: ''
+      },
+      drugObj: {
+        name: ''
+      }
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "interventionId", ''), _ref;
+  },
+  created: function created() {
+    var queryString = window.location.href;
+    var urlParams = new URL(queryString);
+    this.patientId = urlParams.searchParams.get('patientId');
+    this.interventionId = urlParams.searchParams.get('interventionId');
+
+    if (this.patientId !== undefined && this.patientId !== null) {
+      this.getInfo();
+    }
+  },
+  computed: {
+    filteredNurses: function filteredNurses() {
+      var _this = this;
+
+      return this.nurse ? this.nurses.filter(function (row) {
+        return row.name.search(new RegExp("".concat(_this.nurse), 'i')) !== -1;
+      }) : this.nurses;
+    },
+    filteredDoctors: function filteredDoctors() {
+      var _this2 = this;
+
+      return this.doctor ? this.doctors.filter(function (row) {
+        return row.name.search(new RegExp("".concat(_this2.doctor), 'i')) !== -1;
+      }) : this.doctors;
+    }
+  },
+  methods: {
+    setNurse: function setNurse(result) {
+      this.nurse = this.nurses.find(function (nurse) {
+        return nurse.id == result;
+      }).name;
+      this.nurseObj = this.nurses.find(function (nurse) {
+        return nurse.id == result;
+      });
+    },
+    setDoctor: function setDoctor(result) {
+      this.doctor = this.doctors.find(function (doc) {
+        return doc.id == result;
+      }).name;
+      this.doctorObj = this.doctors.find(function (doc) {
+        return doc.id == result;
+      });
+    },
+    addNurse: function addNurse() {
+      this.chosenNurses.push(this.nurseObj);
+    },
+    addDoctor: function addDoctor() {
+      this.chosenDoctors.push(this.doctorObj);
+    },
+    getInfo: function getInfo() {
+      var _this3 = this;
+
+      axios.get('/user/getNurses').then(function (response) {
+        _this3.nurses = response.data;
+        return axios.get('/pat/get');
+      }).then(function (response) {
+        _this3.patients = response.data;
+        _this3.patientObj = _this3.patients.find(function (pat) {
+          return pat.id == _this3.patientId;
+        });
+        console.log('data');
+        console.log(_this3.nurses);
+        console.log(_this3.patients);
+        return axios.get('/user/getDoctors');
+      }).then(function (response) {
+        _this3.doctors = response.data;
+        console.log(_this3.drugs);
+
+        if (_this3.interventionId !== undefined && _this3.interventionId !== null) {
+          _this3.getEditInfo();
+        }
+      });
+    },
+    getEditInfo: function getEditInfo() {
+      var _this4 = this;
+
+      axios.post('/intervention/getInfo', {
+        id: this.interventionId
+      }).then(function (response) {
+        _this4.interventionObj = response.data;
+        _this4.chosenNurses = _this4.interventionObj.nurses;
+        _this4.chosenDoctors = _this4.interventionObj.doctors;
+      });
+    },
+    relink: function relink() {
+      window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.parentData.id);
+    },
+    submit: function submit() {
+      var _this5 = this;
+
+      if (this.loaded) {
+        this.loaded = false;
+        this.success = false;
+        this.errors = {};
+        axios.post('/intervention/add', this.fields).then(function (response) {
+          console.log(response);
+          _this5.fields = {};
+          _this5.loaded = true;
+          _this5.success = true;
+          _this5.interventionId = response.id;
+
+          _this5.getEditInfo();
+        })["catch"](function (error) {
+          _this5.loaded = true;
+
+          if (error.response.status === 422) {
+            _this5.errors = error.response.data.errors || {};
+          }
+        });
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/PatientDetail.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/details/PatientDetail.vue?vue&type=script&lang=js& ***!
@@ -3022,6 +3369,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3195,6 +3552,9 @@ __webpack_require__.r(__webpack_exports__);
     relink: function relink() {
       window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.parentData.id);
     },
+    link: function link(destination) {
+      window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
+    },
     setDoctor: function setDoctor() {
       var _this3 = this;
 
@@ -3239,6 +3599,45 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3357,11 +3756,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      hospitalizations: [],
-      servings: [],
-      exams: [],
-      interventions: [],
+    var _ref;
+
+    return _ref = {
+      servingObj: {
+        date: ''
+      },
+      drugs: [],
       fields: {},
       errors: {},
       success: false,
@@ -3371,16 +3772,33 @@ __webpack_require__.r(__webpack_exports__);
       nurses: [],
       patients: [],
       nurse: '',
-      patient: '',
-      patientInfo: '',
-      nurseInfo: ''
-    };
+      drug: '',
+      loadedServing: {
+        date: ''
+      },
+      loadedNurse: {
+        name: ''
+      },
+      patientObj: {
+        name: ''
+      },
+      nurseObj: {
+        name: ''
+      },
+      drugObj: {
+        name: ''
+      }
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "servingId", ''), _ref;
   },
   created: function created() {
-    this.getInfo();
-  },
-  props: {
-    parentData: Object
+    var queryString = window.location.href;
+    var urlParams = new URL(queryString);
+    this.patientId = urlParams.searchParams.get('patientId');
+    this.servingId = urlParams.searchParams.get('servingId');
+
+    if (this.patientId !== undefined && this.patientId !== null) {
+      this.getInfo();
+    }
   },
   computed: {
     filteredNurses: function filteredNurses() {
@@ -3390,66 +3808,103 @@ __webpack_require__.r(__webpack_exports__);
         return row.name.search(new RegExp("".concat(_this.nurse), 'i')) !== -1;
       }) : this.nurses;
     },
-    filteredPatients: function filteredPatients() {
+    filteredDrugs: function filteredDrugs() {
       var _this2 = this;
 
-      return this.patient ? this.patients.filter(function (row) {
-        return row.name.search(new RegExp("".concat(_this2.patient), 'i')) !== -1;
-      }) : this.patients;
+      return this.drug ? this.drugs.filter(function (row) {
+        return row.name.search(new RegExp("".concat(_this2.drug), 'i')) !== -1;
+      }) : this.drugs;
     }
   },
   methods: {
-    back: function back() {
-      this.$emit('detailToForm', 'hide');
-    },
     setNurse: function setNurse(result) {
-      var _this3 = this;
-
-      axios.post('/serving/setNurse', {
-        id: this.parentData.id,
-        nurseId: result
-      }).then(function (response) {
-        _this3.getInfo();
+      this.nurse = this.nurses.find(function (nurse) {
+        return nurse.id == result;
+      }).name;
+      this.nurseObj = this.nurses.find(function (nurse) {
+        return nurse.id == result;
       });
-      this.nurse = result;
     },
-    setPatient: function setPatient(result) {
-      var _this4 = this;
-
-      axios.post('/serving/setPatient', {
-        id: this.parentData.id,
-        patientId: result
-      }).then(function (response) {
-        _this4.getInfo();
+    setDrug: function setDrug(result) {
+      this.drug = this.drugs.find(function (drug) {
+        return drug.id == result;
+      }).name;
+      this.drugObj = this.drugs.find(function (drug) {
+        return drug.id == result;
       });
-      this.patient = result;
     },
     getInfo: function getInfo() {
-      var _this5 = this;
+      var _this3 = this;
 
-      axios.post('/serving/getInfo', {
-        id: this.parentData.id
-      }).then(function (response) {
-        _this5.serving = response;
-        return axios.get('/nurse/getAll');
-      }).then(function (response) {
-        _this5.nurses = response.data;
-        _this5.nurseInfo = _this5.nurses.find(function (nurse) {
-          return nurse.id == _this5.serving.nurde_id;
-        }).name;
+      axios.get('/user/getNurses').then(function (response) {
+        _this3.nurses = response.data;
         return axios.get('/pat/get');
       }).then(function (response) {
-        _this5.patients = response.data;
-        _this5.patientInfo = _this5.patients.find(function (pat) {
-          return pat.id == _this5.serving.patient_id;
+        _this3.patients = response.data;
+        _this3.patientObj = _this3.patients.find(function (pat) {
+          return pat.id == _this3.patientId;
+        });
+        console.log('data');
+        console.log(_this3.nurses);
+        console.log(_this3.patients);
+        return axios.get('/drugs/getAll');
+      }).then(function (response) {
+        _this3.drugs = response.data;
+        console.log(_this3.drugs);
+
+        if (_this3.servingId !== undefined && _this3.servingId !== null) {
+          _this3.getEditInfo();
+        }
+      });
+    },
+    getEditInfo: function getEditInfo() {
+      var _this4 = this;
+
+      axios.post('/serving/getInfo', {
+        id: this.servingId
+      }).then(function (response) {
+        _this4.servingObj = response.data;
+        _this4.loadedNurse = _this4.nurses.find(function (nurse) {
+          return nurse.id == result;
+        });
+        _this4.nurseObj = _this4.nurses.find(function (nurse) {
+          return nurse.id == result;
+        });
+        _this4.nurse = _this4.nurseObj.name;
+        _this4.drug = _this4.drugs.find(function (drug) {
+          return drug.id == result;
         }).name;
-        console.log(_this5.serving);
-        console.log(_this5.nurses);
-        console.log(_this5.patients);
+        _this4.drugObj = _this4.drugs.find(function (drug) {
+          return drug.id == result;
+        });
       });
     },
     relink: function relink() {
-      window.history.pushState({}, '', "http://homestead.test/servings" + '?' + this.parentData.id);
+      window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.parentData.id);
+    },
+    submit: function submit() {
+      var _this5 = this;
+
+      if (this.loaded) {
+        this.loaded = false;
+        this.success = false;
+        this.errors = {};
+        axios.post('/serving/add', this.fields).then(function (response) {
+          console.log(response);
+          _this5.fields = {};
+          _this5.loaded = true;
+          _this5.success = true;
+          _this5.servingId = response.id;
+
+          _this5.getEditInfo();
+        })["catch"](function (error) {
+          _this5.loaded = true;
+
+          if (error.response.status === 422) {
+            _this5.errors = error.response.data.errors || {};
+          }
+        });
+      }
     }
   }
 });
@@ -8037,7 +8492,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.section-container {\n    display: flex;\n    justify-content: center;\n}\n.form-block {\n    width: 60%;\n}\n.section-block {\n    width: 60%;\n}\n.section-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.section-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    margin-top: 100px;\n    margin-bottom: 100px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.full {\n    height: 100%;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.section-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.section-block {\n    width: 60%;\n}\n.section-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.section-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    margin-top: 100px;\n    margin-bottom: 100px;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 68px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -8057,6 +8512,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.full {\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.serving-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.serving-block {\n    width: 60%;\n}\n.serving-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.serving-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 68px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  margin-top: 200px;\n  margin-bottom: 100px;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -8094,7 +8568,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -39057,6 +39531,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./InterventionDetail.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/PatientDetail.vue?vue&type=style&index=0&lang=css&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/details/PatientDetail.vue?vue&type=style&index=0&lang=css& ***!
@@ -40264,161 +40768,198 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "wrap" }, [
-    _c("h1", [_vm._v("Oddělení")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "section-container" }, [
-      _c(
-        "div",
-        { staticClass: "section-block" },
-        _vm._l(_vm.sections, function(section) {
-          return _c("div", { key: section.name, staticClass: "section-item" }, [
-            _c("span", [_vm._v("Jméno oddělení: " + _vm._s(section.name))]),
-            _vm._v(" "),
-            _c("span", [_vm._v("Kapacita: " + _vm._s(section.surname))]),
-            _vm._v(" "),
-            _c(
-              "div",
+  return _c("div", { staticClass: "full" }, [
+    _c("div", { staticClass: "wrap" }, [
+      _c("h1", [_vm._v("Oddělení")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "section-container" }, [
+        _c("div", { staticClass: "input-block" }, [
+          _c("input", {
+            directives: [
               {
-                staticClass: "delete",
-                on: {
-                  click: function($event) {
-                    return _vm.deleteSection(section.id)
-                  }
-                }
-              },
-              [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "edit",
-                on: {
-                  click: function($event) {
-                    return _vm.prepareEdit(section.id)
-                  }
-                }
-              },
-              [_c("i", { staticClass: "material-icons" }, [_vm._v("edit")])]
-            )
-          ])
-        }),
-        0
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-container" }, [
-      _c("div", { staticClass: "form-block" }, [
-        _c(
-          "form",
-          {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.chosenSection,
+                expression: "chosenSection"
+              }
+            ],
+            staticClass: "form-control standard-input shadow-none",
+            attrs: { id: "chosenSection", type: "text" },
+            domProps: { value: _vm.chosenSection },
             on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.submit($event)
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.chosenSection = $event.target.value
               }
             }
-          },
-          [
-            _c("div", { staticClass: "form-group input-container" }, [
-              _c("label", { attrs: { for: "name" } }, [
-                _vm._v("Jméno oddělení")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "section-block" },
+          _vm._l(_vm.filteredResults, function(section) {
+            return _c(
+              "div",
+              { key: section.name, staticClass: "section-item" },
+              [
+                _c("span", [_vm._v("Jméno: " + _vm._s(section.name))]),
+                _vm._v(" "),
+                _c("span", [_vm._v("Kapacita: " + _vm._s(section.capacity))]),
+                _vm._v(" "),
+                _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.fields.name,
-                    expression: "fields.name"
-                  }
-                ],
-                staticClass: "form-control standard-input shadow-none",
-                attrs: { type: "text", name: "name", id: "name" },
-                domProps: { value: _vm.fields.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.fields, "name", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.name
-                ? _c("div", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.errors.name[0]))
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group input-container" }, [
-              _c("label", { attrs: { for: "email" } }, [_vm._v("Kapacita")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.fields.surname,
-                    expression: "fields.surname"
-                  }
-                ],
-                staticClass: "form-control standard-input shadow-none",
-                attrs: { type: "text", name: "surname", id: "surname" },
-                domProps: { value: _vm.fields.surname },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.fields, "surname", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.surname
-                ? _c("div", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.errors.surname[0]))
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            !_vm.editing
-              ? _c(
-                  "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                  [_vm._v("Submit")]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.editing
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
+                    staticClass: "delete",
                     on: {
                       click: function($event) {
-                        return _vm.editSection()
+                        return _vm.deleteSection(section.id)
                       }
                     }
                   },
-                  [_vm._v("Edit")]
+                  [
+                    _c("i", { staticClass: "material-icons" }, [
+                      _vm._v("clear")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "edit",
+                    on: {
+                      click: function($event) {
+                        return _vm.prepareEdit(section.id)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "material-icons" }, [_vm._v("edit")])]
                 )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.success
-              ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                  _vm._v(
-                    "\r\n                Úspěšně provedeno !\r\n            "
-                  )
-                ])
-              : _vm._e()
-          ]
+              ]
+            )
+          }),
+          0
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-container" }, [
+        _c("div", { staticClass: "form-block" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submit($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group input-container" }, [
+                _c("label", { attrs: { for: "name" } }, [_vm._v("Jméno")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fields.name,
+                      expression: "fields.name"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { type: "text", name: "name", id: "name" },
+                  domProps: { value: _vm.fields.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.fields, "name", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group input-container" }, [
+                _c("label", { attrs: { for: "capacity" } }, [
+                  _vm._v("Kapacita")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fields.capacity,
+                      expression: "fields.capacity"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { type: "text", name: "capacity", id: "capacity" },
+                  domProps: { value: _vm.fields.capacity },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.fields, "capacity", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.capacity
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.capacity[0]))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              !_vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Submit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.editSection()
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.success
+                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                    _vm._v(
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        ])
       ])
     ])
   ])
@@ -40447,17 +40988,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "full" }, [
     _vm.detail
-      ? _c(
-          "div",
-          { staticClass: "full" },
-          [
-            _c("serving-detail", {
-              attrs: { parentData: _vm.detailProp },
-              on: { detailToForm: _vm.hideDetail }
-            })
-          ],
-          1
-        )
+      ? _c("div", { staticClass: "full" }, [_c("serving-detail")], 1)
       : _c("div", { staticClass: "wrap" }, [
           _c("h1", [_vm._v("Podání")]),
           _vm._v(" "),
@@ -40557,94 +41088,365 @@ var render = function() {
               }),
               0
             )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-container" }, [
-            _c("div", { staticClass: "form-block" }, [
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.submit($event)
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "form-group input-container" }, [
-                    _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.fields.date,
-                          expression: "fields.date"
-                        }
-                      ],
-                      staticClass: "form-control standard-input shadow-none",
-                      attrs: { type: "text", name: "date", id: "date" },
-                      domProps: { value: _vm.fields.date },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.fields, "date", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors && _vm.errors.name
-                      ? _c("div", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.name[0]))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  !_vm.editing
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("Submit")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.editing
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          on: {
-                            click: function($event) {
-                              return _vm.editserving()
-                            }
-                          }
-                        },
-                        [_vm._v("Edit")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.success
-                    ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                        _vm._v(
-                          "\r\n                        Úspěšně provedeno !\r\n                    "
-                        )
-                      ])
-                    : _vm._e()
-                ]
-              )
-            ])
           ])
         ])
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=template&id=f72421c0&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/details/InterventionDetail.vue?vue&type=template&id=f72421c0& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "screen-center" }, [
+    _c("div", { staticClass: "middle-container" }, [
+      _c("div", { staticClass: "back-cont" }, [
+        _c(
+          "div",
+          {
+            staticClass: "back",
+            on: {
+              click: function($event) {
+                return _vm.back()
+              }
+            }
+          },
+          [_c("i", { staticClass: "material-icons" }, [_vm._v("arrow_back")])]
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [_vm._v("Zákrok")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "patient-info" }, [
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Datum")]),
+          _vm._v(" "),
+          _c("div", [_vm._v(_vm._s(this.interventionObj.date))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Průběh")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.interventionObj.record))])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "participants-container" }, [
+        _c("div", { staticClass: "lists" }, [
+          _c(
+            "div",
+            { staticClass: "nurses-list" },
+            [
+              _c("h4", [_vm._v("Sestry")]),
+              _vm._v(" "),
+              _vm._l(_vm.chosenNurses, function(nurse) {
+                return _c("div", { key: nurse.id }, [
+                  _vm._v("Jméno: " + _vm._s(nurse.name))
+                ])
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "doctors-list" },
+            [
+              _c("h4", [_vm._v("Doktoři")]),
+              _vm._v(" "),
+              _vm._l(_vm.chosenDoctors, function(doc) {
+                return _c("div", { key: doc.id }, [
+                  _vm._v("Jméno: " + _vm._s(doc.name))
+                ])
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "autocompletes" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "wrap-detail" }, [
+            _c("div", { staticClass: "auto-container" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.nurse,
+                    expression: "nurse"
+                  }
+                ],
+                staticClass: "form-control standard-input shadow-none",
+                attrs: { id: "nurse", type: "text" },
+                domProps: { value: _vm.nurse },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.nurse = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "option-container scroll" }, [
+                _vm.filteredNurses.length > 0
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.filteredNurses, function(result) {
+                        return _c("li", {
+                          key: result.id,
+                          staticClass: "option",
+                          domProps: { textContent: _vm._s(result.name) },
+                          on: {
+                            click: function($event) {
+                              return _vm.setNurse(result.id)
+                            }
+                          }
+                        })
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    return _vm.addNurse()
+                  }
+                }
+              },
+              [_vm._v("Přidat sestru")]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "wrap-detail" }, [
+            _c("div", { staticClass: "auto-container" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.doctor,
+                    expression: "doctor"
+                  }
+                ],
+                staticClass: "form-control standard-input shadow-none",
+                attrs: { id: "doctor", type: "text" },
+                domProps: { value: _vm.doctor },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.doctor = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "option-container scroll" }, [
+                _vm.filteredDoctors.length > 0
+                  ? _c(
+                      "ul",
+                      _vm._l(_vm.filteredDoctors, function(result) {
+                        return _c("li", {
+                          key: result.id,
+                          staticClass: "option",
+                          domProps: { textContent: _vm._s(result.name) },
+                          on: {
+                            click: function($event) {
+                              return _vm.setDoctor(result.id)
+                            }
+                          }
+                        })
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    return _vm.addDoctor()
+                  }
+                }
+              },
+              [_vm._v("Přidat doktora")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "forms-container" }, [
+        _c("div", { staticClass: "form-block" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submit($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group input-container" }, [
+                _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fields.date,
+                      expression: "fields.date"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: {
+                    placeholder: "YYYY-MM-DD HH:MM:SS",
+                    type: "text",
+                    name: "date",
+                    id: "date"
+                  },
+                  domProps: { value: _vm.fields.date },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.fields, "date", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group input-container" }, [
+                _c("label", { attrs: { for: "drug" } }, [_vm._v("Průběh")]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fields.record,
+                      expression: "fields.record"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { type: "text", name: "record", id: "record" },
+                  domProps: { value: _vm.fields.record },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.fields, "record", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              !_vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Submit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.editintervention()
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.success
+                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                    _vm._v(
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "left" }, [
+      _c("label", { attrs: { for: "nurse" } }, [_vm._v("Sestra")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "left" }, [
+      _c("label", { attrs: { for: "nurse" } }, [_vm._v("Doktor")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -40707,7 +41509,22 @@ var render = function() {
           "div",
           { staticClass: "servings list scroll" },
           [
-            _c("h4", [_vm._v("Podání léků")]),
+            _c("div", { staticClass: "title-box" }, [
+              _c("h4", [_vm._v("Podání léků")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "ico-box cursor",
+                  on: {
+                    click: function($event) {
+                      return _vm.link("servingDetail")
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+              )
+            ]),
             _vm._v(" "),
             _vm._l(_vm.servings, function(serving) {
               return _c("div", { key: serving.date }, [
@@ -40743,7 +41560,22 @@ var render = function() {
           "div",
           { staticClass: "interventions list scroll" },
           [
-            _c("h4", [_vm._v("Zákroky")]),
+            _c("div", { staticClass: "title-box" }, [
+              _c("h4", [_vm._v("Zákroky")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "ico-box cursor",
+                  on: {
+                    click: function($event) {
+                      return _vm.link("interventionDetail")
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+              )
+            ]),
             _vm._v(" "),
             _vm._l(_vm.interventions, function(int) {
               return _c("div", { key: int.date }, [
@@ -40854,21 +41686,25 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("h2", [_vm._v("Datum: " + _vm._s(_vm.serving.date))]),
+      _c("h2", [_vm._v("Podání")]),
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
-        _c("div", { staticClass: "doctor" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "exams list scroll" }, [
-          _c("h4", [_vm._v("Pacient")]),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(_vm.patient.date))])
+          _c("div", [_vm._v(_vm._s(this.loadedServing.date))])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "servings list scroll" }, [
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Pacient")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.patientObj.name))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Sestra")]),
           _vm._v(" "),
-          _c("div", [_vm._v("Jméno: " + _vm._s(_vm.nurse.name))])
+          _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
         ])
       ]),
       _vm._v(" "),
@@ -40918,45 +41754,47 @@ var render = function() {
                 )
               : _vm._e()
           ])
-        ]),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
           _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.patient,
-                expression: "patient"
+                value: _vm.drug,
+                expression: "drug"
               }
             ],
             staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "patient", type: "text" },
-            domProps: { value: _vm.patient },
+            attrs: { id: "drug", type: "text" },
+            domProps: { value: _vm.drug },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.patient = $event.target.value
+                _vm.drug = $event.target.value
               }
             }
           }),
           _vm._v(" "),
           _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredPatients.length > 0
+            _vm.filteredDrugs.length > 0
               ? _c(
                   "ul",
-                  _vm._l(_vm.filteredPatients, function(result) {
+                  _vm._l(_vm.filteredDrugs, function(result) {
                     return _c("li", {
                       key: result.id,
                       staticClass: "option",
                       domProps: { textContent: _vm._s(result.name) },
                       on: {
                         click: function($event) {
-                          return _vm.setPatient(result.id)
+                          return _vm.setDrug(result.id)
                         }
                       }
                     })
@@ -40965,6 +41803,128 @@ var render = function() {
                 )
               : _vm._e()
           ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "forms-container" }, [
+        _c("div", { staticClass: "form-block" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submit($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group input-container" }, [
+                _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fields.date,
+                      expression: "fields.date"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: {
+                    placeholder: "YYYY-MM-DD HH:MM:SS",
+                    type: "text",
+                    name: "date",
+                    id: "date"
+                  },
+                  domProps: { value: _vm.fields.date },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.fields, "date", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group input-container" }, [
+                _c("label", { attrs: { for: "drug" } }, [
+                  _vm._v("Množství léku")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fields.quantity,
+                      expression: "fields.quantity"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { type: "text", name: "drug", id: "drug" },
+                  domProps: { value: _vm.fields.quantity },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.fields, "quantity", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              !_vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Submit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.editserving()
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.success
+                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                    _vm._v(
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
         ])
       ])
     ])
@@ -40984,7 +41944,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "left" }, [
-      _c("label", { attrs: { for: "patient" } }, [_vm._v("Pacient")])
+      _c("label", { attrs: { for: "nurse" } }, [_vm._v("Lék")])
     ])
   }
 ]
@@ -53183,6 +54143,7 @@ Vue.component('section-form', __webpack_require__(/*! ./components/SectionForm.v
 Vue.component('serving-form', __webpack_require__(/*! ./components/ServingForm.vue */ "./resources/js/components/ServingForm.vue")["default"]);
 Vue.component('patient-detail', __webpack_require__(/*! ./components/details/PatientDetail.vue */ "./resources/js/components/details/PatientDetail.vue")["default"]);
 Vue.component('serving-detail', __webpack_require__(/*! ./components/details/ServingDetail.vue */ "./resources/js/components/details/ServingDetail.vue")["default"]);
+Vue.component('intervention-detail', __webpack_require__(/*! ./components/details/InterventionDetail.vue */ "./resources/js/components/details/InterventionDetail.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -53652,6 +54613,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ServingForm_vue_vue_type_template_id_103b3456___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ServingForm_vue_vue_type_template_id_103b3456___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/details/InterventionDetail.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/details/InterventionDetail.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _InterventionDetail_vue_vue_type_template_id_f72421c0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InterventionDetail.vue?vue&type=template&id=f72421c0& */ "./resources/js/components/details/InterventionDetail.vue?vue&type=template&id=f72421c0&");
+/* harmony import */ var _InterventionDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InterventionDetail.vue?vue&type=script&lang=js& */ "./resources/js/components/details/InterventionDetail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./InterventionDetail.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _InterventionDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _InterventionDetail_vue_vue_type_template_id_f72421c0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _InterventionDetail_vue_vue_type_template_id_f72421c0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/details/InterventionDetail.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/details/InterventionDetail.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/details/InterventionDetail.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./InterventionDetail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./InterventionDetail.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/details/InterventionDetail.vue?vue&type=template&id=f72421c0&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/details/InterventionDetail.vue?vue&type=template&id=f72421c0& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_template_id_f72421c0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./InterventionDetail.vue?vue&type=template&id=f72421c0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/details/InterventionDetail.vue?vue&type=template&id=f72421c0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_template_id_f72421c0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InterventionDetail_vue_vue_type_template_id_f72421c0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

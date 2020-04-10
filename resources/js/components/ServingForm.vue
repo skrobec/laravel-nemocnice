@@ -1,7 +1,7 @@
 <template>
 <div class="full">
     <div v-if="detail" class="full">
-        <serving-detail :parentData="detailProp" v-on:detailToForm="hideDetail"></serving-detail>
+        <serving-detail></serving-detail>
     </div>
     <div v-else class="wrap">
         <h1>Podání</h1>
@@ -23,24 +23,6 @@
                         <i class="material-icons">edit</i>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-container">
-            <div class="form-block">
-                <form @submit.prevent="submit">
-                    <div class="form-group input-container">
-                        <label for="date">Datum</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
-                    </div>
-                
-
-                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Edit</button>
-                    <div v-if="success" class="alert alert-success mt-3">
-                        Úspěšně provedeno !
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -177,17 +159,8 @@ export default {
         console.log(id);
         return this.patients.find(pat => pat.id == id).name;
     },
-    hideDetail(value){
-        this.detail = false;
-        this.connectId = 0;
-        window.history.replaceState({}, '',  "http://homestead.test/servings");
-    },
     connect(id){
-        window.history.replaceState({}, '', "http://homestead.test/servings" + '?id=' + id);
-        this.detailProp = this.servings.find(pat => pat.id == id);
-         console.log(id);
-        console.log(this.servings);
-        this.detail = true;
+         window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id;
     },
     prepareEdit(id){
         const serving = this.servings.find(pat => pat.id == id);

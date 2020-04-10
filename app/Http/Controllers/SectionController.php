@@ -11,7 +11,5 @@ class SectionController extends Controller
         return view('mainViews.sections', ['sections' => Section::all()]);
     }
 
-    public function addPatients(){
-        //create 
-    }
+    
 }

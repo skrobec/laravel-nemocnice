@@ -22,8 +22,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('user/{id}', 'PacientController@showPacient');
-Route::get('/pacients', 'PacientController@showPacients')->name('pacients');
 
 
 Route::get('/root', 'AppRoot@index')->name('appRoot');
@@ -55,6 +53,12 @@ Route::post('/drugs/del', 'DrugController@deleteDrug');
 Route::post('/drugs/edit', 'DrugController@editDrug');
 Route::get('/drugs/getAll', 'DrugController@getDrugs');
 
+//Sections
+Route::post('/sections/add', 'SectionController@addSection');
+Route::post('/sections/del', 'SectionController@deleteSection');
+Route::post('/sections/edit', 'SectionController@editSection');
+Route::get('/sections/getAll', 'SectionController@getSections');
+
 //Servings
 Route::post('/servings/add', 'ServingController@addServing');
 Route::post('/servings/del', 'ServingController@deleteServing');
@@ -74,3 +78,11 @@ Route::post('/doctor/setPatient', 'DoctorController@setPatient');
 Route::post('/serving/getInfo', 'ServingController@getServingInfo');
 Route::post('/serving/setNurse', 'ServingController@setNurse');
 Route::post('/serving/setPatient', 'ServingController@setPatient');
+Route::get('/servingDetail', 'ServingController@showServingDetail');
+
+// Intervention
+Route::get('/interventionDetail', 'InterventionController@showInterventionDetail');
+
+// USER routes
+Route::get('/user/getNurses', 'UserController@getNurseUsers');
+Route::get('/user/getDoctors', 'UserController@getDoctorUsers');

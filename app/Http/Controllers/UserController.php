@@ -12,4 +12,12 @@ class UserController extends Controller
         return view('adminViews.users', ['users' => User::all()]);
     }
 
+    public function getNurseUsers() {
+        return User::nurse()->get();
+    }
+
+    public function getDoctorUsers() {
+        return User::doctor()->get();
+    }
+
 }

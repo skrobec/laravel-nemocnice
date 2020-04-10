@@ -16,7 +16,12 @@
         <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.datum}}</div>
       </div>
       <div class="servings list scroll">
-        <h4>Podání léků</h4>
+        <div class="title-box">
+            <h4>Podání léků</h4>
+            <div class="ico-box cursor" v-on:click="link('servingDetail')">
+              <i class="material-icons">add</i>
+            </div>
+        </div>
         <div v-for="serving of servings" v-bind:key="serving.date">Datum: {{serving.date}}</div>
       </div>
       <div class="hospitalization list scroll">
@@ -24,7 +29,12 @@
         <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek hospitalizace: {{hosp.date_start}} Konec hospitalizace: {{hosp.date_end}} </div>
       </div>
       <div class="interventions list scroll">
-        <h4>Zákroky</h4>
+        <div class="title-box">
+            <h4>Zákroky</h4>
+            <div class="ico-box cursor" v-on:click="link('interventionDetail')">
+              <i class="material-icons">add</i>
+            </div>
+        </div>
         <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>
       </div>
 
@@ -165,6 +175,9 @@ export default {
     relink() {
       window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.parentData.id);
 
+    },
+    link(destination) {
+      window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
     setDoctor(){
       if (this.loaded) {

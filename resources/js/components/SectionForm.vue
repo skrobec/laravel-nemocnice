@@ -1,49 +1,62 @@
 <template>
-<div class="wrap">
-    <h1>Oddělení</h1>
-    <div class="section-container">
-        <div class="section-block">
-            <div class="section-item" v-for="section of sections" v-bind:key="section.name">
-                <span>Jméno oddělení: {{section.name}}</span>
-                <span>Kapacita: {{section.surname}}</span>
-                <div v-on:click="deleteSection(section.id)" class="delete">
-                    <i class="material-icons">clear</i>
-                </div>
-                <div v-on:click="prepareEdit(section.id)" class="edit">
-                    <i class="material-icons">edit</i>
+<div class="full">
+    
+    <div class="wrap">
+        <h1>Oddělení</h1>
+        <div class="section-container">
+            <div class="input-block">
+                <input class="form-control standard-input shadow-none" id="chosenSection" type="text" v-model="chosenSection">
+            </div>
+            <div class="section-block">
+                <div class="section-item" v-for="section of filteredResults" v-bind:key="section.name">
+                    <span>Jméno: {{section.name}}</span>
+                    <span>Kapacita: {{section.capacity}}</span>
+                    <div v-on:click="deleteSection(section.id)" class="delete">
+                        <i class="material-icons">clear</i>
+                    </div>
+                    <div v-on:click="prepareEdit(section.id)" class="edit">
+                        <i class="material-icons">edit</i>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="form-container">
-    <div class="form-block">
-        <form @submit.prevent="submit">
-            <div class="form-group input-container">
-                <label for="name">Jméno oddělení</label>
-                <input type="text" class="form-control standard-input shadow-none" name="name" id="name" v-model="fields.name" />
-                <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
-            </div>
-        
-            <div class="form-group input-container">
-                <label for="email">Kapacita</label>
-                <input type="text" class="form-control standard-input shadow-none" name="surname" id="surname" v-model="fields.surname" />
-                <div v-if="errors && errors.surname" class="text-danger">{{ errors.surname[0] }}</div>
-            </div>
-        
+        <div class="form-container">
+            <div class="form-block">
+                <form @submit.prevent="submit">
+                    <div class="form-group input-container">
+                        <label for="name">Jméno</label>
+                        <input type="text" class="form-control standard-input shadow-none" name="name" id="name" v-model="fields.name" />
+                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                    </div>
+                
+                    <div class="form-group input-container">
+                        <label for="capacity">Kapacita</label>
+                        <input type="text" class="form-control standard-input shadow-none" name="capacity" id="capacity" v-model="fields.capacity" />
+                        <div v-if="errors && errors.capacity" class="text-danger">{{ errors.capacity[0] }}</div>
+                    </div>
+                
 
-            <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-            <button v-if="editing" v-on:click="editSection()" class="btn btn-primary">Edit</button>
-            <div v-if="success" class="alert alert-success mt-3">
-                Úspěšně provedeno !
+                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
+                    <button v-if="editing" v-on:click="editSection()" class="btn btn-primary">Edit</button>
+                    <div v-if="success" class="alert alert-success mt-3">
+                        Úspěšně provedeno !
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
-</div>
-
 </template>
 
+
 <style>
+    .input-block {
+        width: 30%;
+        margin-bottom: 30px;
+    }
+    .full {
+        height: 100%;
+    }
     .input-container {
        text-align: start;
     }
@@ -59,6 +72,8 @@
     .section-container {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
     .form-block {
         width: 60%;
@@ -84,6 +99,13 @@
         margin-top: 100px;
         margin-bottom: 100px;
     }
+    .connect {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 2px;
+        right: 68px;
+    }
     .delete {
         width: 30px;
         height: 30px;
@@ -104,42 +126,66 @@
     .edit:hover {
         cursor: pointer;
     }
+    .connect:hover {
+        cursor: pointer;
+    }
 
 </style>
 
 <script>
+
 export default {
   data() {
     return {
       sections: [],
+      chosenSection: '',
       section: {
           id: '',
           name: '',
-          capacity: ''
+          capacity: '',
+          problem: ''
       },
       fields: {},
       errors: {},
+      enterId: 0,
       success: false,
       loaded: true,
       editing: false,
-      sectionId: 0
+      sectionId: 0,
+      detail: false,
+      detailProp: {}
     }
   },
   created(){
+      const queryString = window.location.href;
+      const urlParams = new URL(queryString);
+      const id = urlParams.searchParams.get('id');
+      console.log(id);
+
+      if (id !== null && id !== undefined) {
+          this.enterId = id;
+      }
       this.getSections();
+      
+     
+  },
+  computed: {
+    filteredResults () {
+      return this.chosenSection ? this.sections.filter(row => row.name.search(new RegExp(`${this.chosenSection}`, 'i')) !== -1) : this.sections
+    }
   },
   methods: {
+ 
     prepareEdit(id){
-        const section = this.sections.find(pat => pat.id === id);
+        const section = this.sections.find(pat => pat.id == id);
         this.fields.name = section.name;
-        this.fields.surname = section.surname;
-        this.fields.issues = section.issues;
+        this.fields.capacity = section.capacity;
         this.editing = true;
         this.sectionId = id;
     },
     getSections(){
-        axios.get('/sections/get').then(response => {
-          console.log(response);
+        axios.get('/sections/getAll').then(response => {
+          console.log(this.enterId);
           this.sections = response.data;
         });
     },

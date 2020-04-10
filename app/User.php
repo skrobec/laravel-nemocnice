@@ -44,6 +44,14 @@ class User extends Authenticatable
         return $this->morphTo();
     }
 
+    public function scopeNurse($query){
+        return $query->where('userable_type','App\Nurse');
+    }
+
+    public function scopeDoctor($query){
+        return $query->where('userable_type','App\Doctor');
+    }
+
     public function isAdmin() {
         return $this->type === self::ADMIN_TYPE;
     }

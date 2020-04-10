@@ -30,6 +30,7 @@ Vue.component('serving-form', require('./components/ServingForm.vue').default);
 
 Vue.component('patient-detail', require('./components/details/PatientDetail.vue').default);
 Vue.component('serving-detail', require('./components/details/ServingDetail.vue').default);
+Vue.component('intervention-detail', require('./components/details/InterventionDetail.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

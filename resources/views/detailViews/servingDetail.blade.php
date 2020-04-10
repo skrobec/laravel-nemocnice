@@ -1,4 +1,4 @@
 @extends('layouts.side-nav')
 @section('content')
-<section-form></section-form>
+<serving-detail></serving-detail>
 @endsection

@@ -11,6 +11,10 @@ class ServingController extends Controller
         return view('mainViews.servings');
     }
 
+    public function showServingDetail(){
+        return view('detailViews.servingDetail');
+    }
+
     public function getServings() {
         return (Serving::all());
     }
@@ -67,5 +71,7 @@ class ServingController extends Controller
             'patient_id'    => $serving->patient_id,
         ], 201);
     }
+
+
 
 }

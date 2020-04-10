@@ -6,42 +6,54 @@
           <i class="material-icons">arrow_back</i>
       </div>
     </div>
-    <h2>Podání</h2>
+    <h2>Zákrok</h2>
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedServing.date}}</div>
+            <div>{{this.interventionObj.date}}</div>
         </div>
         <div class="title-box">
-            <h4>Pacient</h4>
-            <h4>{{this.patientObj.name}}</h4>
-        </div>
-        <div class="title-box">
-            <h4>Sestra</h4>
-            <h4>{{this.loadedNurse.name}}</h4>
+            <h4>Průběh</h4>
+            <h4>{{this.interventionObj.record}}</h4>
         </div>
     </div>
-    <div class="left"><label for="nurse">Sestra</label></div>
-    <div  class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
-          <div class="option-container scroll">
-              <ul v-if="filteredNurses.length > 0">
-                  <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.name"></li>
-              </ul>
-          </div>
-      </div>
-    </div>
-    <div class="left"><label for="nurse">Lék</label></div>
-    <div  class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="drug" type="text" v-model="drug">
-          <div class="option-container scroll">
-              <ul v-if="filteredDrugs.length > 0">
-                  <li class="option" v-on:click="setDrug(result.id)"  v-for="result in filteredDrugs" :key="result.id" v-text="result.name"></li>
-              </ul>
-          </div>
-      </div>
+    <div class="participants-container">
+        <div class="lists">
+            <div class="nurses-list">
+                <h4>Sestry</h4>
+                <div v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{nurse.name}}</div>
+            </div>
+            <div class="doctors-list">
+                <h4>Doktoři</h4>
+                <div v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{doc.name}}</div>
+            </div>
+        </div>
+        <div class="autocompletes">
+            <div class="left"><label for="nurse">Sestra</label></div>
+            <div  class="wrap-detail">
+            <div class="auto-container">
+                <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
+                <div class="option-container scroll">
+                    <ul v-if="filteredNurses.length > 0">
+                        <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.name"></li>
+                    </ul>
+                </div>
+            </div>
+            <button v-on:click="addNurse()" class="btn btn-primary">Přidat sestru</button>
+            </div>
+            <div class="left"><label for="nurse">Doktor</label></div>
+            <div  class="wrap-detail">
+            <div class="auto-container">
+                <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
+                <div class="option-container scroll">
+                    <ul v-if="filteredDoctors.length > 0">
+                        <li class="option" v-on:click="setDoctor(result.id)"  v-for="result in filteredDoctors" :key="result.id" v-text="result.name"></li>
+                    </ul>
+                </div>
+            </div>
+            <button v-on:click="addDoctor()" class="btn btn-primary">Přidat doktora</button>
+            </div>
+        </div>
     </div>
     <div class="forms-container">
             <div class="form-block">
@@ -53,14 +65,14 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="drug">Množství léku</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="drug" id="drug" v-model="fields.quantity" />
+                        <label for="drug">Průběh</label>
+                        <textarea type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
                 
 
                     <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Edit</button>
+                    <button v-if="editing" v-on:click="editintervention()" class="btn btn-primary">Edit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -129,10 +141,8 @@
     }
     .middle-container {
       width: 600px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      margin-top: 400px;
+      margin-bottom: 100px;
     }
     .left {
       display: flex;
@@ -155,10 +165,13 @@
 export default {
   data() {
     return {
-      servingObj: {
-          date: ''
+      interventionObj: {
+          date: '',
+          record: ''
       },
-      drugs: [],
+      chosenNurses: [],
+      chosenDoctors: [],
+      doctors: [],
       fields: {},
       errors: {},
       success: false,
@@ -168,8 +181,8 @@ export default {
       nurses: [],
       patients: [],
       nurse: '',
-      drug: '',
-      loadedServing: {
+      doctor: '',
+      loadedIntervention: {
           date: ''
       },
       loadedNurse: {
@@ -185,28 +198,26 @@ export default {
           name: ''
       },
       patientId: '',
-      servingId: ''
+      interventionId: ''
     }
   },
   created(){
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
-      this.servingId = urlParams.searchParams.get('servingId');
+      this.interventionId = urlParams.searchParams.get('interventionId');
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
       }
-     
-      
-
+    
   },
   computed: {
     filteredNurses () {
       return this.nurse ? this.nurses.filter(row => row.name.search(new RegExp(`${this.nurse}`, 'i')) !== -1) : this.nurses;
     },
-    filteredDrugs () {
-      return this.drug ? this.drugs.filter(row => row.name.search(new RegExp(`${this.drug}`, 'i')) !== -1) : this.drugs;
+    filteredDoctors () {
+      return this.doctor ? this.doctors.filter(row => row.name.search(new RegExp(`${this.doctor}`, 'i')) !== -1) : this.doctors;
     }
   },
   methods: {
@@ -214,9 +225,15 @@ export default {
         this.nurse = this.nurses.find(nurse => nurse.id == result ).name;
         this.nurseObj = this.nurses.find(nurse => nurse.id == result );
     },
-    setDrug(result) {
-        this.drug = this.drugs.find(drug => drug.id == result ).name;
-        this.drugObj = this.drugs.find(drug => drug.id == result );
+    setDoctor(result) {
+        this.doctor = this.doctors.find(doc => doc.id == result ).name;
+        this.doctorObj = this.doctors.find(doc => doc.id == result );
+    },
+    addNurse() {
+        this.chosenNurses.push(this.nurseObj);
+    },
+    addDoctor() {
+        this.chosenDoctors.push(this.doctorObj);
     },
     getInfo(){
 
@@ -227,27 +244,24 @@ export default {
             this.patients = response.data;  
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             console.log('data');
-            console.log( this.nurses);
+            console.log(this.nurses);
             console.log(this.patients);
         
-            return  axios.get('/drugs/getAll');
+            return  axios.get('/user/getDoctors');
         }).then( response => {
-            this.drugs = response.data; 
-             console.log(this.drugs);
-            if (this.servingId !== undefined && this.servingId !== null ) {
+            this.doctors = response.data; 
+            console.log(this.drugs);
+            if (this.interventionId !== undefined && this.interventionId !== null ) {
                 this.getEditInfo();
             }          
         });
     },
     getEditInfo(){
 
-        axios.post('/serving/getInfo',{id: this.servingId}).then(response => {
-          this.servingObj = response.data;
-          this.loadedNurse = this.nurses.find(nurse => nurse.id == result );
-          this.nurseObj = this.nurses.find(nurse => nurse.id == result );
-          this.nurse = this.nurseObj.name;
-          this.drug = this.drugs.find(drug => drug.id == result ).name;
-          this.drugObj = this.drugs.find(drug => drug.id == result );
+        axios.post('/intervention/getInfo',{id: this.interventionId}).then(response => {
+            this.interventionObj = response.data;
+            this.chosenNurses = this.interventionObj.nurses;
+            this.chosenDoctors = this.interventionObj.doctors;
         });
     },
     relink() {
@@ -258,12 +272,12 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/serving/add', this.fields).then(response => {
+        axios.post('/intervention/add', this.fields).then(response => {
           console.log(response);
           this.fields = {}; 
           this.loaded = true;
           this.success = true;
-          this.servingId = response.id;
+          this.interventionId = response.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;
