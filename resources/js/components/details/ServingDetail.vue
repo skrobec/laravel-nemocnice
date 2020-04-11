@@ -33,7 +33,7 @@
           <input class="form-control standard-input shadow-none" id="drug" type="text" v-model="drug">
           <div class="option-container scroll">
               <ul v-if="filteredDrugs.length > 0">
-                  <li class="option" v-on:click="setDrug(result.id)"  v-for="result in filteredDrugs" :key="result.id" v-text="result.name"></li>
+                  <li class="option" v-on:click="setDrug(result.id)" v-for="result in filteredDrugs" :key="result.id" v-text="result.name"></li>
               </ul>
           </div>
       </div>
@@ -43,16 +43,16 @@
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
-                        <input placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
+                        <input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
                     <div class="form-group input-container">
                         <label for="drug">Množství léku</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="drug" id="drug" v-model="fields.quantity" />
+                        <input type="number" class="form-control standard-input shadow-none" name="drug" id="drug" v-model="fields.quantity" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
+
 
                     <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
                     <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Edit</button>
@@ -72,7 +72,7 @@
 
 <style>
     .list {
-      max-height: 200;
+      max-height: 200px;
       overflow: auto;
       width: 100%;
       display: flex;
@@ -192,8 +192,8 @@ export default {
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
       }
-     
-      
+
+
 
   },
   computed: {
@@ -206,32 +206,34 @@ export default {
   },
   methods: {
     setNurse(result) {
+        this.fields.nurse_id = this.nurses.find(nurse => nurse.id == result ).userable_id;
         this.nurse = this.nurses.find(nurse => nurse.id == result ).name;
         this.nurseObj = this.nurses.find(nurse => nurse.id == result );
     },
     setDrug(result) {
+        this.fields.drug_id = result;
         this.drug = this.drugs.find(drug => drug.id == result ).name;
         this.drugObj = this.drugs.find(drug => drug.id == result );
     },
-    getInfo(){
 
+    getInfo(){
         axios.get('/user/getNurses').then(response => {
           this.nurses = response.data;
           return  axios.get('/pat/get');
         }).then( response => {
-            this.patients = response.data;  
+            this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             console.log('data');
             console.log( this.nurses);
             console.log(this.patients);
-        
+
             return  axios.get('/drugs/getAll');
         }).then( response => {
-            this.drugs = response.data; 
+            this.drugs = response.data;
              console.log(this.drugs);
             if (this.servingId !== undefined && this.servingId !== null ) {
                 this.getEditInfo();
-            }          
+            }
         });
     },
     getEditInfo(){
@@ -253,9 +255,11 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/serving/add', this.fields).then(response => {
+        this.fields.patient_id = this.patientId;
+        console.log(this.fields);
+        axios.post('/servings/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.servingId = response.id;

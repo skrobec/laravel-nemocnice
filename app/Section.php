@@ -13,4 +13,8 @@ class Section extends Model
     public function hospitalizations(){
         return $this->hasMany(Hospitalization::class);
     }
+
+    public function nurses(){
+        return $this->hasMany(Nurse::class);
+    }
 }

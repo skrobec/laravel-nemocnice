@@ -28,4 +28,8 @@ class Nurse extends Model
     public function servings(){
         return $this->hasMany(Serving::class);
     }
+
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
 }

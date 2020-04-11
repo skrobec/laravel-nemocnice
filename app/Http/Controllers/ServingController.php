@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Drug;
 use App\Serving;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ServingController extends Controller
 {
@@ -32,7 +34,10 @@ class ServingController extends Controller
             'nurse_id' => $request->get('nurse_id')
         ]);
 
-        $serving->save();
+        $drug = Drug::find($request->get('drug_id'));
+
+        $drug->servings()->save($serving, ['amount' => $request->get('quantity')]);
+
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',

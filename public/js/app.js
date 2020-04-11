@@ -3590,7 +3590,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3662,7 +3661,7 @@ __webpack_require__.r(__webpack_exports__);
         var postData = {
           id: this.parentData.id,
           job: this.job,
-          date: fields.date,
+          date: this.fields.date,
           section: this.sectionId
         };
         axios.post('/user/addJob', postData).then(function (response) {
@@ -4747,6 +4746,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     setNurse: function setNurse(result) {
+      this.fields.nurse_id = this.nurses.find(function (nurse) {
+        return nurse.id == result;
+      }).userable_id;
       this.nurse = this.nurses.find(function (nurse) {
         return nurse.id == result;
       }).name;
@@ -4755,6 +4757,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     setDrug: function setDrug(result) {
+      this.fields.drug_id = result;
       this.drug = this.drugs.find(function (drug) {
         return drug.id == result;
       }).name;
@@ -4818,7 +4821,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/serving/add', this.fields).then(function (response) {
+        this.fields.patient_id = this.patientId;
+        console.log(this.fields);
+        axios.post('/servings/add', this.fields).then(function (response) {
           console.log(response);
           _this5.fields = {};
           _this5.loaded = true;
@@ -9573,7 +9578,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -42538,7 +42543,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\r\n                    Sestra \r\n                ")]
+              [_vm._v("\n                    Sestra\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -42552,7 +42557,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\r\n                    Doktor\r\n                ")]
+              [_vm._v("\n                    Doktor\n                ")]
             )
           ])
         ])
@@ -42634,7 +42639,7 @@ var render = function() {
                   ],
                   staticClass: "form-control standard-input shadow-none",
                   attrs: {
-                    placeholder: "YYYY-MM-DD HH:MM:SS",
+                    placeholder: "YYYY-MM-DD",
                     type: "text",
                     name: "date",
                     id: "date"
@@ -42666,7 +42671,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                    Úspěšně provedeno !\r\n                "
+                      "\n                    Úspěšně provedeno !\n                "
                     )
                   ])
                 : _vm._e()
@@ -43609,7 +43614,7 @@ var render = function() {
                   ],
                   staticClass: "form-control standard-input shadow-none",
                   attrs: {
-                    placeholder: "YYYY-MM-DD HH:MM:SS",
+                    placeholder: "YYYY-MM-DD",
                     type: "text",
                     name: "date",
                     id: "date"
@@ -43647,7 +43652,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control standard-input shadow-none",
-                  attrs: { type: "text", name: "drug", id: "drug" },
+                  attrs: { type: "number", name: "drug", id: "drug" },
                   domProps: { value: _vm.fields.quantity },
                   on: {
                     input: function($event) {
@@ -43695,7 +43700,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -57025,8 +57030,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

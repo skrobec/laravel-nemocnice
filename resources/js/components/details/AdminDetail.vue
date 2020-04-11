@@ -20,14 +20,13 @@
             <h4>Funkce</h4>
             <div class="job-box">
                 <div class="cursor" v-bind:class="{'marked': nurseChosen}" v-on:click="addJob('nurse')">
-                    Sestra 
+                    Sestra
                 </div>
                 <div class="cursor" v-bind:class="{'marked': doctorChosen}" v-on:click="addJob('doctor')">
                     Doktor
                 </div>
             </div>
         </div>
-
     </div>
     <div class="left"><label for="doctor">Oddělení</label></div>
     <div  class="wrap-detail">
@@ -46,9 +45,9 @@
             <form @submit.prevent="submit">
                 <div class="form-group input-container">
                     <label for="date">Datum</label>
-                    <input placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
+                    <input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
                     <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
-                </div>          
+                </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <div v-if="success" class="alert alert-success mt-3">
@@ -190,7 +189,7 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        const postData = {id: this.parentData.id, job: this.job, date: fields.date, section: this.sectionId };
+        const postData = {id: this.parentData.id, job: this.job, date: this.fields.date, section: this.sectionId };
         axios.post('/user/addJob', postData).then(response => {
           console.log(response);
           this.fields = {};
