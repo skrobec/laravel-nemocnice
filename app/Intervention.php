@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Intervention extends Model
 {
+    protected $fillable = [
+      'date', 'hospitalization_id', 'record'
+    ];
+
     public function doctors(){
         return $this->belongsToMany(Doctor::class);
     }

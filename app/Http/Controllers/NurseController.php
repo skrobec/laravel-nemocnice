@@ -18,5 +18,23 @@ class NurseController extends Controller {
         return (Nurse::all());
     }
 
-   
+    public function addNurse(Request $request){
+        $request->validate([
+            'section_id'=> 'exists:section',
+            'entry_date'=> 'required',
+            'termination_date' => ''
+        ]);
+
+        $nurse = new Nurse([
+            'section_id' => $request->get('section_id'),
+            'entry_date' => $request->get('entry_date'),
+            'termination_date' => $request->get('termination_date')
+        ]);
+
+        $nurse->save();
+        return response()->json([
+            'status' => 'success',
+            'msg'    => 'Okay',
+        ], 201);
+    }
 }

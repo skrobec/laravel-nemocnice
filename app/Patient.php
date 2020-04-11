@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
+
+    protected $fillable = [
+      'name', 'surname', 'issues', 'doctor_id'
+    ];
+
     public function exams(){
         return $this->hasMany(Exam::class);
     }

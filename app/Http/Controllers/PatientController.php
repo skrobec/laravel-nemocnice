@@ -18,6 +18,35 @@ class PatientController extends Controller {
         return view('mainViews.patients');
     }
 
+    public function addPatients(Request $request){
+
+        $rules = array(
+            'name'       => 'required',
+            'surname'      => 'required',
+            'issues' => 'required'
+        );
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg'    => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        } else {
+            $patient = new Patient;
+            $patient->name = $request->name;
+            $patient->surname = $request->surname;
+            $patient->issues = $request->issues;
+            $patient->save();
+
+            return response()->json([
+                'status' => 'success',
+                'msg'    => 'Okay',
+            ], 201);
+        }
+    }
+
     public function editPatient(Request $request){
         $rules = array(
             'name'       => 'required',
@@ -25,7 +54,7 @@ class PatientController extends Controller {
             'issues' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
@@ -53,35 +82,6 @@ class PatientController extends Controller {
             'status' => 'success',
             'msg'    => 'Okay',
         ], 201);
-    }
-
-    public function addPatients(Request $request){
-
-        $rules = array(
-            'name'       => 'required',
-            'surname'      => 'required',
-            'issues' => 'required'
-        );
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'msg'    => 'Error',
-                'errors' => $validator->messages()->get('*'),
-            ], 422);
-        } else {
-            $patient = new Patient;
-            $patient->name       = $request->name;
-            $patient->surname      = $request->surname;
-            $patient->issues = $request->issues;
-            $patient->save();
-
-            return response()->json([
-                'status' => 'success',
-                'msg'    => 'Okay',
-            ], 201);
-        }
     }
 
     public function getPatients() {
