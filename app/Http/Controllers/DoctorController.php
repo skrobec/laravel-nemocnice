@@ -22,5 +22,23 @@ class DoctorController extends Controller {
 
 
     }
-   
+
+    public function addDoctor(Request $request){
+        $request->validate([
+            'entry_date'=> 'required',
+            'termination_date' => ''
+        ]);
+
+        $doctor = new Doctor([
+            'entry_date' => $request->get('entry_date'),
+            'termination_date' => $request->get('termination_date')
+        ]);
+
+        $doctor->save();
+        return response()->json([
+            'status' => 'success',
+            'msg'    => 'Okay',
+        ], 201);
+    }
+
 }

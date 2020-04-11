@@ -21,15 +21,18 @@ class ServingController extends Controller
 
     public function addServing(Request $request){
         $request->validate([
-            'name'=>'required',
-            'description'=>'required',
+            'date'=>'required',
+            'patient_id'=>'required',
+            'nurse_id'=>'required'
         ]);
 
-        $drug = new Drug([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
+        $serving = new Serving([
+            'date' => $request->get('date'),
+            'patient_id' => $request->get('patient_id'),
+            'nurse_id' => $request->get('nurse_id')
         ]);
-        $drug->save();
+
+        $serving->save();
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
@@ -38,14 +41,16 @@ class ServingController extends Controller
 
     public function editServing(Request $request, $id){
         $request->validate([
-            'name'=>'required',
-            'description'=>'required'
+            'date'=>'required',
+            'patient_id'=>'required',
+            'nurse_id'=>'required'
         ]);
 
-        $drug = Drug::find($id);
-        $drug->name =  $request->get('name');
-        $drug->description = $request->get('description');
-        $drug->save();
+        $serving = Serving::find($id);
+        $serving->date =  $request->get('date');
+        $serving->patient_id = $request->get('patient_id');
+        $serving->nurse_id = $request->get('nurse_id');
+        $serving->save();
 
         return response()->json([
             'status' => 'success',
@@ -54,8 +59,8 @@ class ServingController extends Controller
     }
 
     public function deleteServing($id){
-        $drug = Drug::find($id);
-        $drug->delete();
+        $serving = Serving::find($id);
+        $serving->delete();
 
         return response()->json([
             'status' => 'success',

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
+    protected $fillable = [
+      'entry_date', 'termination_date'
+    ];
+
     public function user(){
         return $this->morphOne(User::class, 'userable');
     }

@@ -18,7 +18,6 @@ class CreateInterventionsTable extends Migration
             $table->dateTime('date');
             $table->unsignedInteger('hospitalization_id');
             $table->text('record');
-            $table->unsignedBigInteger('patient_id');
             $table->timestamps();
         });
     }

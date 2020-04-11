@@ -18,8 +18,8 @@ class CreateExamsTable extends Migration
             $table->unsignedInteger('patient_id');
             $table->unsignedInteger('doctor_id');
             $table->unsignedInteger('nurse_id');
-            $table->dateTime('datum');
-            $table->text('zapis');
+            $table->dateTime('date');
+            $table->text('record');
             $table->timestamps();
         });
     }
