@@ -18,7 +18,7 @@
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
+                height:100%;
                 margin: 0;
             }
 
@@ -76,11 +76,12 @@
                 display: flex;
                 justify-content: left;
                 height: 100%;
+
             }
             .side-nav {
                 width: 15%;
                 background-color: #F6F7F8;
-                height: 100%;
+                height: 1000px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -173,6 +174,16 @@
                 <div class="ico-box"><i class="material-icons">add_alert</i></div>
                 <span>Podání</span>
             </div>
+            <div onclick="window.location='{{URL::route('hospitalizations')}}'" class="nav-item">
+                <div class="ico-box"><i class="material-icons">airline_seat_individual_suite</i></div>
+                <span>Hospitalizace</span>
+            </div>
+            @if (Auth::user()->isAdmin())            
+                <div  onclick="window.location='{{URL::route('admin')}}'" class="nav-item">
+                    <div class="ico-box"><i class="material-icons">group</i></div>
+                    <span>Administrace</span>
+                </div>
+            @endif
 
         </div>
         <div class="content">

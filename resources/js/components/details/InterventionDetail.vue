@@ -1,11 +1,6 @@
 <template>
 <div class="screen-center">
   <div class="middle-container">
-    <div class="back-cont">
-      <div v-on:click="back()" class="back">
-          <i class="material-icons">arrow_back</i>
-      </div>
-    </div>
     <h2>Zákrok</h2>
     <div class="patient-info">
         <div class="title-box">
@@ -141,8 +136,7 @@
     }
     .middle-container {
       width: 600px;
-      margin-top: 400px;
-      margin-bottom: 100px;
+
     }
     .left {
       display: flex;

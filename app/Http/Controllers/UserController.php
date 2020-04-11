@@ -20,4 +20,8 @@ class UserController extends Controller
         return User::doctor()->get();
     }
 
+    public function getUsers() {
+        return User::all();
+    }
+
 }

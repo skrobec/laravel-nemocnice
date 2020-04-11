@@ -1,39 +1,32 @@
 <template>
 <div class="screen-center">
   <div class="middle-container">
-    <h2>Podání</h2>
+    <h2>Hospitalizace</h2>
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedServing.date}}</div>
+            <div>{{this.loadedHospitalization.date}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
             <h4>{{this.patientObj.name}}</h4>
         </div>
         <div class="title-box">
-            <h4>Sestra</h4>
-            <h4>{{this.loadedNurse.name}}</h4>
+            <h4>Oddělení</h4>
+            <h4>{{this.loadedSection.name}}</h4>
+        </div>
+        <div class="title-box">
+            <h4>Důvod</h4>
+            <h4>{{this.loadedHospitalization.reason}}</h4>
         </div>
     </div>
-    <div class="left"><label for="nurse">Sestra</label></div>
+    <div class="left"><label for="section">Oddělení</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
+          <input class="form-control standard-input shadow-none" id="section" type="text" v-model="section">
           <div class="option-container scroll">
-              <ul v-if="filteredNurses.length > 0">
-                  <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.name"></li>
-              </ul>
-          </div>
-      </div>
-    </div>
-    <div class="left"><label for="nurse">Lék</label></div>
-    <div  class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="drug" type="text" v-model="drug">
-          <div class="option-container scroll">
-              <ul v-if="filteredDrugs.length > 0">
-                  <li class="option" v-on:click="setDrug(result.id)"  v-for="result in filteredDrugs" :key="result.id" v-text="result.name"></li>
+              <ul v-if="filteredSections.length > 0">
+                  <li class="option" v-on:click="setSection(result.id)"  v-for="result in filteredSections" :key="result.id" v-text="result.name"></li>
               </ul>
           </div>
       </div>
@@ -48,14 +41,13 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="drug">Množství léku</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="drug" id="drug" v-model="fields.quantity" />
+                        <label for="reason">Důvod</label>
+                        <input type="text" class="form-control standard-input shadow-none" name="reason" id="reason" v-model="fields.reason" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
                 
 
-                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Edit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -150,7 +142,7 @@
 export default {
   data() {
     return {
-      servingObj: {
+      hospitalizationObj: {
           date: ''
       },
       drugs: [],
@@ -160,34 +152,34 @@ export default {
       loaded: true,
       editing: false,
       patientId: 0,
-      nurses: [],
+      sections: [],
       patients: [],
-      nurse: '',
+      section: '',
       drug: '',
-      loadedServing: {
+      loadedHospitalization: {
           date: ''
       },
-      loadedNurse: {
+      loadedSection: {
           name: ''
       },
       patientObj: {
           name: ''
       },
-      nurseObj: {
+      sectionObj: {
           name: ''
       },
       drugObj: {
           name: ''
       },
       patientId: '',
-      servingId: ''
+      hospitalizationId: ''
     }
   },
   created(){
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
-      this.servingId = urlParams.searchParams.get('servingId');
+      this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
@@ -197,68 +189,56 @@ export default {
 
   },
   computed: {
-    filteredNurses () {
-      return this.nurse ? this.nurses.filter(row => row.name.search(new RegExp(`${this.nurse}`, 'i')) !== -1) : this.nurses;
-    },
-    filteredDrugs () {
-      return this.drug ? this.drugs.filter(row => row.name.search(new RegExp(`${this.drug}`, 'i')) !== -1) : this.drugs;
+    filteredSections () {
+      return this.section ? this.sections.filter(row => row.name.search(new RegExp(`${this.section}`, 'i')) !== -1) : this.sections;
     }
   },
   methods: {
-    setNurse(result) {
-        this.nurse = this.nurses.find(nurse => nurse.id == result ).name;
-        this.nurseObj = this.nurses.find(nurse => nurse.id == result );
-    },
-    setDrug(result) {
-        this.drug = this.drugs.find(drug => drug.id == result ).name;
-        this.drugObj = this.drugs.find(drug => drug.id == result );
+    setSection(result) {
+        this.section = this.sections.find(section => section.id == result ).name;
+        this.sectionObj = this.sections.find(section => section.id == result );
     },
     getInfo(){
 
-        axios.get('/user/getNurses').then(response => {
-          this.nurses = response.data;
+        axios.get('/sections/getAll').then(response => {
+          this.sections = response.data;
           return  axios.get('/pat/get');
         }).then( response => {
             this.patients = response.data;  
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             console.log('data');
-            console.log( this.nurses);
+            console.log( this.sections);
             console.log(this.patients);
-        
-            return  axios.get('/drugs/getAll');
-        }).then( response => {
-            this.drugs = response.data; 
-             console.log(this.drugs);
-            if (this.servingId !== undefined && this.servingId !== null ) {
+             if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
                 this.getEditInfo();
-            }          
+            }     
         });
     },
     getEditInfo(){
 
-        axios.post('/serving/getInfo',{id: this.servingId}).then(response => {
-          this.servingObj = response.data;
-          this.loadedNurse = this.nurses.find(nurse => nurse.id == result );
-          this.nurseObj = this.nurses.find(nurse => nurse.id == result );
-          this.nurse = this.nurseObj.name;
-          this.drug = this.drugs.find(drug => drug.id == result ).name;
-          this.drugObj = this.drugs.find(drug => drug.id == result );
+        axios.post('/hospitalization/getInfo',{id: this.hospitalizationId}).then(response => {
+          this.hospitalizationObj = response.data;
+          this.loadedSection = this.sections.find(section => section.id == result );
+          this.sectionObj = this.sections.find(section => section.id == result );
+          this.section = this.sectionObj.name;
         });
     },
     relink() {
-      window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.parentData.id);
+      window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.patientObj.id);
     },
     submit() {
         if (this.loaded) {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/serving/add', this.fields).then(response => {
+        this.fields.patientId = this.patientObj.id;
+        this.fields.sectionId = this.sectionObj.id;
+        axios.post('/hospitalization/add', this.fields).then(response => {
           console.log(response);
           this.fields = {}; 
           this.loaded = true;
           this.success = true;
-          this.servingId = response.id;
+          this.hospitalizationId = response.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;

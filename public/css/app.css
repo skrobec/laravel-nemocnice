@@ -10786,3 +10786,7 @@ input:focus {
   margin-bottom: 30px;
 }
 
+.marked {
+  color: #6464ff;
+}
+

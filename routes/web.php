@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -31,9 +32,10 @@ Route::get('/exams', 'ExamController@showExams')->name('exams');
 Route::get('/drugs', 'DrugController@showDrugs')->name('drugs');
 Route::get('/sections', 'SectionController@showSections')->name('sections');
 Route::get('/servings', 'ServingController@showServings')->name('servings');
+Route::get('/hospitalizations', 'ServingController@showHospitalizations')->name('hospitalizations');
 //Route::get('/users', 'UserController@showUsers')->name('users');
 Route::get('/interventions', 'InterventionController@showInterventions')->name('interventions');
-Route::get('/hospitalizations', 'HospitalizationController@showHospitalizations')->name('hositalizations');
+Route::get('/hospitalizations', 'HospitalizationController@showHospitalizations')->name('hospitalizations');
 
 Route::get('/users', 'AdminController@users')
     ->middleware('is_admin')
@@ -68,6 +70,16 @@ Route::get('/servings/getAll', 'ServingController@getServings');
 //Nurse
 Route::get('/nurse/getAll', 'NurseController@getNurses');
 
+
+// Hospitalizations
+Route::post('/hospitalizations/add', 'HospitalizationController@addHospitalization');
+Route::post('/hospitalizations/del', 'HospitalizationController@deleteHospitalization');
+Route::post('/hospitalizations/edit', 'HospitalizationController@editHospitalization');
+Route::get('/hospitalizations/getAll', 'HospitalizationController@getHospitalizations');
+
+// User 
+Route::get('/user/getAll', 'UserController@getUsers');
+
 // VIEW routes
 
 // Patient
@@ -82,6 +94,9 @@ Route::get('/servingDetail', 'ServingController@showServingDetail');
 
 // Intervention
 Route::get('/interventionDetail', 'InterventionController@showInterventionDetail');
+
+//Hospitalization 
+Route::get('/hospitalizationDetail', 'HospitalizationController@showHospitalizationDetail');
 
 // USER routes
 Route::get('/user/getNurses', 'UserController@getNurseUsers');

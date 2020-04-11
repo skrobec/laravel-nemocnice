@@ -1,4 +1,5 @@
+
 @extends('layouts.side-nav')
 @section('content')
-<admin-form></admin-form>
+<hospitalization-form></hospitalization-form>
 @endsection

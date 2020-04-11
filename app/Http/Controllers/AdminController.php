@@ -13,6 +13,6 @@ class AdminController extends Controller
     }
     public function users()
     {
-        return view('adminViews.users', ['users' => User::all()]);
+        return view('adminViews.users');
     }
 }
