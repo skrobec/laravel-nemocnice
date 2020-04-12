@@ -185,7 +185,7 @@ export default {
         this.success = false;
         this.errors = {};
         const docId = doctors.find(doc => doc.name === this.doctor).id;
-        const postData = {id: this.parentData.id, doctorId: docId};
+        const postData = {patient_id: this.parentData.id, doctor_id: docId};
         axios.post('/doctor/setPatient', postData).then(response => {
           console.log(response);
           this.fields = {};

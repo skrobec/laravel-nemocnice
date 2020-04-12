@@ -21,4 +21,8 @@ class Hospitalization extends Model
     public function interventions(){
         return $this->hasMany(Intervention::class);
     }
+
+    public function scopeActive($query){
+        return $query->where('date_end', null);
+    }
 }

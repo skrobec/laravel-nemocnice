@@ -16,7 +16,7 @@ class CreateHospitalizationsTable extends Migration
         Schema::create('hospitalizations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->dateTime('date_start');
-            $table->dateTime('date_end');
+            $table->dateTime('date_end')->nullable();
             $table->text('reason');
             $table->unsignedInteger('patient_id');
             $table->unsignedInteger('section_id');

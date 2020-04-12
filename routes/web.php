@@ -94,7 +94,7 @@ Route::get('/servingDetail', 'ServingController@showServingDetail');
 
 // Intervention
 Route::get('/interventionDetail', 'InterventionController@showInterventionDetail');
-
+Route::post('/interventions/add', 'InterventionController@addIntervention');
 //Hospitalization
 Route::get('/hospitalizationDetail', 'HospitalizationController@showHospitalizationDetail');
 

@@ -17,5 +17,14 @@ class HospitalizationsTableSeeder extends Seeder
             'patient_id' => 1,
             'section_id' =>1,
         ]);
+
+
+        DB::table('hospitalizations')->insert([
+            'date_start' => Carbon::now()->format('Y-m-d H:i:s'),
+            'date_end' => null,
+            'reason' => "bylo mu blbě znova",
+            'patient_id' => 1,
+            'section_id' =>1,
+        ]);
     }
 }

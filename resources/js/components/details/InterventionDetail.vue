@@ -64,7 +64,7 @@
                         <textarea type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
+
 
                     <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
                     <button v-if="editing" v-on:click="editintervention()" class="btn btn-primary">Edit</button>
@@ -204,7 +204,7 @@ export default {
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
       }
-    
+
   },
   computed: {
     filteredNurses () {
@@ -224,10 +224,14 @@ export default {
         this.doctorObj = this.doctors.find(doc => doc.id == result );
     },
     addNurse() {
-        this.chosenNurses.push(this.nurseObj);
+        if (this.nurseObj !== ''){
+            this.chosenNurses.push(this.nurseObj);
+        }
     },
     addDoctor() {
-        this.chosenDoctors.push(this.doctorObj);
+        if (this.nurseObj !== ''){
+            this.chosenDoctors.push(this.doctorObj);
+        }
     },
     getInfo(){
 
@@ -235,19 +239,19 @@ export default {
           this.nurses = response.data;
           return  axios.get('/pat/get');
         }).then( response => {
-            this.patients = response.data;  
+            this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             console.log('data');
             console.log(this.nurses);
             console.log(this.patients);
-        
+
             return  axios.get('/user/getDoctors');
         }).then( response => {
-            this.doctors = response.data; 
+            this.doctors = response.data;
             console.log(this.drugs);
             if (this.interventionId !== undefined && this.interventionId !== null ) {
                 this.getEditInfo();
-            }          
+            }
         });
     },
     getEditInfo(){
@@ -266,9 +270,13 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/intervention/add', this.fields).then(response => {
+        this.fields.nurses = this.chosenNurses.map(a => a.userable_id);
+        this.fields.doctors = this.chosenDoctors.map(a => a.userable_id);
+        this.fields.patient_id = this.patientObj.id;
+        console.log(this.fields);
+        axios.post('/interventions/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.interventionId = response.id;

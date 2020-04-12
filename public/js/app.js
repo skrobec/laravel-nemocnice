@@ -4221,10 +4221,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     addNurse: function addNurse() {
-      this.chosenNurses.push(this.nurseObj);
+      if (this.nurseObj !== '') {
+        this.chosenNurses.push(this.nurseObj);
+      }
     },
     addDoctor: function addDoctor() {
-      this.chosenDoctors.push(this.doctorObj);
+      if (this.nurseObj !== '') {
+        this.chosenDoctors.push(this.doctorObj);
+      }
     },
     getInfo: function getInfo() {
       var _this3 = this;
@@ -4271,7 +4275,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        axios.post('/intervention/add', this.fields).then(function (response) {
+        this.fields.nurses = this.chosenNurses.map(function (a) {
+          return a.userable_id;
+        });
+        this.fields.doctors = this.chosenDoctors.map(function (a) {
+          return a.userable_id;
+        });
+        this.fields.patient_id = this.patientObj.id;
+        console.log(this.fields);
+        axios.post('/interventions/add', this.fields).then(function (response) {
           console.log(response);
           _this5.fields = {};
           _this5.loaded = true;
@@ -43214,7 +43226,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
