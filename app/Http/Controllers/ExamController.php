@@ -80,4 +80,8 @@ class ExamController extends Controller
             'nurse_id' => $exam->nurse_id,
         ], 201);
     }
+
+    public function getExams() {
+        return Exam::all();
+    }
 }

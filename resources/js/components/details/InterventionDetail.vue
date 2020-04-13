@@ -9,18 +9,18 @@
         </div>
         <div class="title-box">
             <h4>Průběh</h4>
-            <h4>{{this.interventionObj.record}}</h4>
+            <div>{{this.interventionObj.record}}</div>
         </div>
     </div>
     <div class="participants-container">
         <div class="lists">
             <div class="nurses-list">
                 <h4>Sestry</h4>
-                <div v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{nurse.name}}</div>
+                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{nurse.name}}</div>
             </div>
             <div class="doctors-list">
                 <h4>Doktoři</h4>
-                <div v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{doc.name}}</div>
+                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{doc.name}}</div>
             </div>
         </div>
         <div class="autocompletes">
@@ -191,6 +191,9 @@ export default {
       drugObj: {
           name: ''
       },
+      doctorObj: {
+        name: ''
+      },
       patientId: '',
       interventionId: ''
     }
@@ -224,13 +227,22 @@ export default {
         this.doctorObj = this.doctors.find(doc => doc.id == result );
     },
     addNurse() {
-        if (this.nurseObj !== ''){
-            this.chosenNurses.push(this.nurseObj);
+
+        const contains =  this.chosenNurses.find( nurse => nurse.id == this.nurseObj.id );
+        if (this.nurseObj !== undefined && (contains === undefined || contains === null )){
+            if (this.nurseObj.id !== undefined) {
+                this.chosenNurses.push(this.nurseObj);
+            }
+           
         }
     },
     addDoctor() {
-        if (this.nurseObj !== ''){
-            this.chosenDoctors.push(this.doctorObj);
+
+        const contains =  this.chosenDoctors.find( doc => doc.id == this.doctorObj.id );
+        if (this.doctorObj !== undefined && (contains === undefined || contains === null )){
+            if (this.doctorObj.id !== undefined) {
+                this.chosenDoctors.push(this.doctorObj);
+            }
         }
     },
     getInfo(){
@@ -243,12 +255,13 @@ export default {
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             console.log('data');
             console.log(this.nurses);
+            this.chosenNurses = [];
+            console.log(this.chosenNurses);
             console.log(this.patients);
 
             return  axios.get('/user/getDoctors');
         }).then( response => {
             this.doctors = response.data;
-            console.log(this.drugs);
             if (this.interventionId !== undefined && this.interventionId !== null ) {
                 this.getEditInfo();
             }
@@ -256,7 +269,7 @@ export default {
     },
     getEditInfo(){
 
-        axios.post('/intervention/getInfo',{id: this.interventionId}).then(response => {
+        axios.post('/intervention/getInfo',{id: this.interventionId}).then(response => { // TODO need more data 
             this.interventionObj = response.data;
             this.chosenNurses = this.interventionObj.nurses;
             this.chosenDoctors = this.interventionObj.doctors;

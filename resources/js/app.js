@@ -27,6 +27,8 @@ Vue.component('section-form', require('./components/SectionForm.vue').default);
 Vue.component('serving-form', require('./components/ServingForm.vue').default);
 Vue.component('admin-form', require('./components/AdminForm.vue').default);
 Vue.component('hospitalization-form', require('./components/HospitalizationForm.vue').default);
+Vue.component('intervention-form', require('./components/InterventionForm.vue').default);
+Vue.component('exam-form', require('./components/ExamForm.vue').default);
 
 
 
@@ -35,6 +37,7 @@ Vue.component('serving-detail', require('./components/details/ServingDetail.vue'
 Vue.component('intervention-detail', require('./components/details/InterventionDetail.vue').default);
 Vue.component('admin-detail', require('./components/details/AdminDetail.vue').default);
 Vue.component('hospitalization-detail', require('./components/details/HospitalizationDetail.vue').default);
+Vue.component('exam-detail', require('./components/details/ExamDetail.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -19,9 +19,6 @@
                     <div v-on:click="deleteServing(serving.id)" class="delete">
                         <i class="material-icons">clear</i>
                     </div>
-                    <div v-on:click="prepareEdit(serving.id)" class="edit">
-                        <i class="material-icons">edit</i>
-                    </div>
                 </div>
             </div>
         </div>

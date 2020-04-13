@@ -44,6 +44,7 @@
 
             .content {
                 text-align: center;
+                height: 1200px;
             }
 
             .title {
@@ -81,7 +82,7 @@
             .side-nav {
                 width: 15%;
                 background-color: #F6F7F8;
-                height: 1000px;
+                height: 1200px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -162,7 +163,7 @@
                 <div class="ico-box"><i class="material-icons">local_hospital</i></div>
                 <span>Oddělení</span>
             </div>
-            <div onclick="window.location='{{URL::route('patients')}}'" class="nav-item">
+            <div onclick="window.location='{{URL::route('interventions')}}'" class="nav-item">
                 <div class="ico-box"><i class="material-icons">work</i></div>
                 <span>Zákroky</span>
             </div>

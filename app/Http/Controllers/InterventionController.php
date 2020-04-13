@@ -57,6 +57,10 @@ class InterventionController extends Controller
 
     }
 
+    public function getInterventions() {
+        return (Intervention::all());
+    }
+
 
     public function editIntervention(Request $request, $id){
         $request->validate([

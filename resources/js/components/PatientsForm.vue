@@ -14,13 +14,13 @@
                     <span>Jméno: {{patient.name}}</span>
                     <span>Přijmení: {{patient.surname}}</span>
                     <span>Potíže: {{patient.issues}}</span>
-                    <div v-on:click="connect(patient.id)" class="connect">
+                    <div v-on:click="connect(patient.id)" class="p_connect">
                         <i class="material-icons">build</i>
                     </div>
-                    <div v-on:click="deletePatient(patient.id)" class="delete">
+                    <div v-on:click="deletePatient(patient.id)" class="p_delete">
                         <i class="material-icons">clear</i>
                     </div>
-                    <div v-on:click="prepareEdit(patient.id)" class="edit">
+                    <div v-on:click="prepareEdit(patient.id)" class="p_edit">
                         <i class="material-icons">edit</i>
                     </div>
                 </div>
@@ -110,21 +110,21 @@
         margin-top: 100px;
         margin-bottom: 100px;
     }
-    .connect {
+    .p_connect {
         width: 30px;
         height: 30px;
         position: absolute;
         top: 2px;
         right: 68px;
     }
-    .delete {
+    .p_delete {
         width: 30px;
         height: 30px;
         position: absolute;
         top: 2px;
         right: 2px;
     }
-    .edit {
+    .p_edit {
         width: 30px;
         height: 30px;
         position: absolute;

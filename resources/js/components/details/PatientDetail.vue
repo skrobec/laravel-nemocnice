@@ -25,15 +25,25 @@
         <div v-for="serving of servings" v-bind:key="serving.date">Datum: {{serving.date}}</div>
       </div>
       <div class="hospitalization list scroll">
-        <h4>Hospitalizace</h4>
+       
+         <div class="title-box">
+            <h4>Hospitalizace</h4>
+            <div class="ico-box cursor" v-on:click="link('hospitalizationDetail')">
+              <i class="material-icons">add</i>
+            </div>
+        </div>
         <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek hospitalizace: {{hosp.date_start}} Konec hospitalizace: {{hosp.date_end}} </div>
       </div>
       <div class="interventions list scroll">
         <div class="title-box">
             <h4>Zákroky</h4>
-            <div class="ico-box cursor" v-on:click="link('interventionDetail')">
-              <i class="material-icons">add</i>
+            <div class="details">
+                <div class="warning hidden" v-bind:class="{'shown': warning}">Pacient není hospitalizován</div>
+                <div class="ico-box cursor" v-on:click="link('interventionDetail')">
+                  <i class="material-icons">add</i>
+                </div>
             </div>
+            
         </div>
         <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>
       </div>
@@ -46,7 +56,7 @@
           <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
           <div class="option-container scroll">
               <ul v-if="filteredResults.length > 0">
-                  <li class="option" v-on:click="setDoc(result)"  v-for="result in filteredResults" :key="result" v-text="result"></li>
+                  <li class="option" v-on:click="setDoc(result)"  v-for="result in filteredResults" :key="result.id" v-text="result.name + result.surname"></li>
               </ul>
           </div>
       </div>
@@ -60,6 +70,11 @@
 
 
 <style>
+    .details {
+      display: flex;
+      width: 200px;
+      justify-content: space-between;
+    }
     .list {
       max-height: 200;
       overflow: auto;
@@ -140,8 +155,8 @@ export default {
       loaded: true,
       editing: false,
       patientId: 0,
-      results: ['jjvcv','aaaaaaaaaa','cccccccccccc'],
-      doctor: ''
+      doctor: '',
+      warning: false,
     }
   },
   created(){
@@ -152,7 +167,7 @@ export default {
   },
   computed: {
     filteredResults () {
-      return this.doctor ? this.results.filter(row => row.search(new RegExp(`${this.doctor}`, 'i')) !== -1) : this.results
+      return this.doctor ? this.doctors.filter(row => row.name.search(new RegExp(`${this.doctor}`, 'i')) !== -1) : this.doctors
     }
   },
   methods: {
@@ -161,15 +176,19 @@ export default {
     },
     setDoc(result) {
         this.doctor = result;
+        this.setDoctor();
     },
     getInfo(){
         axios.post('/patient/getInfo',{id: this.parentData.id}).then(response => {
-          console.log(response);
+
           this.exams = response.exams;
           this.hospitalizations = response.hospitalizations;
           this.interventions = response.interventions;
           this.exams = response.exams;
-
+          this.warning = true;
+          return axios.get('/user/getDoctors');
+        }).then( response => {
+          this.doctors = response.data;
         });
     },
     relink() {
@@ -181,22 +200,11 @@ export default {
     },
     setDoctor(){
       if (this.loaded) {
-        this.loaded = false;
-        this.success = false;
-        this.errors = {};
+       
         const docId = doctors.find(doc => doc.name === this.doctor).id;
         const postData = {patient_id: this.parentData.id, doctor_id: docId};
-        axios.post('/doctor/setPatient', postData).then(response => {
-          console.log(response);
-          this.fields = {};
-          this.loaded = true;
-          this.success = true;
+        axios.post('/doctor/setPatient', postData).then(response => { // TODO
           this.getInfo();
-        }).catch(error => {
-          this.loaded = true;
-          if (error.response.status === 422) {
-            this.errors = error.response.data.errors || {};
-          }
         });
       }
     }

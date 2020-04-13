@@ -24,6 +24,7 @@ input:focus {
     align-items: center;
     height:100%;
     flex-direction: column;
+
 }
 
 .scroll::-webkit-scrollbar {
@@ -76,13 +77,15 @@ border-radius: 20px;
 }
 
 .nurses-list {
-    display: flex;
-    justify-content: flex-start;
+    overflow: auto;
+    height: 260px;
+    text-align: left;
 }
 
 .doctors-list {
-    display: flex;
-    justify-content: flex-start;
+    overflow: auto;
+    height: 260px;
+    text-align: left;
 }
 
 .auto-container {
@@ -91,4 +94,20 @@ border-radius: 20px;
 
 .marked {
     color: rgb(100, 100, 255);
+}
+
+.middle-container {
+    height: 100%;
+}
+
+.warning {
+    color: crimson;
+}
+
+.hidden {
+    display: none;
+}
+
+.shown {
+    display: flex;
 }

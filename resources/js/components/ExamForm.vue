@@ -1,25 +1,24 @@
 <template>
 <div class="full">
     <div v-if="detail" class="full">
-        <hospitalization-detail></hospitalization-detail>
+        <exam-detail></exam-detail>
     </div>
     <div v-else class="wrap">
-        <h1>Hospitalizace</h1>
-        <div class="hospitalization-container">
+        <h1>Vyšetření</h1>
+        <div class="exam-container">
             <div class="input-block">
-                <input class="form-control standard-input shadow-none" id="chosenHospitalization" type="text" v-model="chosenHospitalization">
+                <input class="form-control standard-input shadow-none" id="chosenExam" type="text" v-model="chosenExam">
             </div>
-            <div class="hospitalization-block">
-                <div class="hospitalization-item" v-for="hospitalization of filteredResults" v-bind:key="hospitalization.date_start">
-                    <span>Datum začátku: {{hospitalization.date_start}}</span>
-                    <span>Datum konce: {{hospitalization.date_end}}</span>
-                    <span>Jméno pacienta: {{getPatient(hospitalization.patient_id)}}</span>
-                    <span>Jméno oddělení: {{getSection(hospitalization.section_id)}}</span>
-                    <span>Důvod: {{hospitalization.reason}}</span>
-                    <div v-on:click="connect(hospitalization.id,hospitalization.patient_id)" class="connect">
+            <div class="exam-block">
+                <div class="exam-item" v-for="exam of filteredResults" v-bind:key="exam.date">
+                    <span>Datum začátku: {{exam.date}}</span>
+                    <span>Jméno pacienta: {{getPatient(exam.patient_id)}}</span>
+                    <!--span>Jméno oddělení: {{getSection(exam.section_id)}}</span-->
+                    <span>Průběh: {{exam.record}}</span>
+                    <div v-on:click="connect(exam.id,exam.patient_id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
-                    <div v-on:click="deleteHospitalization(hospitalization.id)" class="delete">
+                    <div v-on:click="deleteExam(exam.id)" class="delete">
                         <i class="material-icons">clear</i>
                     </div>
                 </div>
@@ -53,7 +52,7 @@
         display: flex;
         justify-content: center;
     }
-    .hospitalization-container {
+    .exam-container {
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -62,10 +61,10 @@
     .form-block {
         width: 60%;
     }
-    .hospitalization-block {
+    .exam-block {
         width: 60%;
     }
-    .hospitalization-item {
+    .exam-item {
         margin-top: 10px;
         display: flex;
         flex-direction: column;
@@ -75,7 +74,7 @@
         padding: 5px;
         position: relative;
     }
-    .hospitalization-item span {
+    .exam-item span {
         font-weight: 300;
         font-size: 1.1em;
     }
@@ -87,7 +86,7 @@
         height: 30px;
         position: absolute;
         top: 2px;
-        right: 68px;
+        right: 35px;
     }
     .delete {
         width: 30px;
@@ -95,13 +94,6 @@
         position: absolute;
         top: 2px;
         right: 2px;
-    }
-    .edit {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        top: 2px;
-        right: 35px;
     }
     .delete:hover {
         cursor: pointer;
@@ -120,9 +112,9 @@
 export default {
   data() {
     return {
-      hospitalizations: [],
-      chosenHospitalization: '',
-      hospitalization: {},
+      exams: [],
+      chosenExam: '',
+      exam: {},
       patients: [],
       sections: [],
       fields: {},
@@ -131,7 +123,7 @@ export default {
       success: false,
       loaded: true,
       editing: false,
-      hospitalizationId: 0,
+      examId: 0,
       detail: false,
       detailProp: {},
       buffer: []
@@ -146,13 +138,13 @@ export default {
       if (id !== null && id !== undefined) {
           this.enterId = id;
       }
-      this.getHospitalizations();
+      this.getExams();
       
      
   },
   computed: {
-    filteredResults () {
-      return this.chosenHospitalization ? this.hospitalizations.filter(row => row.patientName.search(new RegExp(`${this.chosenHospitalization}`, 'i')) !== -1) : this.hospitalizations
+   filteredResults () {
+      return this.chosenExam ? this.exams.filter(row => row.patientName.search(new RegExp(`${this.chosenExam}`, 'i')) !== -1) : this.exams
     }
   },
   methods: {
@@ -167,10 +159,10 @@ export default {
         return this.sections.find(pat => pat.id == id).name;
     },
     connect(id,patientId){
-         window.location.href = "http://homestead.test/" + "hospitalizationDetail" + "?hospitalizationId=" + id + "&patientId=" + patientId;
+         window.location.href = "http://homestead.test/" + "examDetail" + "?examId=" + id + "&patientId=" + patientId;
     },
-    getHospitalizations(){
-        axios.get('/hospitalizations/getAll').then(response => {
+    getExams(){
+        axios.get('/exams/getAll').then(response => {
           console.log(this.enterId);
           this.buffer = response.data;
           return axios.get('/pat/get');
@@ -181,14 +173,14 @@ export default {
         }).then( response => {
             console.log('kg');
             this.sections = response.data;
-            this.hospitalizations = this.buffer.map( hospitalization => {
+            this.exams = this.buffer.map( exam => {
                 return {
-                    start_date: hospitalization.start_date,
-                    patient_id: hospitalization.patient_id,
-                    section_id: hospitalization.section_id,
-                    end_date: hospitalization.end_date,
-                    reason: hospitalization.reason,
-                    patientName: this.patients.find(pat => pat.id == hospitalization.patient_id).name
+                    date: exam.date,
+                    patient_id: exam.patient_id,
+                    doctor_id: exam.doctor_id,
+                    nurse_id: exam.nurse_id,
+                    record: exam.record,
+                    patientName: this.patients.find(pat => pat.id == exam.patient_id).name
                     }
             });
             if (this.enterId !== 0) {
@@ -198,12 +190,12 @@ export default {
         });
        
     },
-    deleteHospitalization(id){
+    deleteExam(id){
         this.fields.id = id;
-        axios.post('/hospitalizations/del', this.fields).then(response => {
+        axios.post('/exams/del', this.fields).then(response => {
             console.log(response);
             this.fields = {};
-            this.getHospitalizations();
+            this.getExams();
         });
     },
    

@@ -5,20 +5,46 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedHospitalization.date}}</div>
+            <div>{{this.loadedExam.date}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
             <h4>{{this.patientObj.name}}</h4>
         </div>
         <div class="title-box">
-            <h4>Oddělení</h4>
-            <h4>{{this.loadedSection.name}}</h4>
+            <h4>Doktor</h4>
+            <h4>{{this.loadedDoctor.name}}</h4>
         </div>
         <div class="title-box">
-            <h4>Důvod</h4>
-            <h4>{{this.loadedHospitalization.reason}}</h4>
+            <h4>Sestra</h4>
+            <h4>{{this.loadedNurse.name}}</h4>
         </div>
+        <div class="title-box">
+            <h4>Průběh</h4>
+            <h4>{{this.loadedExam.record}}</h4>
+        </div>
+    </div>
+    <div class="left"><label for="section">Doktor</label></div>
+    <div  class="wrap-detail">
+      <div class="auto-container">
+          <input class="form-control standard-input shadow-none" id="section" type="text" v-model="doctor">
+          <div class="option-container scroll">
+              <ul v-if="filteredDoctors.length > 0">
+                  <li class="option" v-on:click="setDoctor(result.id)"  v-for="result in filteredDoctors" :key="result.id" v-text="result.doctor"></li>
+              </ul>
+          </div>
+      </div>
+    </div>
+    <div class="left"><label for="nurse">Sestra</label></div>
+    <div  class="wrap-detail">
+      <div class="auto-container">
+          <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
+          <div class="option-container scroll">
+              <ul v-if="filteredNurses.length > 0">
+                  <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.nurse"></li>
+              </ul>
+          </div>
+      </div>
     </div>
     <div class="left"><label for="section">Oddělení</label></div>
     <div  class="wrap-detail">
@@ -41,8 +67,8 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="reason">Důvod</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="reason" id="reason" v-model="fields.reason" />
+                        <label for="reason">Průběh</label>
+                        <input type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
                 
@@ -142,24 +168,28 @@
 export default {
   data() {
     return {
-      hospitalizationObj: {
+      examObj: {
           date: ''
       },
-      drugs: [],
       fields: {},
       errors: {},
       success: false,
       loaded: true,
       editing: false,
       patientId: 0,
-      sections: [],
+      doctors: [],
+      exams: [],
+      nurses: [],
       patients: [],
       section: '',
       drug: '',
-      loadedHospitalization: {
+      loadedExam: {
           date: ''
       },
-      loadedSection: {
+      loadedNurse: {
+          name: ''
+      },
+      loadedDoctor: {
           name: ''
       },
       patientObj: {
@@ -172,14 +202,15 @@ export default {
           name: ''
       },
       patientId: '',
-      hospitalizationId: ''
+      examId: '',
+      buffer: []
     }
   },
   created(){
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
-      this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
+      this.examId = urlParams.searchParams.get('examId');
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
@@ -191,34 +222,58 @@ export default {
   computed: {
     filteredSections () {
       return this.section ? this.sections.filter(row => row.name.search(new RegExp(`${this.section}`, 'i')) !== -1) : this.sections;
+    },
+    filteredDoctors () {
+      return this.doctor ? this.doctors.filter(row => row.name.search(new RegExp(`${this.doctor}`, 'i')) !== -1) : this.doctors;
+    },
+    filteredNurses () {
+      return this.nurse ? this.nurses.filter(row => row.name.search(new RegExp(`${this.nurse}`, 'i')) !== -1) : this.nurses;
     }
+
   },
   methods: {
     setSection(result) {
         this.section = this.sections.find(section => section.id == result ).name;
         this.sectionObj = this.sections.find(section => section.id == result );
     },
+    setDoctor(result) {
+        this.doctor = this.doctors.find(doctor => doctor.id == result ).name;
+        this.doctorObj = this.doctors.find(doctor => doctor.id == result );
+    },
+    setNurse(result) {
+        this.nurse = this.nurses.find(nurse => nurse.id == result ).name;
+        this.nurseObj = this.nurses.find(nurse => nurse.id == result );
+    },
     getInfo(){
 
-        axios.get('/sections/getAll').then(response => {
-          this.sections = response.data;
+        axios.get('/exams/getAll').then(response => {
+          this.buffer = response.data;
           return  axios.get('/pat/get');
         }).then( response => {
             this.patients = response.data;  
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
-            console.log('data');
-            console.log( this.sections);
-            console.log(this.patients);
-             if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
-                this.getEditInfo();
+            return  axios.get('/user/getDoctors');
+           
+        }).then( response => {
+            
+             this.doctors = response.data;
+            return  axios.get('/user/getNurses');
+        }).then( response => {
+            
+            this.nurses = response.data;
+            this.exams = buffer;
+            if (this.examId !== undefined && this.examId !== null ) {
+                    this.getEditInfo();
             }     
-        });
+        });;
     },
     getEditInfo(){
 
-        axios.post('/hospitalization/getInfo',{id: this.hospitalizationId}).then(response => {
-          this.loadedHospitalization = response.data;
-          this.loadedSection = this.sections.find(section => section.id == result );
+        axios.post('/exam/getInfo',{id: this.examId}).then(response => {
+          this.loadedExam = response.data;
+          this.loadedNurse = this.nurses.find(section => section.id == this.loadedExam.doctor_id );
+          this.loadedDoctor = this.doctors.find(section => section.id == this.loadedExam.nurse_id );
+        
         });
     },
     relink() {
@@ -231,12 +286,12 @@ export default {
         this.errors = {};
         this.fields.patientId = this.patientObj.id;
         this.fields.sectionId = this.sectionObj.id;
-        axios.post('/hospitalization/add', this.fields).then(response => {
+        axios.post('/exam/add', this.fields).then(response => {
           console.log(response);
           this.fields = {}; 
           this.loaded = true;
           this.success = true;
-          this.hospitalizationId = response.id;
+          this.examId = response.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;

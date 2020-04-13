@@ -67,6 +67,20 @@ Route::post('/servings/del', 'ServingController@deleteServing');
 Route::post('/servings/edit', 'ServingController@editServing');
 Route::get('/servings/getAll', 'ServingController@getServings');
 
+
+//Interventions 
+Route::post('/interventions/add', 'InterventionController@addIntervention');
+Route::post('/interventions/del', 'InterventionController@deleteIntervention');
+Route::post('/interventions/edit', 'InterventionController@editIntervention');
+Route::get('/interventions/getAll', 'InterventionController@getInterventions');
+
+//Exams
+Route::post('/exams/add', 'ExamController@addExam');
+Route::post('/exams/del', 'ExamController@deleteExam');
+Route::post('/exams/edit', 'ExamController@editExam');
+Route::get('/exams/getAll', 'ExamController@getExams');
+
+
 //Nurse
 Route::get('/nurse/getAll', 'NurseController@getNurses');
 
@@ -94,9 +108,11 @@ Route::get('/servingDetail', 'ServingController@showServingDetail');
 
 // Intervention
 Route::get('/interventionDetail', 'InterventionController@showInterventionDetail');
-Route::post('/interventions/add', 'InterventionController@addIntervention');
+Route::post('/intervention/getInfo', 'InterventionController@getInterventionInfo');
+
 //Hospitalization
 Route::get('/hospitalizationDetail', 'HospitalizationController@showHospitalizationDetail');
+Route::post('/hospitalization/getInfo', 'HospitalizationController@getHospitalizationInfo');
 
 // USER routes
 Route::get('/user/getNurses', 'UserController@getNurseUsers');
