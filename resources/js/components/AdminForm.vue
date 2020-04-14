@@ -12,7 +12,6 @@
             <div class="user-block">
                 <div class="user-item" v-for="user of filteredResults" v-bind:key="user.name">
                     <span>Jméno: {{user.name}}</span>
-                    <span>Přijmení: {{user.surname}}</span>
                     <span>Datum nástupu: {{user.date}}</span>
                     <div v-on:click="connect(user.id)" class="connect">
                         <i class="material-icons">build</i>
@@ -20,11 +19,11 @@
                     <div v-on:click="deleteUser(user.id)" class="delete">
                         <i class="material-icons">clear</i>
                     </div>
-                
+
                 </div>
             </div>
         </div>
-       
+
     </div>
 </div>
 </template>
@@ -142,8 +141,8 @@ export default {
           this.enterId = id;
       }
       this.getUsers();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -151,7 +150,7 @@ export default {
     }
   },
   methods: {
-    
+
     hideDetail(value){
         this.detail = false;
         this.connectId = 0;
@@ -180,7 +179,7 @@ export default {
             this.getUsers();
         });
     },
-   
+
   },
 }
 </script>

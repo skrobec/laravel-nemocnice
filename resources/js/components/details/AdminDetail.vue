@@ -18,20 +18,19 @@
         </div>
         <div class="title-box">
             <h4>Funkce</h4>
-            <div class="job-box">
-                <div class="cursor" v-bind:class="{'marked': nurseChosen}" v-on:click="addJob('nurse')">
+
+                <div class="cursor non-marked" v-bind:class="{'marked': nurseChosen}" v-on:click="addJob('nurse')">
                     Sestra
                 </div>
-                <div class="cursor" v-bind:class="{'marked': doctorChosen}" v-on:click="addJob('doctor')">
+                <div class="cursor non-marked" v-bind:class="{'marked': doctorChosen}" v-on:click="addJob('doctor')">
                     Doktor
                 </div>
-            </div>
+
         </div>
     </div>
-    <div class="left"><label for="doctor">Oddělení</label></div>
+    <div class="left"><label for="section">Oddělení</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
-
           <input class="form-control standard-input shadow-none" id="section" type="text" v-model="section">
           <div class="option-container scroll">
               <ul v-if="filteredResults.length > 0">
@@ -65,8 +64,19 @@
 
 
 <style>
+    .non-marked{
+        padding: 6px;
+    }
+
+    .marked{
+        border: 2px solid darkgray;
+        border-radius: 5px;
+        padding: 5px;
+        color: black;
+    }
+
     .list {
-      max-height: 200;
+      max-height: 200px;
       overflow: auto;
       width: 100%;
       display: flex;
@@ -164,13 +174,15 @@ export default {
     },
     setSection(result) {
         this.sectionId = result;
-        this.section = this.results.find(sec => sec.id == result);
+        this.section = this.results.find(sec => sec.id == result).name;
     },
     addJob(type){
         if (type === 'nurse') {
             this.nurseChosen = true;
+            this.doctorChosen = false;
         } else {
             this.doctorChosen = true;
+            this.nurseChosen = false;
         }
         this.job = type;
     },
