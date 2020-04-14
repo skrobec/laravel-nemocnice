@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Hospitalization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class HospitalizationController extends Controller
@@ -25,15 +26,22 @@ class HospitalizationController extends Controller
     public function addHospitalization(Request $request){
         $request->validate([
             'date_start'=> 'required',
-            'date_end'=>'',
             'reason' => 'required',
-            'patient_id' => 'required|exists:patient',
-            'section_id' => 'required|exists:section'
+            'patient_id' => 'required',
+            'section_id' => 'required'
         ]);
+
+        $tmp = Hospitalization::active()->get();
+        if (sizeof($tmp) > 0){
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'alreadyActive',
+            ], 200);
+        }
 
         $hospitalization = new Hospitalization([
             'date_start' => $request->get('date_start'),
-            'date_end' => $request->get('date_end'),
+            'date_end' => null,
             'reason' => $request->get('reason'),
             'patient_id' => $request->get('patient_id'),
             'section_id' => $request->get('section_id'),
@@ -49,10 +57,9 @@ class HospitalizationController extends Controller
     public function editHospitalization(Request $request, $id){
         $request->validate([
             'date_start'=> 'required',
-            'date_end'=>'',
             'reason' => 'required',
-            'patient_id' => 'required|exists:patient',
-            'section_id' => 'required|exists:section'
+            'patient_id' => 'required',
+            'section_id' => 'required'
         ]);
 
         $hospitalization = Hospitalization::find($id);

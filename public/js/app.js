@@ -3246,13 +3246,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3261,7 +3254,6 @@ __webpack_require__.r(__webpack_exports__);
       patient: {
         id: '',
         name: '',
-        surname: '',
         problem: ''
       },
       fields: {},
@@ -3316,7 +3308,6 @@ __webpack_require__.r(__webpack_exports__);
         return pat.id == id;
       });
       this.fields.name = patient.name;
-      this.fields.surname = patient.surname;
       this.fields.issues = patient.issues;
       this.editing = true;
       this.patientId = id;
@@ -3833,7 +3824,9 @@ __webpack_require__.r(__webpack_exports__);
       console.log(id);
       return this.patients.find(function (pat) {
         return pat.id == id;
-      }).name;
+      }).name["this"].patients.find(function (pat) {
+        return pat.id;
+      });
     },
     connect: function connect(id, patient_id) {
       window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id;
@@ -4668,7 +4661,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       hospitalizationObj: {
-        date: ''
+        date_start: ''
       },
       drugs: [],
       fields: {},
@@ -4682,7 +4675,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       section: '',
       drug: '',
       loadedHospitalization: {
-        date: ''
+        date_start: ''
       },
       loadedSection: {
         name: ''
@@ -4750,12 +4743,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getEditInfo: function getEditInfo() {
       var _this3 = this;
 
+      console.log("xxxxx" + this.hospitalizationId);
       axios.post('/hospitalization/getInfo', {
         id: this.hospitalizationId
       }).then(function (response) {
         _this3.loadedHospitalization = response.data;
         _this3.loadedSection = _this3.sections.find(function (section) {
+<<<<<<< HEAD
           return section.id == _this3.loadedHospitalization.section_id;
+=======
+          return section.id == result;
+>>>>>>> 81de7e44f85db6212ba3616c94c92ca2ced3b0c7
         });
       });
     },
@@ -4769,9 +4767,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        this.fields.patientId = this.patientObj.id;
-        this.fields.sectionId = this.sectionObj.id;
-        axios.post('/hospitalization/add', this.fields).then(function (response) {
+        this.fields.patient_id = this.patientObj.id;
+        this.fields.section_id = this.sectionObj.id;
+        console.log(this.fields);
+        axios.post('/hospitalizations/add', this.fields).then(function (response) {
           console.log(response);
           _this4.fields = {};
           _this4.loaded = true;
@@ -5347,6 +5346,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/patient/getInfo', {
         id: this.parentData.id
       }).then(function (response) {
+        console.log(response);
         _this2.exams = response.exams;
         _this2.hospitalizations = response.hospitalizations;
         _this2.interventions = response.interventions;
@@ -10443,7 +10443,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -43166,10 +43166,6 @@ var render = function() {
                   [
                     _c("span", [_vm._v("Jméno: " + _vm._s(patient.name))]),
                     _vm._v(" "),
-                    _c("span", [
-                      _vm._v("Přijmení: " + _vm._s(patient.surname))
-                    ]),
-                    _vm._v(" "),
                     _c("span", [_vm._v("Potíže: " + _vm._s(patient.issues))]),
                     _vm._v(" "),
                     _c(
@@ -43275,40 +43271,6 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group input-container" }, [
-                    _c("label", { attrs: { for: "email" } }, [
-                      _vm._v("Přijmení")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.fields.surname,
-                          expression: "fields.surname"
-                        }
-                      ],
-                      staticClass: "form-control standard-input shadow-none",
-                      attrs: { type: "text", name: "surname", id: "surname" },
-                      domProps: { value: _vm.fields.surname },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.fields, "surname", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors && _vm.errors.surname
-                      ? _c("div", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.surname[0]))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group input-container" }, [
                     _c("label", { attrs: { for: "issues" } }, [
                       _vm._v("Problémy")
                     ]),
@@ -43371,7 +43333,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\r\n                        Úspěšně provedeno !\r\n                    "
+                          "\n                        Úspěšně provedeno !\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43781,7 +43743,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\r\n                    Sestra\r\n                ")]
+              [_vm._v("\n                    Sestra\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -43795,7 +43757,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\r\n                    Doktor\r\n                ")]
+              [_vm._v("\n                    Doktor\n                ")]
             )
           ])
         ])
@@ -43909,7 +43871,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                    Úspěšně provedeno !\r\n                "
+                      "\n                    Úspěšně provedeno !\n                "
                     )
                   ])
                 : _vm._e()
@@ -44376,31 +44338,33 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
+                _c("label", { attrs: { for: "date_start" } }, [
+                  _vm._v("Datum")
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.fields.date,
-                      expression: "fields.date"
+                      value: _vm.fields.date_start,
+                      expression: "fields.date_start"
                     }
                   ],
                   staticClass: "form-control standard-input shadow-none",
                   attrs: {
                     placeholder: "YYYY-MM-DD HH:MM:SS",
                     type: "text",
-                    name: "date",
-                    id: "date"
+                    name: "date_start",
+                    id: "date_start"
                   },
-                  domProps: { value: _vm.fields.date },
+                  domProps: { value: _vm.fields.date_start },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.fields, "date", $event.target.value)
+                      _vm.$set(_vm.fields, "date_start", $event.target.value)
                     }
                   }
                 }),
@@ -44453,7 +44417,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -45298,7 +45262,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -58892,8 +58856,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

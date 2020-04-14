@@ -142,8 +142,8 @@ export default {
           this.enterId = id;
       }
       this.getServings();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -154,7 +154,7 @@ export default {
     getPatient(id){
         console.log(this.patients);
         console.log(id);
-        return this.patients.find(pat => pat.id == id).name;
+        return this.patients.find(pat => pat.id == id).name . this.patients.find(pat => pat.id );
     },
     connect(id,patient_id){
          window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id ;
@@ -196,7 +196,7 @@ export default {
             this.fields.id = this.servingId;
             axios.post('/servings/edit', this.fields).then(response => {
             console.log(response);
-            this.fields = {}; 
+            this.fields = {};
             this.loaded = true;
             this.success = true;
             this.getServings();
@@ -215,7 +215,7 @@ export default {
         this.errors = {};
         axios.post('/servings/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.getServings();

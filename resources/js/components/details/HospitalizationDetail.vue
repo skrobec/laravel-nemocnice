@@ -35,8 +35,8 @@
             <div class="form-block">
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
-                        <label for="date">Datum</label>
-                        <input placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
+                        <label for="date_start">Datum</label>
+                        <input placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control standard-input shadow-none" name="date_start" id="date_start" v-model="fields.date_start" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
@@ -45,7 +45,7 @@
                         <input type="text" class="form-control standard-input shadow-none" name="reason" id="reason" v-model="fields.reason" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
+
 
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <div v-if="success" class="alert alert-success mt-3">
@@ -64,7 +64,7 @@
 
 <style>
     .list {
-      max-height: 200;
+      max-height: 200px;
       overflow: auto;
       width: 100%;
       display: flex;
@@ -143,7 +143,7 @@ export default {
   data() {
     return {
       hospitalizationObj: {
-          date: ''
+          date_start: ''
       },
       drugs: [],
       fields: {},
@@ -157,7 +157,7 @@ export default {
       section: '',
       drug: '',
       loadedHospitalization: {
-          date: ''
+          date_start: ''
       },
       loadedSection: {
           name: ''
@@ -185,8 +185,8 @@ export default {
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
       }
-     
-      
+
+
 
   },
   computed: {
@@ -205,18 +205,18 @@ export default {
           this.sections = response.data;
           return  axios.get('/pat/get');
         }).then( response => {
-            this.patients = response.data;  
+            this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             console.log('data');
             console.log( this.sections);
             console.log(this.patients);
              if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
                 this.getEditInfo();
-            }     
+            }
         });
     },
     getEditInfo(){
-
+        console.log("xxxxx" + this.hospitalizationId);
         axios.post('/hospitalization/getInfo',{id: this.hospitalizationId}).then(response => {
           this.loadedHospitalization = response.data;
           this.loadedSection = this.sections.find(section => section.id == this.loadedHospitalization.section_id );
@@ -230,11 +230,12 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        this.fields.patientId = this.patientObj.id;
-        this.fields.sectionId = this.sectionObj.id;
-        axios.post('/hospitalization/add', this.fields).then(response => {
+        this.fields.patient_id = this.patientObj.id;
+        this.fields.section_id = this.sectionObj.id;
+        console.log(this.fields);
+        axios.post('/hospitalizations/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.hospitalizationId = response.id;

@@ -12,7 +12,6 @@
             <div class="patient-block">
                 <div class="patient-item" v-for="patient of filteredResults" v-bind:key="patient.name">
                     <span>Jméno: {{patient.name}}</span>
-                    <span>Přijmení: {{patient.surname}}</span>
                     <span>Potíže: {{patient.issues}}</span>
                     <div v-on:click="connect(patient.id)" class="p_connect">
                         <i class="material-icons">build</i>
@@ -34,13 +33,7 @@
                         <input type="text" class="form-control standard-input shadow-none" name="name" id="name" v-model="fields.name" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
-                    <div class="form-group input-container">
-                        <label for="email">Přijmení</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="surname" id="surname" v-model="fields.surname" />
-                        <div v-if="errors && errors.surname" class="text-danger">{{ errors.surname[0] }}</div>
-                    </div>
-                
+
                     <div class="form-group input-container">
                         <label for="issues">Problémy</label>
                         <textarea class="form-control shadow-none" id="issues" name="issues" rows="5" v-model="fields.issues"></textarea>
@@ -153,7 +146,6 @@ export default {
       patient: {
           id: '',
           name: '',
-          surname: '',
           problem: ''
       },
       fields: {},
@@ -177,8 +169,8 @@ export default {
           this.enterId = id;
       }
       this.getPatients();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -186,7 +178,7 @@ export default {
     }
   },
   methods: {
-    
+
     hideDetail(value){
         this.detail = false;
         this.connectId = 0;
@@ -202,7 +194,6 @@ export default {
     prepareEdit(id){
         const patient = this.patients.find(pat => pat.id == id);
         this.fields.name = patient.name;
-        this.fields.surname = patient.surname;
         this.fields.issues = patient.issues;
         this.editing = true;
         this.patientId = id;
@@ -233,7 +224,7 @@ export default {
             this.fields.id = this.patientId;
             axios.post('/patients/edit', this.fields).then(response => {
             console.log(response);
-            this.fields = {}; 
+            this.fields = {};
             this.loaded = true;
             this.success = true;
             this.getPatients();
@@ -252,7 +243,7 @@ export default {
         this.errors = {};
         axios.post('/patients/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.getPatients();
