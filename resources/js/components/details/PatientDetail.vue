@@ -25,7 +25,7 @@
         <div v-for="serving of servings" v-bind:key="serving.date">Datum: {{serving.date}}</div>
       </div>
       <div class="hospitalization list scroll">
-       
+
          <div class="title-box">
             <h4>Hospitalizace</h4>
             <div class="ico-box cursor" v-on:click="link('hospitalizationDetail')">
@@ -43,7 +43,7 @@
                   <i class="material-icons">add</i>
                 </div>
             </div>
-            
+
         </div>
         <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>
       </div>
@@ -180,15 +180,14 @@ export default {
     },
     getInfo(){
         axios.post('/patient/getInfo',{id: this.parentData.id}).then(response => {
-
-          this.exams = response.exams;
-          this.hospitalizations = response.hospitalizations;
-          this.interventions = response.interventions;
-          this.exams = response.exams;
-          this.warning = true;
-          return axios.get('/user/getDoctors');
+            this.exams = response.exams;
+            this.hospitalizations = response.hospitalizations;
+            this.interventions = response.interventions;
+            this.exams = response.exams;
+            this.warning = true;
+            return axios.get('/user/getDoctors');
         }).then( response => {
-          this.doctors = response.data;
+            this.doctors = response.data;
         });
     },
     relink() {
@@ -200,7 +199,7 @@ export default {
     },
     setDoctor(){
       if (this.loaded) {
-       
+
         const docId = doctors.find(doc => doc.name === this.doctor).id;
         const postData = {patient_id: this.parentData.id, doctor_id: docId};
         axios.post('/doctor/setPatient', postData).then(response => { // TODO

@@ -11,22 +11,19 @@ class PatientsTableSeeder extends Seeder {
         DB::table('patients')->delete();
 
         DB::table('patients')->insert([
-            'name' => "Jan",
-            'surname' => "Novák",
+            'name' => "Jan Novák",
             'issues' => "dychaci obtize blablabla",
             'doctor_id' => 1,
         ]);
 
         DB::table('patients')->insert([
-            'name' => "Josef",
-            'surname' => "Slepý",
+            'name' => "Josef Slepý",
             'issues' => "blouzni",
             'doctor_id' => 2,
         ]);
 
         DB::table('patients')->insert([
-            'name' => "František",
-            'surname' => "Starý",
+            'name' => "František Starý",
             'issues' => "zlomena noha",
             'doctor_id' => 1,
         ]);

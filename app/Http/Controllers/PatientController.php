@@ -10,6 +10,7 @@ use App\Hospitalization;
 use App\Intervention;
 use App\Serving;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PatientController extends Controller {
@@ -22,7 +23,6 @@ class PatientController extends Controller {
 
         $rules = array(
             'name'       => 'required',
-            'surname'      => 'required',
             'issues' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
@@ -36,7 +36,6 @@ class PatientController extends Controller {
         } else {
             $patient = new Patient;
             $patient->name = $request->name;
-            $patient->surname = $request->surname;
             $patient->issues = $request->issues;
             $patient->save();
 
@@ -50,7 +49,6 @@ class PatientController extends Controller {
     public function editPatient(Request $request){
         $rules = array(
             'name'       => 'required',
-            'surname'      => 'required',
             'issues' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
@@ -64,7 +62,6 @@ class PatientController extends Controller {
         } else {
             $patient = Patient::find($request->id);
             $patient->name       = $request->name;
-            $patient->surname      = $request->surname;
             $patient->issues = $request->issues;
             $patient->save();
 
@@ -90,10 +87,19 @@ class PatientController extends Controller {
 
     public function getPatientInfo(Request $request) {
         $patient = Patient::find($request->id);
+        $interventionsRaw = $patient->hospitalizations()->with('interventions')->get();
+        $interventions = array();
+        foreach ($interventionsRaw as $hosp){
+            foreach ($hosp->interventions as $i){
+                Log::info($i);
+                array_push($interventions, $i);
+            }
+            //array_merge($interventions, $hosp->$interventions);
+        }
         return response()->json([
             'exams' => $patient->exams,
             'hospitalizations'    => $patient->hospitalizations,
-            'interventions'    => $patient->interventions,
+            'interventions'    => $interventions,
             'servings'    => $patient->servings,
         ], 201);
 
