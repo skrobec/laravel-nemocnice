@@ -26,13 +26,9 @@ class InterventionController extends Controller
             'patient_id' => 'required'
         ]);
 
-        $pat = Patient::find($request->get('patient_id'));
-        $hospitalization = $pat->hospitalizations()->active()->get()[0];
-        $hospitalization_id = $hospitalization->id;
-
         $intervention = new Intervention([
             'date' => $request->get('date'),
-            'hospitalization_id' => $hospitalization_id,
+            'patient_id' => $request->get('patient_id'),
             'record' => $request->get('record'),
         ]);
 
@@ -65,13 +61,13 @@ class InterventionController extends Controller
     public function editIntervention(Request $request, $id){
         $request->validate([
             'date'=> 'required',
-            'hospitalization_id'=>'required|exists:hospitalization',
+            'patient_id'=>'required',
             'record' => 'required'
         ]);
 
         $intervention = Intervention::find($id);
         $intervention->date =  $request->get('date');
-        $intervention->hospitalization_id = $request->get('hospitalization_id');
+        $intervention->patient_id = $request->get('patient_id');
         $intervention->record = $request->get('record');
         $intervention->save();
 
@@ -95,7 +91,7 @@ class InterventionController extends Controller
         $intervention = Intervention::find($request->id);
         return response()->json([
             'date' => $intervention->date,
-            'hospitalization_id' => $intervention->hospitalization_id,
+            'patient_id' => $intervention->patient_id,
             'record' => $intervention->record,
         ], 201);
     }

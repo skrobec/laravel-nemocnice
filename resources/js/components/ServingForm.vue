@@ -154,7 +154,7 @@ export default {
     getPatient(id){
         console.log(this.patients);
         console.log(id);
-        return this.patients.find(pat => pat.id == id).name . this.patients.find(pat => pat.id );
+        return this.patients.find(pat => pat.id == id).name;
     },
     connect(id,patient_id){
          window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id ;

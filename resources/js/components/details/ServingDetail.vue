@@ -239,7 +239,8 @@ export default {
     getEditInfo(){
 
         axios.post('/serving/getInfo',{id: this.servingId}).then(response => {
-          this.servingObj = response.data;
+            console.log("aa");
+            this.servingObj = response.data;
             console.log(this.servingObj);
           this.loadedNurse = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );
           this.nurseObj = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );

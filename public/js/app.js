@@ -3824,9 +3824,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(id);
       return this.patients.find(function (pat) {
         return pat.id == id;
-      }).name["this"].patients.find(function (pat) {
-        return pat.id;
-      });
+      }).name;
     },
     connect: function connect(id, patient_id) {
       window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id;
@@ -4749,11 +4747,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         _this3.loadedHospitalization = response.data;
         _this3.loadedSection = _this3.sections.find(function (section) {
-<<<<<<< HEAD
           return section.id == _this3.loadedHospitalization.section_id;
-=======
-          return section.id == result;
->>>>>>> 81de7e44f85db6212ba3616c94c92ca2ced3b0c7
         });
       });
     },
@@ -5346,7 +5340,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/patient/getInfo', {
         id: this.parentData.id
       }).then(function (response) {
-        console.log(response);
         _this2.exams = response.exams;
         _this2.hospitalizations = response.hospitalizations;
         _this2.interventions = response.interventions;
@@ -5657,6 +5650,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post('/serving/getInfo', {
         id: this.servingId
       }).then(function (response) {
+        console.log("aa");
         _this4.servingObj = response.data;
         console.log(_this4.servingObj);
         _this4.loadedNurse = _this4.nurses.find(function (nurse) {
@@ -44417,7 +44411,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()

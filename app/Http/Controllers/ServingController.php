@@ -79,6 +79,8 @@ class ServingController extends Controller
             'date' => $serving->date,
             'nurse_id'    => $serving->nurse_id,
             'patient_id'    => $serving->patient_id,
+            'drug_id' => $serving->drugs[0]->id,
+            'quantity' => $serving->drugs[0]->pivot->amount
         ], 201);
     }
 
