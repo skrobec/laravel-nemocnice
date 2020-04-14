@@ -10808,3 +10808,7 @@ input:focus {
   display: flex;
 }
 
+.right-m {
+  margin-right: 20px;
+}
+

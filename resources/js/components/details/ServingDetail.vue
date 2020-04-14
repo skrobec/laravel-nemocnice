@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedServing.date}}</div>
+            <div>{{this.servingObj.date}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -247,6 +247,8 @@ export default {
           this.nurse = this.nurseObj.name;
           this.drug = this.drugs.find(drug => drug.id == this.servingObj.drug_id ).name;
           this.drugObj = this.drugs.find(drug => drug.id == this.servingObj.drug_id );
+          this.fields.quantity = response.data.quantity;
+          this.fields.date = response.data.date;
           console.log('ok');
           console.log(this.loadedNurse);
         });

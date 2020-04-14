@@ -12,8 +12,7 @@
             <div class="intervention-block">
                 <div class="intervention-item" v-for="intervention of filteredResults" v-bind:key="intervention.date">
                     <span>Datum: {{intervention.date}}</span>
-                    <span>Jméno pacienta: {{getPatient(intervention.hospitalization_id)}}</span>
-                    <span>Začátek hospitalizace: {{getHospitalization(intervention.hospitalization_id)}}</span>
+                    <span>Jméno pacienta: {{getPatient(intervention.patient_id)}}</span>
                     <span>Průběh: {{intervention.record}}</span>
                     <div v-on:click="connect(intervention.id,intervention.patient_id)" class="connect">
                         <i class="material-icons">build</i>
@@ -149,15 +148,7 @@ export default {
   },
   methods: {
     getPatient(id){
-        console.log(this.patients);
-        console.log(id);
-        const hosp = this.hospitalizations.find(pat => pat.id == id);
-        return this.patients.find(pat => pat.id == hosp.patient_id).name;
-    },
-    getHospitalization(id){
-        console.log(this.hospitalizations);
-        console.log(id + 'hospsdfdfdfsbdsfg');
-        return this.hospitalizations.find(pat => pat.id == id).date_start;
+        return this.patients.find(pat => pat.id == id).name;
     },
     connect(id,patientId){
          window.location.href = "http://homestead.test/" + "interventionDetail" + "?interventionId=" + id + "&patientId=" + patientId;
@@ -179,9 +170,9 @@ export default {
                 return {
                     id: intervention.id,
                     date: intervention.date,
-                    hospitalization_id: intervention.hospitalization_id,
                     record: intervention.record,
-                    patientName: this.patients.find(pat => pat.id == this.hospitalizations.find(h => h.id == intervention.hospitalization_id ).patient_id).name
+                    patient_id: intervention.patient_id,
+                    patientName: this.patients.find(pat => pat.id == intervention.patient_id).name
                     }
             });;
             if (this.enterId !== 0) {

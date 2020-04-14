@@ -15,11 +15,17 @@
     <div class="participants-container">
         <div class="lists">
             <div class="nurses-list">
-                <h4>Sestry</h4>
+                <div class="title-box">
+                    <h4>Sestry</h4>
+                    <i v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
+                </div>    
                 <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{nurse.name}}</div>
             </div>
             <div class="doctors-list">
-                <h4>Doktoři</h4>
+                <div class="title-box">
+                    <h4>Doktoři</h4>
+                    <i v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
+                </div>    
                 <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{doc.name}}</div>
             </div>
         </div>
@@ -218,6 +224,12 @@ export default {
     }
   },
   methods: {
+    clearNurses(){
+        this.chosenNurses = [];
+    },
+    clearDoctors(){
+        this.chosenDoctors = [];
+    },
     setNurse(result) {
         this.nurse = this.nurses.find(nurse => nurse.id == result ).name;
         this.nurseObj = this.nurses.find(nurse => nurse.id == result );
@@ -228,7 +240,7 @@ export default {
     },
     addNurse() {
 
-        const contains =  this.chosenNurses.find( nurse => nurse.id == this.nurseObj.id );
+        const contains = this.chosenNurses ? this.chosenNurses.find( nurse => nurse.id == this.nurseObj.id ) : undefined;
         if (this.nurseObj !== undefined && (contains === undefined || contains === null )){
             if (this.nurseObj.id !== undefined) {
                 this.chosenNurses.push(this.nurseObj);

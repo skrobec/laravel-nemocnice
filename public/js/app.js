@@ -2984,7 +2984,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3028,21 +3027,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPatient: function getPatient(id) {
-      console.log(this.patients);
-      console.log(id);
-      var hosp = this.hospitalizations.find(function (pat) {
-        return pat.id == id;
-      });
       return this.patients.find(function (pat) {
-        return pat.id == hosp.patient_id;
-      }).name;
-    },
-    getHospitalization: function getHospitalization(id) {
-      console.log(this.hospitalizations);
-      console.log(id + 'hospsdfdfdfsbdsfg');
-      return this.hospitalizations.find(function (pat) {
         return pat.id == id;
-      }).date_start;
+      }).name;
     },
     connect: function connect(id, patientId) {
       window.location.href = "http://homestead.test/" + "interventionDetail" + "?interventionId=" + id + "&patientId=" + patientId;
@@ -3065,12 +3052,10 @@ __webpack_require__.r(__webpack_exports__);
           return {
             id: intervention.id,
             date: intervention.date,
-            hospitalization_id: intervention.hospitalization_id,
             record: intervention.record,
+            patient_id: intervention.patient_id,
             patientName: _this2.patients.find(function (pat) {
-              return pat.id == _this2.hospitalizations.find(function (h) {
-                return h.id == intervention.hospitalization_id;
-              }).patient_id;
+              return pat.id == intervention.patient_id;
             }).name
           };
         });
@@ -4956,6 +4941,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -5025,6 +5016,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: {
+    clearNurses: function clearNurses() {
+      this.chosenNurses = [];
+    },
+    clearDoctors: function clearDoctors() {
+      this.chosenDoctors = [];
+    },
     setNurse: function setNurse(result) {
       this.nurse = this.nurses.find(function (nurse) {
         return nurse.id == result;
@@ -5044,9 +5041,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addNurse: function addNurse() {
       var _this3 = this;
 
-      var contains = this.chosenNurses.find(function (nurse) {
+      var contains = this.chosenNurses ? this.chosenNurses.find(function (nurse) {
         return nurse.id == _this3.nurseObj.id;
-      });
+      }) : undefined;
 
       if (this.nurseObj !== undefined && (contains === undefined || contains === null)) {
         if (this.nurseObj.id !== undefined) {
@@ -5668,6 +5665,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.drugObj = _this4.drugs.find(function (drug) {
           return drug.id == _this4.servingObj.drug_id;
         });
+        _this4.fields.quantity = response.data.quantity;
+        _this4.fields.date = response.data.date;
         console.log('ok');
         console.log(_this4.loadedNurse);
       });
@@ -43023,20 +43022,7 @@ var render = function() {
                     _c("span", [
                       _vm._v(
                         "Jméno pacienta: " +
-                          _vm._s(
-                            _vm.getPatient(intervention.hospitalization_id)
-                          )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(
-                        "Začátek hospitalizace: " +
-                          _vm._s(
-                            _vm.getHospitalization(
-                              intervention.hospitalization_id
-                            )
-                          )
+                          _vm._s(_vm.getPatient(intervention.patient_id))
                       )
                     ]),
                     _vm._v(" "),
@@ -44479,7 +44465,22 @@ var render = function() {
             "div",
             { staticClass: "nurses-list" },
             [
-              _c("h4", [_vm._v("Sestry")]),
+              _c("div", { staticClass: "title-box" }, [
+                _c("h4", [_vm._v("Sestry")]),
+                _vm._v(" "),
+                _c(
+                  "i",
+                  {
+                    staticClass: "material-icons cursor right-m",
+                    on: {
+                      click: function($event) {
+                        return _vm.clearNurses()
+                      }
+                    }
+                  },
+                  [_vm._v("clear")]
+                )
+              ]),
               _vm._v(" "),
               _vm._l(_vm.chosenNurses, function(nurse) {
                 return _c("div", { key: nurse.id, staticClass: "inner-list" }, [
@@ -44494,7 +44495,22 @@ var render = function() {
             "div",
             { staticClass: "doctors-list" },
             [
-              _c("h4", [_vm._v("Doktoři")]),
+              _c("div", { staticClass: "title-box" }, [
+                _c("h4", [_vm._v("Doktoři")]),
+                _vm._v(" "),
+                _c(
+                  "i",
+                  {
+                    staticClass: "material-icons cursor right-m",
+                    on: {
+                      click: function($event) {
+                        return _vm.clearDoctors()
+                      }
+                    }
+                  },
+                  [_vm._v("clear")]
+                )
+              ]),
               _vm._v(" "),
               _vm._l(_vm.chosenDoctors, function(doc) {
                 return _c("div", { key: doc.id, staticClass: "inner-list" }, [
@@ -45031,7 +45047,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.loadedServing.date))])
+          _c("div", [_vm._v(_vm._s(this.servingObj.date))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
