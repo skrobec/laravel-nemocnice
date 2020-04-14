@@ -2022,7 +2022,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4060,6 +4059,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4100,13 +4109,15 @@ __webpack_require__.r(__webpack_exports__);
       this.sectionId = result;
       this.section = this.results.find(function (sec) {
         return sec.id == result;
-      });
+      }).name;
     },
     addJob: function addJob(type) {
       if (type === 'nurse') {
         this.nurseChosen = true;
+        this.doctorChosen = false;
       } else {
         this.doctorChosen = true;
+        this.nurseChosen = false;
       }
 
       this.job = type;
@@ -10401,7 +10412,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
+exports.push([module.i, "\n.non-marked{\n    padding: 6px;\n}\n.marked{\n    border: 2px solid darkgray;\n    border-radius: 5px;\n    padding: 5px;\n    color: black;\n}\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
 
 // exports
 
@@ -42406,8 +42417,6 @@ var render = function() {
                 return _c("div", { key: user.name, staticClass: "user-item" }, [
                   _c("span", [_vm._v("Jméno: " + _vm._s(user.name))]),
                   _vm._v(" "),
-                  _c("span", [_vm._v("Přijmení: " + _vm._s(user.surname))]),
-                  _vm._v(" "),
                   _c("span", [_vm._v("Datum nástupu: " + _vm._s(user.date))]),
                   _vm._v(" "),
                   _c(
@@ -43329,7 +43338,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\r\n                        Úspěšně provedeno !\r\n                    "
+                          "\n                        Úspěšně provedeno !\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43727,35 +43736,33 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Funkce")]),
           _vm._v(" "),
-          _c("div", { staticClass: "job-box" }, [
-            _c(
-              "div",
-              {
-                staticClass: "cursor",
-                class: { marked: _vm.nurseChosen },
-                on: {
-                  click: function($event) {
-                    return _vm.addJob("nurse")
-                  }
+          _c(
+            "div",
+            {
+              staticClass: "cursor non-marked",
+              class: { marked: _vm.nurseChosen },
+              on: {
+                click: function($event) {
+                  return _vm.addJob("nurse")
                 }
-              },
-              [_vm._v("\r\n                    Sestra\r\n                ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "cursor",
-                class: { marked: _vm.doctorChosen },
-                on: {
-                  click: function($event) {
-                    return _vm.addJob("doctor")
-                  }
+              }
+            },
+            [_vm._v("\n                    Sestra\n                ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "cursor non-marked",
+              class: { marked: _vm.doctorChosen },
+              on: {
+                click: function($event) {
+                  return _vm.addJob("doctor")
                 }
-              },
-              [_vm._v("\r\n                    Doktor\r\n                ")]
-            )
-          ])
+              }
+            },
+            [_vm._v("\n                    Doktor\n                ")]
+          )
         ])
       ]),
       _vm._v(" "),
@@ -43867,7 +43874,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                    Úspěšně provedeno !\r\n                "
+                      "\n                    Úspěšně provedeno !\n                "
                     )
                   ])
                 : _vm._e()
@@ -43884,7 +43891,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "left" }, [
-      _c("label", { attrs: { for: "doctor" } }, [_vm._v("Oddělení")])
+      _c("label", { attrs: { for: "section" } }, [_vm._v("Oddělení")])
     ])
   }
 ]
@@ -44973,9 +44980,7 @@ var render = function() {
                     return _c("li", {
                       key: result.id,
                       staticClass: "option",
-                      domProps: {
-                        textContent: _vm._s(result.name + result.surname)
-                      },
+                      domProps: { textContent: _vm._s(result.name) },
                       on: {
                         click: function($event) {
                           return _vm.setDoc(result)
@@ -45258,7 +45263,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -58852,8 +58857,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

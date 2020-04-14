@@ -56,7 +56,7 @@
           <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
           <div class="option-container scroll">
               <ul v-if="filteredResults.length > 0">
-                  <li class="option" v-on:click="setDoc(result)"  v-for="result in filteredResults" :key="result.id" v-text="result.name + result.surname"></li>
+                  <li class="option" v-on:click="setDoc(result)"  v-for="result in filteredResults" :key="result.id" v-text="result.name"></li>
               </ul>
           </div>
       </div>
