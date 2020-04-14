@@ -18,14 +18,14 @@
                 <div class="title-box">
                     <h4>Sestry</h4>
                     <i v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
-                </div>    
+                </div>
                 <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{nurse.name}}</div>
             </div>
             <div class="doctors-list">
                 <div class="title-box">
                     <h4>Doktoři</h4>
                     <i v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
-                </div>    
+                </div>
                 <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{doc.name}}</div>
             </div>
         </div>
@@ -245,7 +245,7 @@ export default {
             if (this.nurseObj.id !== undefined) {
                 this.chosenNurses.push(this.nurseObj);
             }
-           
+
         }
     },
     addDoctor() {
@@ -281,7 +281,7 @@ export default {
     },
     getEditInfo(){
 
-        axios.post('/intervention/getInfo',{id: this.interventionId}).then(response => { // TODO need more data 
+        axios.post('/intervention/getInfo',{id: this.interventionId}).then(response => { // TODO need more data
             this.interventionObj = response.data;
             this.chosenNurses = this.interventionObj.nurses;
             this.chosenDoctors = this.interventionObj.doctors;

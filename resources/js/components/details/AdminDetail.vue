@@ -6,15 +6,19 @@
           <i class="material-icons">arrow_back</i>
       </div>
     </div>
-    <h2>Uživatel: {{parentData.name}}</h2>
+    <h2>Správa uživatele</h2>
     <div class="patient-info">
         <div class="title-box">
+            <h4>Jméno</h4>
+            <div>{{this.user.name}}</div>
+        </div>
+        <div class="title-box">
             <h4>Datum nástupu</h4>
-            <div>{{this.user.date}}</div>
+            <div>{{this.user.start_date}}</div>
         </div>
         <div class="title-box">
             <h4>Datum ukončení</h4>
-            <div>{{this.user.date}}</div>
+            <div>{{this.user.termination_date}}</div>
         </div>
         <div class="title-box">
             <h4>Funkce</h4>
@@ -43,7 +47,7 @@
         <div class="form-block">
             <form @submit.prevent="submit">
                 <div class="form-group input-container">
-                    <label for="date">Datum</label>
+                    <label for="date">Datum nástupu</label>
                     <input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
                     <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                 </div>
@@ -190,8 +194,9 @@ export default {
 
         this.user = this.parentData;
          console.log(this.user);
-        axios.get('/sections/getAll').then(response => {
-          console.log(response);
+        axios.post('/user/getInfo', {id:this.user.id}).then(response => {
+          console.log("cosi");
+            console.log(response);
           this.results = response.data;
 
         });

@@ -68,7 +68,7 @@ Route::post('/servings/edit', 'ServingController@editServing');
 Route::get('/servings/getAll', 'ServingController@getServings');
 
 
-//Interventions 
+//Interventions
 Route::post('/interventions/add', 'InterventionController@addIntervention');
 Route::post('/interventions/del', 'InterventionController@deleteIntervention');
 Route::post('/interventions/edit', 'InterventionController@editIntervention');
@@ -94,6 +94,7 @@ Route::get('/hospitalizations/getAll', 'HospitalizationController@getHospitaliza
 // User
 Route::get('/user/getAll', 'UserController@getUsers');
 Route::post('/user/addJob', 'UserController@addJob');
+Route::post('/user/getInfo', 'UserController@getInfo');
 // VIEW routes
 
 // Patient

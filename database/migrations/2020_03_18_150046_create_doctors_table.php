@@ -16,7 +16,7 @@ class CreateDoctorsTable extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->dateTime('entry_date');
-            $table->dateTime('termination_date');
+            $table->dateTime('termination_date')->nullable();
             $table->timestamps();
         });
     }
