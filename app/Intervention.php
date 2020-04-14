@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Intervention extends Model
 {
     protected $fillable = [
-      'date', 'hospitalization_id', 'record'
+      'date', 'patient_id', 'record'
     ];
 
     public function doctors(){
@@ -18,7 +18,7 @@ class Intervention extends Model
         return $this->belongsToMany(Nurse::class, 'nurse_intervention');
     }
 
-    public function hospitalization(){
-        return $this->belongsTo(Hospitalization::class);
+    public function patient(){
+        return $this->belongsTo(Patient::class);
     }
 }

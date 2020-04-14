@@ -16,7 +16,7 @@ class CreateInterventionsTable extends Migration
         Schema::create('interventions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->dateTime('date');
-            $table->unsignedInteger('hospitalization_id');
+            $table->unsignedInteger('patient_id');
             $table->text('record');
             $table->timestamps();
         });

@@ -18,10 +18,6 @@ class Hospitalization extends Model
         return $this->belongsTo(Section::class);
     }
 
-    public function interventions(){
-        return $this->hasMany(Intervention::class);
-    }
-
     public function scopeActive($query){
         return $query->where('date_end', null);
     }

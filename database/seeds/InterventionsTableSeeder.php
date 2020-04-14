@@ -12,13 +12,13 @@ class InterventionsTableSeeder extends Seeder
 
         DB::table('interventions')->insert([
             'date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'hospitalization_id' => 1,
+            'patient_id' => 1,
             'record' => 'vse probehlo v poradku',
         ]);
 
         DB::table('interventions')->insert([
             'date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'hospitalization_id' => 1,
+            'patient_id' => 1,
             'record' => 'vse probehlo v poradku',
         ]);
     }

@@ -5652,6 +5652,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post('/serving/getInfo', {
         id: this.servingId
       }).then(function (response) {
+        console.log("aa");
         _this4.servingObj = response.data;
         console.log(_this4.servingObj);
         _this4.loadedNurse = _this4.nurses.find(function (nurse) {

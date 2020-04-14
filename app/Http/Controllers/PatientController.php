@@ -91,10 +91,8 @@ class PatientController extends Controller {
         $interventions = array();
         foreach ($interventionsRaw as $hosp){
             foreach ($hosp->interventions as $i){
-                Log::info($i);
                 array_push($interventions, $i);
             }
-            //array_merge($interventions, $hosp->$interventions);
         }
         return response()->json([
             'exams' => $patient->exams,
