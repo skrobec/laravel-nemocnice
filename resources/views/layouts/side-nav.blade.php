@@ -44,7 +44,7 @@
 
             .content {
                 text-align: center;
-                height: 1200px;
+                height: 1300px;
             }
 
             .title {
@@ -82,7 +82,7 @@
             .side-nav {
                 width: 15%;
                 background-color: #F6F7F8;
-                height: 1200px;
+                height: 1300px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;

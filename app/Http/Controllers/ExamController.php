@@ -13,6 +13,10 @@ class ExamController extends Controller
         return view('mainViews.exams', ['exams' => Exam::all()]);
     }
 
+    public function showExamDetail(){
+        return view('detailViews.examDetail');
+    }
+
     public function addExam(Request $request){
         $request->validate([
             'date'=> 'required',

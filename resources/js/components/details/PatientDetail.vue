@@ -37,12 +37,11 @@
       <div class="interventions list scroll">
         <div class="title-box">
             <h4>Zákroky</h4>
-            <div class="details">
-                <div class="warning hidden" v-bind:class="{'shown': warning}">Pacient není hospitalizován</div>
-                <div class="ico-box cursor" v-on:click="link('interventionDetail')">
-                  <i class="material-icons">add</i>
-                </div>
+        
+            <div class="ico-box cursor" v-on:click="link('interventionDetail')">
+              <i class="material-icons">add</i>
             </div>
+
 
         </div>
         <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>

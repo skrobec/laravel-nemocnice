@@ -4318,16 +4318,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4336,6 +4326,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       examObj: {
         date: ''
       },
+      doctor: '',
       fields: {},
       errors: {},
       success: false,
@@ -4346,8 +4337,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       exams: [],
       nurses: [],
       patients: [],
-      section: '',
-      drug: '',
+      nurse: '',
       loadedExam: {
         date: ''
       },
@@ -4358,9 +4348,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: ''
       },
       patientObj: {
-        name: ''
-      },
-      sectionObj: {
         name: ''
       },
       drugObj: {
@@ -4379,25 +4366,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   computed: {
-    filteredSections: function filteredSections() {
+    filteredDoctors: function filteredDoctors() {
       var _this = this;
 
-      return this.section ? this.sections.filter(function (row) {
-        return row.name.search(new RegExp("".concat(_this.section), 'i')) !== -1;
-      }) : this.sections;
-    },
-    filteredDoctors: function filteredDoctors() {
-      var _this2 = this;
-
       return this.doctor ? this.doctors.filter(function (row) {
-        return row.name.search(new RegExp("".concat(_this2.doctor), 'i')) !== -1;
+        return row.name.search(new RegExp("".concat(_this.doctor), 'i')) !== -1;
       }) : this.doctors;
     },
     filteredNurses: function filteredNurses() {
-      var _this3 = this;
+      var _this2 = this;
 
       return this.nurse ? this.nurses.filter(function (row) {
-        return row.name.search(new RegExp("".concat(_this3.nurse), 'i')) !== -1;
+        return row.name.search(new RegExp("".concat(_this2.nurse), 'i')) !== -1;
       }) : this.nurses;
     }
   },
@@ -4427,42 +4407,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     getInfo: function getInfo() {
-      var _this4 = this;
+      var _this3 = this;
 
       axios.get('/exams/getAll').then(function (response) {
-        _this4.buffer = response.data;
+        _this3.buffer = response.data;
         return axios.get('/pat/get');
       }).then(function (response) {
-        _this4.patients = response.data;
-        _this4.patientObj = _this4.patients.find(function (pat) {
-          return pat.id == _this4.patientId;
+        _this3.patients = response.data;
+        _this3.patientObj = _this3.patients.find(function (pat) {
+          return pat.id == _this3.patientId;
         });
         return axios.get('/user/getDoctors');
       }).then(function (response) {
-        _this4.doctors = response.data;
+        _this3.doctors = response.data;
         return axios.get('/user/getNurses');
       }).then(function (response) {
-        _this4.nurses = response.data;
-        _this4.exams = buffer;
+        _this3.nurses = response.data;
+        _this3.exams = _this3.buffer;
 
-        if (_this4.examId !== undefined && _this4.examId !== null) {
-          _this4.getEditInfo();
+        if (_this3.examId !== undefined && _this3.examId !== null) {
+          _this3.getEditInfo();
         }
       });
       ;
     },
     getEditInfo: function getEditInfo() {
-      var _this5 = this;
+      var _this4 = this;
 
       axios.post('/exam/getInfo', {
         id: this.examId
       }).then(function (response) {
-        _this5.loadedExam = response.data;
-        _this5.loadedNurse = _this5.nurses.find(function (section) {
-          return section.id == _this5.loadedExam.doctor_id;
+        _this4.loadedExam = response.data;
+        console.log(_this4.loadedExam);
+        console.log('gangow');
+        _this4.loadedNurse = _this4.nurses.find(function (section) {
+          return section.userable_id == _this4.loadedExam.doctor_id;
         });
-        _this5.loadedDoctor = _this5.doctors.find(function (section) {
-          return section.id == _this5.loadedExam.nurse_id;
+        _this4.loadedDoctor = _this4.doctors.find(function (section) {
+          return section.userable_id == _this4.loadedExam.nurse_id;
         });
       });
     },
@@ -4470,7 +4452,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.patientObj.id);
     },
     submit: function submit() {
-      var _this6 = this;
+      var _this5 = this;
 
       if (this.loaded) {
         this.loaded = false;
@@ -4480,17 +4462,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.fields.sectionId = this.sectionObj.id;
         axios.post('/exam/add', this.fields).then(function (response) {
           console.log(response);
-          _this6.fields = {};
-          _this6.loaded = true;
-          _this6.success = true;
-          _this6.examId = response.id;
+          _this5.fields = {};
+          _this5.loaded = true;
+          _this5.success = true;
+          _this5.examId = response.id;
 
-          _this6.getEditInfo();
+          _this5.getEditInfo();
         })["catch"](function (error) {
-          _this6.loaded = true;
+          _this5.loaded = true;
 
           if (error.response.status === 422) {
-            _this6.errors = error.response.data.errors || {};
+            _this5.errors = error.response.data.errors || {};
           }
         });
       }
@@ -43324,7 +43306,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\n                        Úspěšně provedeno !\n                    "
+                          "\r\n                        Úspěšně provedeno !\r\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43733,7 +43715,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    Sestra\n                ")]
+            [_vm._v("\r\n                    Sestra\r\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -43747,7 +43729,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    Doktor\n                ")]
+            [_vm._v("\r\n                    Doktor\r\n                ")]
           )
         ])
       ]),
@@ -43860,7 +43842,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                    Úspěšně provedeno !\n                "
+                      "\r\n                    Úspěšně provedeno !\r\n                "
                     )
                   ])
                 : _vm._e()
@@ -43904,7 +43886,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "screen-center" }, [
     _c("div", { staticClass: "middle-container" }, [
-      _c("h2", [_vm._v("Hospitalizace")]),
+      _c("h2", [_vm._v("Vyšetření")]),
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "title-box" }, [
@@ -43952,7 +43934,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "section", type: "text" },
+            attrs: { id: "doctor", type: "text" },
             domProps: { value: _vm.doctor },
             on: {
               input: function($event) {
@@ -43972,7 +43954,7 @@ var render = function() {
                     return _c("li", {
                       key: result.id,
                       staticClass: "option",
-                      domProps: { textContent: _vm._s(result.doctor) },
+                      domProps: { textContent: _vm._s(result.name) },
                       on: {
                         click: function($event) {
                           return _vm.setDoctor(result.id)
@@ -44021,59 +44003,10 @@ var render = function() {
                     return _c("li", {
                       key: result.id,
                       staticClass: "option",
-                      domProps: { textContent: _vm._s(result.nurse) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setNurse(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.section,
-                expression: "section"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "section", type: "text" },
-            domProps: { value: _vm.section },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.section = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredSections.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredSections, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
                       domProps: { textContent: _vm._s(result.name) },
                       on: {
                         click: function($event) {
-                          return _vm.setSection(result.id)
+                          return _vm.setNurse(result.id)
                         }
                       }
                     })
@@ -44193,7 +44126,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "left" }, [
-      _c("label", { attrs: { for: "section" } }, [_vm._v("Doktor")])
+      _c("label", { attrs: { for: "doctor" } }, [_vm._v("Doktor")])
     ])
   },
   function() {
@@ -44202,14 +44135,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "left" }, [
       _c("label", { attrs: { for: "nurse" } }, [_vm._v("Sestra")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "left" }, [
-      _c("label", { attrs: { for: "section" } }, [_vm._v("Oddělení")])
     ])
   }
 ]
@@ -45279,7 +45204,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -58873,8 +58798,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

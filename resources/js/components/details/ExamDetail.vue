@@ -1,7 +1,7 @@
 <template>
 <div class="screen-center">
   <div class="middle-container">
-    <h2>Hospitalizace</h2>
+    <h2>Vyšetření</h2>
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
@@ -24,13 +24,13 @@
             <h4>{{this.loadedExam.record}}</h4>
         </div>
     </div>
-    <div class="left"><label for="section">Doktor</label></div>
+    <div class="left"><label for="doctor">Doktor</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="section" type="text" v-model="doctor">
+          <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
           <div class="option-container scroll">
               <ul v-if="filteredDoctors.length > 0">
-                  <li class="option" v-on:click="setDoctor(result.id)"  v-for="result in filteredDoctors" :key="result.id" v-text="result.doctor"></li>
+                  <li class="option" v-on:click="setDoctor(result.id)"  v-for="result in filteredDoctors" :key="result.id" v-text="result.name"></li>
               </ul>
           </div>
       </div>
@@ -41,22 +41,12 @@
           <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
           <div class="option-container scroll">
               <ul v-if="filteredNurses.length > 0">
-                  <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.nurse"></li>
+                  <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.name"></li>
               </ul>
           </div>
       </div>
     </div>
-    <div class="left"><label for="section">Oddělení</label></div>
-    <div  class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="section" type="text" v-model="section">
-          <div class="option-container scroll">
-              <ul v-if="filteredSections.length > 0">
-                  <li class="option" v-on:click="setSection(result.id)"  v-for="result in filteredSections" :key="result.id" v-text="result.name"></li>
-              </ul>
-          </div>
-      </div>
-    </div>
+
     <div class="forms-container">
             <div class="form-block">
                 <form @submit.prevent="submit">
@@ -171,6 +161,7 @@ export default {
       examObj: {
           date: ''
       },
+      doctor: '',
       fields: {},
       errors: {},
       success: false,
@@ -181,8 +172,7 @@ export default {
       exams: [],
       nurses: [],
       patients: [],
-      section: '',
-      drug: '',
+      nurse: '',
       loadedExam: {
           date: ''
       },
@@ -193,9 +183,6 @@ export default {
           name: ''
       },
       patientObj: {
-          name: ''
-      },
-      sectionObj: {
           name: ''
       },
       drugObj: {
@@ -220,9 +207,6 @@ export default {
 
   },
   computed: {
-    filteredSections () {
-      return this.section ? this.sections.filter(row => row.name.search(new RegExp(`${this.section}`, 'i')) !== -1) : this.sections;
-    },
     filteredDoctors () {
       return this.doctor ? this.doctors.filter(row => row.name.search(new RegExp(`${this.doctor}`, 'i')) !== -1) : this.doctors;
     },
@@ -261,7 +245,7 @@ export default {
         }).then( response => {
             
             this.nurses = response.data;
-            this.exams = buffer;
+            this.exams = this.buffer;
             if (this.examId !== undefined && this.examId !== null ) {
                     this.getEditInfo();
             }     
@@ -271,8 +255,10 @@ export default {
 
         axios.post('/exam/getInfo',{id: this.examId}).then(response => {
           this.loadedExam = response.data;
-          this.loadedNurse = this.nurses.find(section => section.id == this.loadedExam.doctor_id );
-          this.loadedDoctor = this.doctors.find(section => section.id == this.loadedExam.nurse_id );
+          console.log(this.loadedExam);
+          console.log('gangow');
+          this.loadedNurse = this.nurses.find(section => section.userable_id == this.loadedExam.doctor_id );
+          this.loadedDoctor = this.doctors.find(section => section.userable_id == this.loadedExam.nurse_id );
         
         });
     },

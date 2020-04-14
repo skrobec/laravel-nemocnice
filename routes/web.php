@@ -117,3 +117,8 @@ Route::post('/hospitalization/getInfo', 'HospitalizationController@getHospitaliz
 // USER routes
 Route::get('/user/getNurses', 'UserController@getNurseUsers');
 Route::get('/user/getDoctors', 'UserController@getDoctorUsers');
+
+
+// EXam
+Route::get('/examDetail', 'ExamController@showExamDetail');
+Route::post('/exam/getInfo', 'ExamController@getExamInfo');
