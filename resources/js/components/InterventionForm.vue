@@ -177,6 +177,7 @@ export default {
            
             this.interventions = this.buffer.map( intervention => {
                 return {
+                    id: intervention.id,
                     date: intervention.date,
                     hospitalization_id: intervention.hospitalization_id,
                     record: intervention.record,

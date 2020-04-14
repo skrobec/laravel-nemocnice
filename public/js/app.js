@@ -2563,6 +2563,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.sections = response.data;
         _this2.exams = _this2.buffer.map(function (exam) {
           return {
+            id: exam.id,
             date: exam.date,
             patient_id: exam.patient_id,
             doctor_id: exam.doctor_id,
@@ -2831,10 +2832,11 @@ __webpack_require__.r(__webpack_exports__);
         _this2.sections = response.data;
         _this2.hospitalizations = _this2.buffer.map(function (hospitalization) {
           return {
-            start_date: hospitalization.start_date,
+            id: hospitalization.id,
+            date_start: hospitalization.date_start,
             patient_id: hospitalization.patient_id,
             section_id: hospitalization.section_id,
-            end_date: hospitalization.end_date,
+            date_end: hospitalization.date_end,
             reason: hospitalization.reason,
             patientName: _this2.patients.find(function (pat) {
               return pat.id == hospitalization.patient_id;
@@ -3061,6 +3063,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.hospitalizations = response.data;
         _this2.interventions = _this2.buffer.map(function (intervention) {
           return {
+            id: intervention.id,
             date: intervention.date,
             hospitalization_id: intervention.hospitalization_id,
             record: intervention.record,
@@ -3832,8 +3835,8 @@ __webpack_require__.r(__webpack_exports__);
         return pat.id == id;
       }).name;
     },
-    connect: function connect(id) {
-      window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id;
+    connect: function connect(id, patient_id) {
+      window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id;
     },
     prepareEdit: function prepareEdit(id) {
       var serving = this.servings.find(function (pat) {
@@ -4700,6 +4703,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var urlParams = new URL(queryString);
     this.patientId = urlParams.searchParams.get('patientId');
     this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
+    console.log(this.hospitalizationId);
 
     if (this.patientId !== undefined && this.patientId !== null) {
       this.getInfo();
@@ -4749,14 +4753,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post('/hospitalization/getInfo', {
         id: this.hospitalizationId
       }).then(function (response) {
-        _this3.hospitalizationObj = response.data;
+        _this3.loadedHospitalization = response.data;
         _this3.loadedSection = _this3.sections.find(function (section) {
-          return section.id == result;
+          return section.id == _this3.loadedHospitalization.section_id;
         });
-        _this3.sectionObj = _this3.sections.find(function (section) {
-          return section.id == result;
-        });
-        _this3.section = _this3.sectionObj.name;
       });
     },
     relink: function relink() {
@@ -5360,7 +5360,7 @@ __webpack_require__.r(__webpack_exports__);
     relink: function relink() {
       window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.parentData.id);
     },
-    link: function link(destination) {
+    link: function link(destination, parameter) {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
     setDoctor: function setDoctor() {
@@ -5658,19 +5658,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: this.servingId
       }).then(function (response) {
         _this4.servingObj = response.data;
+        console.log(_this4.servingObj);
         _this4.loadedNurse = _this4.nurses.find(function (nurse) {
-          return nurse.id == result;
+          return nurse.userable_id == _this4.servingObj.nurse_id;
         });
         _this4.nurseObj = _this4.nurses.find(function (nurse) {
-          return nurse.id == result;
+          return nurse.userable_id == _this4.servingObj.nurse_id;
         });
         _this4.nurse = _this4.nurseObj.name;
         _this4.drug = _this4.drugs.find(function (drug) {
-          return drug.id == result;
+          return drug.id == _this4.servingObj.drug_id;
         }).name;
         _this4.drugObj = _this4.drugs.find(function (drug) {
-          return drug.id == result;
+          return drug.id == _this4.servingObj.drug_id;
         });
+        console.log('ok');
+        console.log(_this4.loadedNurse);
       });
     },
     relink: function relink() {
@@ -43662,7 +43665,8 @@ var render = function() {
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
-                        "Jméno pacienta: " + _vm._s(_vm.getPatient(serving.id))
+                        "Jméno pacienta: " +
+                          _vm._s(_vm.getPatient(serving.patient_id))
                       )
                     ]),
                     _vm._v(" "),
@@ -43672,7 +43676,7 @@ var render = function() {
                         staticClass: "connect",
                         on: {
                           click: function($event) {
-                            return _vm.connect(serving.id)
+                            return _vm.connect(serving.id, serving.patient_id)
                           }
                         }
                       },
@@ -44287,7 +44291,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.loadedHospitalization.date))])
+          _c("div", [_vm._v(_vm._s(this.loadedHospitalization.date_start))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -45232,7 +45236,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "drug" } }, [
+                _c("label", { attrs: { for: "drugQ" } }, [
                   _vm._v("Množství léku")
                 ]),
                 _vm._v(" "),
@@ -45246,7 +45250,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control standard-input shadow-none",
-                  attrs: { type: "number", name: "drug", id: "drug" },
+                  attrs: { type: "number", name: "drugQ", id: "drugQ" },
                   domProps: { value: _vm.fields.quantity },
                   on: {
                     input: function($event) {

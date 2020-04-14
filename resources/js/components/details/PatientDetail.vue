@@ -195,7 +195,7 @@ export default {
       window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.parentData.id);
 
     },
-    link(destination) {
+    link(destination, parameter) {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
     setDoctor(){

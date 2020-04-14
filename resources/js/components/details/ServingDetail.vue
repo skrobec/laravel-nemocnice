@@ -48,8 +48,8 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="drug">Množství léku</label>
-                        <input type="number" class="form-control standard-input shadow-none" name="drug" id="drug" v-model="fields.quantity" />
+                        <label for="drugQ">Množství léku</label>
+                        <input type="number" class="form-control standard-input shadow-none" name="drugQ" id="drugQ" v-model="fields.quantity" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
@@ -240,11 +240,14 @@ export default {
 
         axios.post('/serving/getInfo',{id: this.servingId}).then(response => {
           this.servingObj = response.data;
-          this.loadedNurse = this.nurses.find(nurse => nurse.id == result );
-          this.nurseObj = this.nurses.find(nurse => nurse.id == result );
+            console.log(this.servingObj);
+          this.loadedNurse = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );
+          this.nurseObj = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );
           this.nurse = this.nurseObj.name;
-          this.drug = this.drugs.find(drug => drug.id == result ).name;
-          this.drugObj = this.drugs.find(drug => drug.id == result );
+          this.drug = this.drugs.find(drug => drug.id == this.servingObj.drug_id ).name;
+          this.drugObj = this.drugs.find(drug => drug.id == this.servingObj.drug_id );
+          console.log('ok');
+          console.log(this.loadedNurse);
         });
     },
     relink() {

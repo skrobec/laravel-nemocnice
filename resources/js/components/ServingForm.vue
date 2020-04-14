@@ -12,8 +12,8 @@
             <div class="serving-block">
                 <div class="serving-item" v-for="serving of filteredResults" v-bind:key="serving.date">
                     <span>Datum: {{serving.date}}</span>
-                    <span>Jméno pacienta: {{getPatient(serving.id)}}</span>
-                    <div v-on:click="connect(serving.id)" class="connect">
+                    <span>Jméno pacienta: {{getPatient(serving.patient_id)}}</span>
+                    <div v-on:click="connect(serving.id,serving.patient_id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
                     <div v-on:click="deleteServing(serving.id)" class="delete">
@@ -156,8 +156,8 @@ export default {
         console.log(id);
         return this.patients.find(pat => pat.id == id).name;
     },
-    connect(id){
-         window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id;
+    connect(id,patient_id){
+         window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id ;
     },
     prepareEdit(id){
         const serving = this.servings.find(pat => pat.id == id);

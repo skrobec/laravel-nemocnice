@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedHospitalization.date}}</div>
+            <div>{{this.loadedHospitalization.date_start}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -180,6 +180,7 @@ export default {
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
       this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
+      console.log(this.hospitalizationId);
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
@@ -218,7 +219,7 @@ export default {
 
         axios.post('/hospitalization/getInfo',{id: this.hospitalizationId}).then(response => {
           this.loadedHospitalization = response.data;
-          this.loadedSection = this.sections.find(section => section.id == result );
+          this.loadedSection = this.sections.find(section => section.id == this.loadedHospitalization.section_id );
         });
     },
     relink() {

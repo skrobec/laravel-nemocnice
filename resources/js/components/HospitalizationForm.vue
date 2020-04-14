@@ -183,10 +183,11 @@ export default {
             this.sections = response.data;
             this.hospitalizations = this.buffer.map( hospitalization => {
                 return {
-                    start_date: hospitalization.start_date,
+                    id: hospitalization.id,
+                    date_start: hospitalization.date_start,
                     patient_id: hospitalization.patient_id,
                     section_id: hospitalization.section_id,
-                    end_date: hospitalization.end_date,
+                    date_end: hospitalization.date_end,
                     reason: hospitalization.reason,
                     patientName: this.patients.find(pat => pat.id == hospitalization.patient_id).name
                     }

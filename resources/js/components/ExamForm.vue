@@ -175,6 +175,7 @@ export default {
             this.sections = response.data;
             this.exams = this.buffer.map( exam => {
                 return {
+                    id: exam.id,
                     date: exam.date,
                     patient_id: exam.patient_id,
                     doctor_id: exam.doctor_id,
