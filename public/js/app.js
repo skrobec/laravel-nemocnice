@@ -3038,11 +3038,11 @@ __webpack_require__.r(__webpack_exports__);
       }).name;
     },
     getHospitalization: function getHospitalization(id) {
-      console.log(this.patients);
-      console.log(id);
+      console.log(this.hospitalizations);
+      console.log(id + 'hospsdfdfdfsbdsfg');
       return this.hospitalizations.find(function (pat) {
         return pat.id == id;
-      }).name;
+      }).date_start;
     },
     connect: function connect(id, patientId) {
       window.location.href = "http://homestead.test/" + "interventionDetail" + "?interventionId=" + id + "&patientId=" + patientId;
@@ -3794,7 +3794,8 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       servingId: 0,
       detail: false,
-      detailProp: {}
+      detailProp: {},
+      buffer: []
     };
   },
   created: function created() {
@@ -3824,9 +3825,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(id);
       return this.patients.find(function (pat) {
         return pat.id == id;
-      }).name["this"].patients.find(function (pat) {
-        return pat.id;
-      });
+      }).name;
     },
     connect: function connect(id, patient_id) {
       window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id;
@@ -3846,14 +3845,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/servings/getAll').then(function (response) {
         console.log(_this2.enterId);
-        _this2.servings = response.data;
-
+        _this2.buffer = response.data;
+      });
+      axios.get('/pat/get').then(function (response) {
         if (_this2.enterId !== 0) {
           _this2.connect(_this2.enterId);
         }
-      });
-      axios.get('/pat/get').then(function (response) {
+
         _this2.patients = response.data;
+        _this2.servings = _this2.buffer;
       });
     },
     deleteServing: function deleteServing(id) {
@@ -4749,11 +4749,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         _this3.loadedHospitalization = response.data;
         _this3.loadedSection = _this3.sections.find(function (section) {
-<<<<<<< HEAD
           return section.id == _this3.loadedHospitalization.section_id;
-=======
-          return section.id == result;
->>>>>>> 81de7e44f85db6212ba3616c94c92ca2ced3b0c7
         });
       });
     },
@@ -5346,7 +5342,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/patient/getInfo', {
         id: this.parentData.id
       }).then(function (response) {
-        console.log(response);
         _this2.exams = response.exams;
         _this2.hospitalizations = response.hospitalizations;
         _this2.interventions = response.interventions;
@@ -43035,7 +43030,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
-                        "Jméno hospitalizace: " +
+                        "Začátek hospitalizace: " +
                           _vm._s(
                             _vm.getHospitalization(
                               intervention.hospitalization_id
@@ -43045,7 +43040,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("span", [
-                      _vm._v("Důvod: " + _vm._s(intervention.reason))
+                      _vm._v("Průběh: " + _vm._s(intervention.record))
                     ]),
                     _vm._v(" "),
                     _c(
@@ -43333,7 +43328,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\n                        Úspěšně provedeno !\n                    "
+                          "\r\n                        Úspěšně provedeno !\r\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43743,7 +43738,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                    Sestra\n                ")]
+              [_vm._v("\r\n                    Sestra\r\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -43757,7 +43752,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                    Doktor\n                ")]
+              [_vm._v("\r\n                    Doktor\r\n                ")]
             )
           ])
         ])
@@ -43871,7 +43866,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                    Úspěšně provedeno !\n                "
+                      "\r\n                    Úspěšně provedeno !\r\n                "
                     )
                   ])
                 : _vm._e()
@@ -44417,7 +44412,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -45262,7 +45257,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -58856,8 +58851,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
