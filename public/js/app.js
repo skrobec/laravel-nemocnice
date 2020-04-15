@@ -4114,6 +4114,7 @@ __webpack_require__.r(__webpack_exports__);
     getInfo: function getInfo() {
       var _this2 = this;
 
+      console.log('spiceny curakwel');
       this.user = this.parentData;
       console.log(this.user);
       axios.post('/user/getInfo', {
@@ -5097,7 +5098,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         // TODO need more data
         _this6.interventionObj = response.data;
-        console.log(_this6.interventionObj);
         _this6.chosenNurses = _this6.interventionObj.nurses;
         _this6.chosenDoctors = _this6.interventionObj.doctors;
       });
@@ -43313,7 +43313,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\n                        Úspěšně provedeno !\n                    "
+                          "\r\n                        Úspěšně provedeno !\r\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43728,7 +43728,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    Sestra\n                ")]
+            [_vm._v("\r\n                    Sestra\r\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -43742,7 +43742,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    Doktor\n                ")]
+            [_vm._v("\r\n                    Doktor\r\n                ")]
           )
         ])
       ]),
@@ -43857,7 +43857,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                    Úspěšně provedeno !\n                "
+                      "\r\n                    Úspěšně provedeno !\r\n                "
                     )
                   ])
                 : _vm._e()
@@ -44707,7 +44707,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -58802,8 +58802,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

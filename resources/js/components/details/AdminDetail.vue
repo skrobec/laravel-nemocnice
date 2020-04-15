@@ -14,7 +14,7 @@
         </div>
         <div class="title-box">
             <h4>Datum nástupu</h4>
-            <div>{{this.user.start_date}}</div>
+            <div>{{this.user.entry_date}}</div>
         </div>
         <div class="title-box">
             <h4>Datum ukončení</h4>
@@ -158,7 +158,8 @@ export default {
       editing: false,
       results: [],
       section: '',
-      sectionId: ''
+      sectionId: '',
+      userInfo: {}
     }
   },
   created(){
@@ -194,11 +195,14 @@ export default {
 
         this.user = this.parentData;
          console.log(this.user);
+         
         axios.post('/user/getInfo', {id:this.user.id}).then(response => {
-          console.log("cosi");
-            console.log(response);
-          this.results = response.data;
 
+          this.userInfo = response.data;
+          return axios.get('/sections/getAll');
+        }).then(response => {
+          this.results = response.data;
+          this.section = this.results.find(sec => sec.id == section_id).name;
         });
     },
     submit(){
