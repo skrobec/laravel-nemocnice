@@ -9,7 +9,7 @@
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
-            <a><h4>{{this.patientObj.name}}</h4></a>
+            <a :href="'/patients?id=' + this.patientId"><h4>{{this.patientObj.name}}</h4></a>
         </div>
         <div class="title-box">
             <h4>Oddělení</h4>

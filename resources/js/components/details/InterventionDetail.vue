@@ -4,6 +4,10 @@
     <h2>Zákrok</h2>
     <div class="patient-info">
         <div class="title-box">
+            <h4>Jméno</h4>
+            <a :href="'/patients?id=' + this.patientId"><h4>{{this.patientObj.name}}</h4></a>
+        </div>
+        <div class="title-box">
             <h4>Datum</h4>
             <div>{{this.interventionObj.date}}</div>
         </div>
