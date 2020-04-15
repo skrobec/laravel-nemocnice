@@ -4054,6 +4054,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4112,7 +4116,10 @@ __webpack_require__.r(__webpack_exports__);
 
       this.user = this.parentData;
       console.log(this.user);
-      axios.get('/sections/getAll').then(function (response) {
+      axios.post('/user/getInfo', {
+        id: this.user.id
+      }).then(function (response) {
+        console.log("cosi");
         console.log(response);
         _this2.results = response.data;
       });
@@ -5088,8 +5095,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post('/intervention/getInfo', {
         id: this.interventionId
       }).then(function (response) {
-        // TODO need more data 
+        // TODO need more data
         _this6.interventionObj = response.data;
+        console.log(_this6.interventionObj);
         _this6.chosenNurses = _this6.interventionObj.nurses;
         _this6.chosenDoctors = _this6.interventionObj.doctors;
       });
@@ -43305,7 +43313,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\r\n                        Úspěšně provedeno !\r\n                    "
+                          "\n                        Úspěšně provedeno !\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43685,19 +43693,25 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("h2", [_vm._v("Uživatel: " + _vm._s(_vm.parentData.name))]),
+      _c("h2", [_vm._v("Správa uživatele")]),
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Jméno")]),
+          _vm._v(" "),
+          _c("div", [_vm._v(_vm._s(this.user.name))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum nástupu")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.user.date))])
+          _c("div", [_vm._v(_vm._s(this.user.start_date))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum ukončení")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.user.date))])
+          _c("div", [_vm._v(_vm._s(this.user.termination_date))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -43714,7 +43728,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\r\n                    Sestra\r\n                ")]
+            [_vm._v("\n                    Sestra\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -43728,7 +43742,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\r\n                    Doktor\r\n                ")]
+            [_vm._v("\n                    Doktor\n                ")]
           )
         ])
       ]),
@@ -43796,7 +43810,9 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
+                _c("label", { attrs: { for: "date" } }, [
+                  _vm._v("Datum nástupu")
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -43841,7 +43857,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                    Úspěšně provedeno !\r\n                "
+                      "\n                    Úspěšně provedeno !\n                "
                     )
                   ])
                 : _vm._e()
@@ -44691,7 +44707,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -58786,8 +58802,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

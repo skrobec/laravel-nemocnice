@@ -17,7 +17,7 @@ class CreateNursesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('section_id');
             $table->dateTime('entry_date');
-            $table->dateTime('termination_date');
+            $table->dateTime('termination_date')->nullable();
             $table->timestamps();
         });
     }

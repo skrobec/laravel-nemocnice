@@ -90,13 +90,12 @@ class InterventionController extends Controller
     public function getInterventionInfo(Request $request) {
         $intervention = Intervention::find($request->id);
 
-
         return response()->json([
             'date' => $intervention->date,
             'patient_id' => $intervention->patient_id,
             'record' => $intervention->record,
-            'doctors' => $intervention->doctors,
-            'nurses' => $intervention->nurses,
+            'doctors' => $intervention->doctors()->with('user')->get(),
+            'nurses' => $intervention->nurses()->with('user')->get(),
         ], 201);
     }
 }
