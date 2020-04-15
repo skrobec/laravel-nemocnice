@@ -21,29 +21,21 @@ class PatientController extends Controller {
 
     public function addPatients(Request $request){
 
-        $rules = array(
-            'name'       => 'required',
+        $request->validate([
+            'name' => 'required',
             'issues' => 'required'
-        );
-        $validator = Validator::make($request->all(), $rules);
+        ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'msg'    => 'Error',
-                'errors' => $validator->messages()->get('*'),
-            ], 422);
-        } else {
-            $patient = new Patient;
-            $patient->name = $request->name;
-            $patient->issues = $request->issues;
-            $patient->save();
+        $patient = new Patient([
+            'name' => $request->get('name'),
+            'issues' => $request->get('issues')
+        ]);
 
-            return response()->json([
-                'status' => 'success',
-                'msg'    => 'Okay',
-            ], 201);
-        }
+        $patient->save();
+        return response()->json([
+            'status' => 'success',
+            'msg'    => 'Okay',
+        ], 201);
     }
 
     public function editPatient(Request $request){

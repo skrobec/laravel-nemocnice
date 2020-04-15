@@ -17,7 +17,7 @@ class CreatePatientsTable extends Migration
             $table->bigIncrements('id');
             $table->char('name',255);
             $table->text('issues');
-            $table->unsignedInteger('doctor_id');
+            $table->unsignedInteger('doctor_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

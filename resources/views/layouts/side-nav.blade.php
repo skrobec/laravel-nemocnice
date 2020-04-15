@@ -146,7 +146,7 @@
     <body>
     <div class="acc-manage">
         <a href="{{ route('logout') }}">
-            Logout
+            Odhlásit
         </a>
     </div>
     <div class="main-container">
@@ -179,7 +179,7 @@
                 <div class="ico-box"><i class="material-icons">airline_seat_individual_suite</i></div>
                 <span>Hospitalizace</span>
             </div>
-            @if (Auth::user()->isAdmin())            
+            @if (Auth::user()->isAdmin())
                 <div  onclick="window.location='{{URL::route('admin')}}'" class="nav-item">
                     <div class="ico-box"><i class="material-icons">group</i></div>
                     <span>Administrace</span>

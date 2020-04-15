@@ -47,7 +47,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Přidat</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>

@@ -57,13 +57,13 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="reason">Průběh</label>
+                        <label for="record">Průběh</label>
                         <input type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <button type="submit" class="btn btn-primary">Přidat</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -202,8 +202,8 @@ export default {
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
       }
-     
-      
+
+
 
   },
   computed: {
@@ -234,21 +234,21 @@ export default {
           this.buffer = response.data;
           return  axios.get('/pat/get');
         }).then( response => {
-            this.patients = response.data;  
+            this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             return  axios.get('/user/getDoctors');
-           
+
         }).then( response => {
-            
+
              this.doctors = response.data;
             return  axios.get('/user/getNurses');
         }).then( response => {
-            
+
             this.nurses = response.data;
             this.exams = this.buffer;
             if (this.examId !== undefined && this.examId !== null ) {
                     this.getEditInfo();
-            }     
+            }
         });;
     },
     getEditInfo(){
@@ -259,7 +259,7 @@ export default {
           console.log('gangow');
           this.loadedNurse = this.nurses.find(section => section.userable_id == this.loadedExam.doctor_id );
           this.loadedDoctor = this.doctors.find(section => section.userable_id == this.loadedExam.nurse_id );
-        
+
         });
     },
     relink() {
@@ -274,7 +274,7 @@ export default {
         this.fields.sectionId = this.sectionObj.id;
         axios.post('/exam/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.examId = response.id;

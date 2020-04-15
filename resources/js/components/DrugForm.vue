@@ -1,6 +1,6 @@
 <template>
 <div class="full">
-    
+
     <div class="wrap">
         <h1>Léky</h1>
         <div class="drug-container">
@@ -28,16 +28,16 @@
                         <input type="text" class="form-control standard-input shadow-none" name="name" id="name" v-model="fields.name" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
+
                     <div class="form-group input-container">
                         <label for="email">Popis</label>
                         <input type="text" class="form-control standard-input shadow-none" name="description" id="description" v-model="fields.description" />
                         <div v-if="errors && errors.description" class="text-danger">{{ errors.description[0] }}</div>
                     </div>
-                
 
-                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editDrug()" class="btn btn-primary">Edit</button>
+
+                    <button v-if="!editing" type="submit" class="btn btn-primary">Přidat</button>
+                    <button v-if="editing" v-on:click="editDrug()" class="btn btn-primary">Upravit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -166,8 +166,8 @@ export default {
           this.enterId = id;
       }
       this.getDrugs();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -175,7 +175,7 @@ export default {
     }
   },
   methods: {
- 
+
     prepareEdit(id){
         const drug = this.drugs.find(pat => pat.id == id);
         this.fields.name = drug.name;
@@ -206,7 +206,7 @@ export default {
             this.fields.id = this.drugId;
             axios.post('/drugs/edit', this.fields).then(response => {
             console.log(response);
-            this.fields = {}; 
+            this.fields = {};
             this.loaded = true;
             this.success = true;
             this.getDrugs();
@@ -225,7 +225,7 @@ export default {
         this.errors = {};
         axios.post('/drugs/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.getDrugs();

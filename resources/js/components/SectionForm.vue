@@ -1,6 +1,6 @@
 <template>
 <div class="full">
-    
+
     <div class="wrap">
         <h1>Oddělení</h1>
         <div class="section-container">
@@ -28,16 +28,16 @@
                         <input type="text" class="form-control standard-input shadow-none" name="name" id="name" v-model="fields.name" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                
+
                     <div class="form-group input-container">
                         <label for="capacity">Kapacita</label>
                         <input type="text" class="form-control standard-input shadow-none" name="capacity" id="capacity" v-model="fields.capacity" />
                         <div v-if="errors && errors.capacity" class="text-danger">{{ errors.capacity[0] }}</div>
                     </div>
-                
 
-                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editSection()" class="btn btn-primary">Edit</button>
+
+                    <button v-if="!editing" type="submit" class="btn btn-primary">Přidat</button>
+                    <button v-if="editing" v-on:click="editSection()" class="btn btn-primary">Upravit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
@@ -166,8 +166,8 @@ export default {
           this.enterId = id;
       }
       this.getSections();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -175,7 +175,7 @@ export default {
     }
   },
   methods: {
- 
+
     prepareEdit(id){
         const section = this.sections.find(pat => pat.id == id);
         this.fields.name = section.name;
@@ -206,7 +206,7 @@ export default {
             this.fields.id = this.sectionId;
             axios.post('/sections/edit', this.fields).then(response => {
             console.log(response);
-            this.fields = {}; 
+            this.fields = {};
             this.loaded = true;
             this.success = true;
             this.getSections();
@@ -225,7 +225,7 @@ export default {
         this.errors = {};
         axios.post('/sections/add', this.fields).then(response => {
           console.log(response);
-          this.fields = {}; 
+          this.fields = {};
           this.loaded = true;
           this.success = true;
           this.getSections();
