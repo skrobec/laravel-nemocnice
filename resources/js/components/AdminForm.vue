@@ -10,7 +10,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenUser" type="text" v-model="chosenUser">
             </div>
             <div class="user-block">
-                <div class="user-item" v-for="user of filteredResults" v-bind:key="user.name">
+                <div class="user-item" v-for="user of filteredResults" v-bind:key="user.id">
                     <span>Jméno: {{user.name}}</span>
                     <span>Datum nástupu: {{user.date}}</span>
                     <div v-on:click="connect(user.id)" class="connect">

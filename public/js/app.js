@@ -42360,7 +42360,7 @@ var render = function() {
               "div",
               { staticClass: "user-block" },
               _vm._l(_vm.filteredResults, function(user) {
-                return _c("div", { key: user.name, staticClass: "user-item" }, [
+                return _c("div", { key: user.id, staticClass: "user-item" }, [
                   _c("span", [_vm._v("Jméno: " + _vm._s(user.name))]),
                   _vm._v(" "),
                   _c("span", [_vm._v("Datum nástupu: " + _vm._s(user.date))]),
@@ -42461,7 +42461,7 @@ var render = function() {
           "div",
           { staticClass: "drug-block" },
           _vm._l(_vm.filteredResults, function(drug) {
-            return _c("div", { key: drug.name, staticClass: "drug-item" }, [
+            return _c("div", { key: drug.id, staticClass: "drug-item" }, [
               _c("span", [_vm._v("Jméno: " + _vm._s(drug.name))]),
               _vm._v(" "),
               _c("span", [_vm._v("Popis: " + _vm._s(drug.description))]),
@@ -42675,7 +42675,7 @@ var render = function() {
               "div",
               { staticClass: "exam-block" },
               _vm._l(_vm.filteredResults, function(exam) {
-                return _c("div", { key: exam.date, staticClass: "exam-item" }, [
+                return _c("div", { key: exam.id, staticClass: "exam-item" }, [
                   _c("span", [_vm._v("Datum začátku: " + _vm._s(exam.date))]),
                   _vm._v(" "),
                   _c("span", [
@@ -42835,7 +42835,7 @@ var render = function() {
                 return _c(
                   "div",
                   {
-                    key: hospitalization.date_start,
+                    key: hospitalization.id,
                     staticClass: "hospitalization-item"
                   },
                   [
@@ -42971,7 +42971,7 @@ var render = function() {
               _vm._l(_vm.filteredResults, function(intervention) {
                 return _c(
                   "div",
-                  { key: intervention.date, staticClass: "intervention-item" },
+                  { key: intervention.id, staticClass: "intervention-item" },
                   [
                     _c("span", [_vm._v("Datum: " + _vm._s(intervention.date))]),
                     _vm._v(" "),
@@ -43100,7 +43100,7 @@ var render = function() {
               _vm._l(_vm.filteredResults, function(patient) {
                 return _c(
                   "div",
-                  { key: patient.name, staticClass: "patient-item" },
+                  { key: patient.id, staticClass: "patient-item" },
                   [
                     _c("span", [_vm._v("Jméno: " + _vm._s(patient.name))]),
                     _vm._v(" "),
@@ -43337,45 +43337,37 @@ var render = function() {
           "div",
           { staticClass: "section-block" },
           _vm._l(_vm.filteredResults, function(section) {
-            return _c(
-              "div",
-              { key: section.name, staticClass: "section-item" },
-              [
-                _c("span", [_vm._v("Jméno: " + _vm._s(section.name))]),
-                _vm._v(" "),
-                _c("span", [_vm._v("Kapacita: " + _vm._s(section.capacity))]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "delete",
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteSection(section.id)
-                      }
+            return _c("div", { key: section.id, staticClass: "section-item" }, [
+              _c("span", [_vm._v("Jméno: " + _vm._s(section.name))]),
+              _vm._v(" "),
+              _c("span", [_vm._v("Kapacita: " + _vm._s(section.capacity))]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "delete",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteSection(section.id)
                     }
-                  },
-                  [
-                    _c("i", { staticClass: "material-icons" }, [
-                      _vm._v("clear")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "edit",
-                    on: {
-                      click: function($event) {
-                        return _vm.prepareEdit(section.id)
-                      }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "edit",
+                  on: {
+                    click: function($event) {
+                      return _vm.prepareEdit(section.id)
                     }
-                  },
-                  [_c("i", { staticClass: "material-icons" }, [_vm._v("edit")])]
-                )
-              ]
-            )
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("edit")])]
+              )
+            ])
           }),
           0
         )
@@ -43559,7 +43551,7 @@ var render = function() {
               _vm._l(_vm.filteredResults, function(serving) {
                 return _c(
                   "div",
-                  { key: serving.date, staticClass: "serving-item" },
+                  { key: serving.id, staticClass: "serving-item" },
                   [
                     _c("span", [_vm._v("Datum: " + _vm._s(serving.date))]),
                     _vm._v(" "),

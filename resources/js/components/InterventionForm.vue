@@ -10,7 +10,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenIntervention" type="text" v-model="chosenIntervention">
             </div>
             <div class="intervention-block">
-                <div class="intervention-item" v-for="intervention of filteredResults" v-bind:key="intervention.date">
+                <div class="intervention-item" v-for="intervention of filteredResults" v-bind:key="intervention.id">
                     <span>Datum: {{intervention.date}}</span>
                     <span>Jméno pacienta: {{getPatient(intervention.patient_id)}}</span>
                     <span>Průběh: {{intervention.record}}</span>

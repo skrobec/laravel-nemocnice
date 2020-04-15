@@ -10,7 +10,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenHospitalization" type="text" v-model="chosenHospitalization">
             </div>
             <div class="hospitalization-block">
-                <div class="hospitalization-item" v-for="hospitalization of filteredResults" v-bind:key="hospitalization.date_start">
+                <div class="hospitalization-item" v-for="hospitalization of filteredResults" v-bind:key="hospitalization.id">
                     <span>Datum začátku: {{hospitalization.date_start}}</span>
                     <span>Datum konce: {{hospitalization.date_end}}</span>
                     <span>Jméno pacienta: {{getPatient(hospitalization.patient_id)}}</span>

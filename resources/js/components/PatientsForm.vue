@@ -10,7 +10,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenPatient" type="text" v-model="chosenPatient">
             </div>
             <div class="patient-block">
-                <div class="patient-item" v-for="patient of filteredResults" v-bind:key="patient.name">
+                <div class="patient-item" v-for="patient of filteredResults" v-bind:key="patient.id">
                     <span>Jméno: {{patient.name}}</span>
                     <span>Potíže: {{patient.issues}}</span>
                     <div v-on:click="connect(patient.id)" class="p_connect">

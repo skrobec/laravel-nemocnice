@@ -10,7 +10,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenServing" type="text" v-model="chosenServing">
             </div>
             <div class="serving-block">
-                <div class="serving-item" v-for="serving of filteredResults" v-bind:key="serving.date">
+                <div class="serving-item" v-for="serving of filteredResults" v-bind:key="serving.id">
                     <span>Datum: {{serving.date}}</span>
                     <span>Jméno pacienta: {{getPatient(serving.patient_id)}}</span>
                     <div v-on:click="connect(serving.id,serving.patient_id)" class="connect">

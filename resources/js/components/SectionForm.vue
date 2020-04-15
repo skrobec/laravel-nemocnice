@@ -8,7 +8,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenSection" type="text" v-model="chosenSection">
             </div>
             <div class="section-block">
-                <div class="section-item" v-for="section of filteredResults" v-bind:key="section.name">
+                <div class="section-item" v-for="section of filteredResults" v-bind:key="section.id">
                     <span>Jméno: {{section.name}}</span>
                     <span>Kapacita: {{section.capacity}}</span>
                     <div v-on:click="deleteSection(section.id)" class="delete">

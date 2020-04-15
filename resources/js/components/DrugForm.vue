@@ -8,7 +8,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenDrug" type="text" v-model="chosenDrug">
             </div>
             <div class="drug-block">
-                <div class="drug-item" v-for="drug of filteredResults" v-bind:key="drug.name">
+                <div class="drug-item" v-for="drug of filteredResults" v-bind:key="drug.id">
                     <span>Jméno: {{drug.name}}</span>
                     <span>Popis: {{drug.description}}</span>
                     <div v-on:click="deleteDrug(drug.id)" class="delete">

@@ -10,7 +10,7 @@
                 <input class="form-control standard-input shadow-none" id="chosenExam" type="text" v-model="chosenExam">
             </div>
             <div class="exam-block">
-                <div class="exam-item" v-for="exam of filteredResults" v-bind:key="exam.date">
+                <div class="exam-item" v-for="exam of filteredResults" v-bind:key="exam.id">
                     <span>Datum začátku: {{exam.date}}</span>
                     <span>Jméno pacienta: {{getPatient(exam.patient_id)}}</span>
                     <!--span>Jméno oddělení: {{getSection(exam.section_id)}}</span-->
