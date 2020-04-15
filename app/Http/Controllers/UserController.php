@@ -49,16 +49,23 @@ class UserController extends Controller
         $job->save();
         $user->userable_id=$job->id;
         $user->save();
-        //$user->userable()->save($job);
     }
 
     public function getInfo(Request $request){
         $user = User::find($request->get('id'));
+        if ($user->userable_type == 'App\Doctor'){
+            $type = 'doctor';
+        } else if ($user->userable_type == 'App\Nurse') {
+            $type = 'nurse';
+        } else {
+            $type = null;
+        }
+
         return response()->json([
             'name' => $user->id,
             'entry_date' => $user->userable->entry_date,
             'termination_date' => $user->userable->termination_date,
-            'userable_type' => $user->userable_type,
+            'userable_type' => $type,
             'section' => $user->userable->section,
         ], 201);
     }
