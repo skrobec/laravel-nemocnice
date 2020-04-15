@@ -2481,12 +2481,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2750,12 +2744,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2875,12 +2863,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3757,12 +3739,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4051,13 +4027,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4179,13 +4148,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4643,13 +4605,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4794,10 +4749,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -5300,6 +5251,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5348,10 +5300,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/patient/getInfo', {
         id: this.parentData.id
       }).then(function (response) {
-        _this2.exams = response.exams;
-        _this2.hospitalizations = response.hospitalizations;
-        _this2.interventions = response.interventions;
-        _this2.exams = response.exams;
+        _this2.exams = response.data.exams;
+        _this2.hospitalizations = response.data.hospitalizations;
+        _this2.interventions = response.data.interventions;
+        _this2.servings = response.data.servings;
         _this2.warning = true;
         return axios.get('/user/getDoctors');
       }).then(function (response) {
@@ -5397,13 +5349,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -10295,7 +10240,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.full {\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.exam-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.exam-block {\n    width: 60%;\n}\n.exam-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.exam-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.exam-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.exam-block {\n    width: 60%;\n}\n.exam-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.exam-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -10314,7 +10259,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.full {\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.hospitalization-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.hospitalization-block {\n    width: 60%;\n}\n.hospitalization-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.hospitalization-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 68px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.hospitalization-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.hospitalization-block {\n    width: 60%;\n}\n.hospitalization-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.hospitalization-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 68px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -10333,7 +10278,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.full {\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.intervention-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.intervention-block {\n    width: 60%;\n}\n.intervention-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.intervention-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.intervention-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.intervention-block {\n    width: 60%;\n}\n.intervention-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.intervention-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -10390,7 +10335,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.full {\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.serving-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.serving-block {\n    width: 60%;\n}\n.serving-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.serving-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 68px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\n.input-block {\n    width: 30%;\n    margin-bottom: 30px;\n}\n.input-container {\n   text-align: start;\n}\nlabel {\n    font-size: 1.2em;\n    font-weight: 400;\n}\n.form-container {\n    margin-top: 20px;\n    display: flex;\n    justify-content: center;\n}\n.serving-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.form-block {\n    width: 60%;\n}\n.serving-block {\n    width: 60%;\n}\n.serving-item {\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    background-color: #F6F7F8;\n    border-radius: 5px;\n    padding: 5px;\n    position: relative;\n}\n.serving-item span {\n    font-weight: 300;\n    font-size: 1.1em;\n}\n.wrap {\n    width: 100%;\n}\n.connect {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 68px;\n}\n.delete {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 2px;\n}\n.edit {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 2px;\n    right: 35px;\n}\n.delete:hover {\n    cursor: pointer;\n}\n.edit:hover {\n    cursor: pointer;\n}\n.connect:hover {\n    cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -10409,7 +10354,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.non-marked{\n    padding: 6px;\n}\n.marked{\n    border: 2px solid darkgray;\n    border-radius: 5px;\n    padding: 5px;\n    color: black;\n}\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
+exports.push([module.i, "\n.non-marked{\n    padding: 6px;\n}\n.marked{\n    border: 2px solid darkgray;\n    border-radius: 5px;\n    padding: 5px;\n    color: black;\n}\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
 
 // exports
 
@@ -10428,7 +10373,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -10447,7 +10392,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -10466,7 +10411,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -10485,7 +10430,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.details {\n  display: flex;\n  width: 200px;\n  justify-content: space-between;\n}\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
+exports.push([module.i, "\n.details {\n  display: flex;\n  width: 200px;\n  justify-content: space-between;\n}\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  align-items: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
 
 // exports
 
@@ -10504,7 +10449,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -44792,11 +44737,26 @@ var render = function() {
           "div",
           { staticClass: "exams list scroll" },
           [
-            _c("h4", [_vm._v("Prohlídky")]),
+            _c("div", { staticClass: "title-box" }, [
+              _c("h4", [_vm._v("Prohlídky")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "ico-box cursor",
+                  on: {
+                    click: function($event) {
+                      return _vm.link("examDetail")
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+              )
+            ]),
             _vm._v(" "),
             _vm._l(_vm.exams, function(exam) {
               return _c("div", { key: exam.date }, [
-                _vm._v("Datum: " + _vm._s(exam.datum))
+                _vm._v("Datum: " + _vm._s(exam.date))
               ])
             })
           ],
@@ -44857,9 +44817,9 @@ var render = function() {
             _vm._l(_vm.hospitalizations, function(hosp) {
               return _c("div", { key: hosp.date_start }, [
                 _vm._v(
-                  "Začátek hospitalizace: " +
+                  "Začátek: " +
                     _vm._s(hosp.date_start) +
-                    " Konec hospitalizace: " +
+                    " Konec: " +
                     _vm._s(hosp.date_end) +
                     " "
                 )

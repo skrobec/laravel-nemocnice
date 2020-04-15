@@ -140,10 +140,6 @@
       width: 100%;
 
     }
-    .middle-container {
-      width: 600px;
-
-    }
     .left {
       display: flex;
       justify-content: flex-start;

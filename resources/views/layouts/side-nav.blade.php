@@ -44,7 +44,7 @@
 
             .content {
                 text-align: center;
-                height: 1300px;
+                padding-bottom: 100px;
             }
 
             .title {
@@ -74,15 +74,15 @@
             }
 
             .main-container {
-                display: flex;
-                justify-content: left;
                 height: 100%;
 
             }
             .side-nav {
                 width: 15%;
                 background-color: #F6F7F8;
-                height: 1300px;
+                height: 100%;
+                position: fixed;
+                top: 0;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -110,6 +110,7 @@
             }
             .content {
                 width: 85%;
+                margin-left: 15%;
             }
             .nav-item span {
                 color: #636b6f;

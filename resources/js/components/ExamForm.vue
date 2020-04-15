@@ -34,12 +34,6 @@
         width: 30%;
         margin-bottom: 30px;
     }
-    .full {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     .input-container {
        text-align: start;
     }

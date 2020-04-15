@@ -129,13 +129,6 @@
       width: 100%;
 
     }
-    .middle-container {
-      width: 600px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
     .left {
       display: flex;
       justify-content: flex-start;

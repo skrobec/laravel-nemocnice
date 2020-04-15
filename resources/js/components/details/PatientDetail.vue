@@ -19,7 +19,7 @@
               <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.datum}}</div>
+        <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.date}}</div>
       </div>
       <div class="servings list scroll">
         <div class="title-box">
@@ -38,7 +38,7 @@
               <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek hospitalizace: {{hosp.date_start}} Konec hospitalizace: {{hosp.date_end}} </div>
+        <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
       </div>
       <div class="interventions list scroll">
         <div class="title-box">
@@ -81,11 +81,13 @@
       justify-content: space-between;
     }
     .list {
-      max-height: 200;
+      max-height: 200px;
       overflow: auto;
       width: 100%;
       display: flex;
       justify-content: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
     }
     .wrap-detail {
         display: flex;
@@ -129,13 +131,6 @@
       margin-bottom: 30px;
       width: 100%;
 
-    }
-    .middle-container {
-      width: 600px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
     .left {
       display: flex;
@@ -185,10 +180,10 @@ export default {
     },
     getInfo(){
         axios.post('/patient/getInfo',{id: this.parentData.id}).then(response => {
-            this.exams = response.exams;
-            this.hospitalizations = response.hospitalizations;
-            this.interventions = response.interventions;
-            this.exams = response.exams;
+            this.exams = response.data.exams;
+            this.hospitalizations = response.data.hospitalizations;
+            this.interventions = response.data.interventions;
+            this.servings = response.data.servings;
             this.warning = true;
             return axios.get('/user/getDoctors');
         }).then( response => {
