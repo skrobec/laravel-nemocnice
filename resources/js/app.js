@@ -38,7 +38,7 @@ Vue.component('intervention-detail', require('./components/details/InterventionD
 Vue.component('admin-detail', require('./components/details/AdminDetail.vue').default);
 Vue.component('hospitalization-detail', require('./components/details/HospitalizationDetail.vue').default);
 Vue.component('exam-detail', require('./components/details/ExamDetail.vue').default);
-
+Vue.use(require('vue-moment'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
