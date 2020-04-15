@@ -79,17 +79,17 @@ class PatientController extends Controller {
 
     public function getPatientInfo(Request $request) {
         $patient = Patient::find($request->id);
-        $interventionsRaw = $patient->hospitalizations()->with('interventions')->get();
-        $interventions = array();
-        foreach ($interventionsRaw as $hosp){
-            foreach ($hosp->interventions as $i){
-                array_push($interventions, $i);
-            }
-        }
+//        $interventionsRaw = $patient->hospitalizations()->with('interventions')->get();
+//        $interventions = array();
+//        foreach ($interventionsRaw as $hosp){
+//            foreach ($hosp->interventions as $i){
+//                array_push($interventions, $i);
+//            }
+//        }
         return response()->json([
             'exams' => $patient->exams,
             'hospitalizations'    => $patient->hospitalizations,
-            'interventions'    => $interventions,
+            'interventions'    => $patient->interventions,
             'servings'    => $patient->servings,
         ], 201);
 
