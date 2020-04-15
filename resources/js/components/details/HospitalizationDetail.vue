@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedHospitalization.date_start}}</div>
+            <div>{{this.loadedHospitalization.date_start | moment('DD.MM.YYYY')}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
