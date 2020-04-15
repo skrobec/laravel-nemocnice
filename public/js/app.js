@@ -44197,7 +44197,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Pacient")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.patientObj.name))])
+          _c("a", [_c("h4", [_vm._v(_vm._s(this.patientObj.name))])])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
