@@ -4072,7 +4072,8 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       results: [],
       section: '',
-      sectionId: ''
+      sectionId: '',
+      userInfo: {}
     };
   },
   created: function created() {
@@ -4101,28 +4102,36 @@ __webpack_require__.r(__webpack_exports__);
       }).name;
     },
     addJob: function addJob(type) {
-      if (type === 'nurse') {
-        this.nurseChosen = true;
-        this.doctorChosen = false;
-      } else {
-        this.doctorChosen = true;
-        this.nurseChosen = false;
-      }
+      if (type !== 'null') {
+        if (type === 'nurse') {
+          this.nurseChosen = true;
+          this.doctorChosen = false;
+        } else {
+          this.doctorChosen = true;
+          this.nurseChosen = false;
+        }
 
-      this.job = type;
+        this.job = type;
+      }
     },
     getInfo: function getInfo() {
       var _this2 = this;
 
-      console.log('spiceny curakwel');
       this.user = this.parentData;
       console.log(this.user);
       axios.post('/user/getInfo', {
         id: this.user.id
       }).then(function (response) {
-        console.log("cosi");
-        console.log(response);
+        _this2.userInfo = response.data;
+
+        _this2.addJob(_this2.userInfo.userable_type);
+
+        return axios.get('/sections/getAll');
+      }).then(function (response) {
         _this2.results = response.data;
+        _this2.section = _this2.results.find(function (sec) {
+          return sec.id == section_id;
+        }).name;
       });
     },
     submit: function submit() {
@@ -42649,7 +42658,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -43531,7 +43540,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -43705,13 +43714,13 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum nástupu")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.user.start_date))])
+          _c("div", [_vm._v(_vm._s(this.userInfo.entry_date))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum ukončení")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.user.termination_date))])
+          _c("div", [_vm._v(_vm._s(this.userInfo.termination_date))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -44124,7 +44133,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -44346,7 +44355,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -44431,7 +44440,7 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.chosenNurses, function(nurse) {
                 return _c("div", { key: nurse.id, staticClass: "inner-list" }, [
-                  _vm._v("Jméno: " + _vm._s(nurse.name))
+                  _vm._v("Jméno: " + _vm._s(nurse.user.name))
                 ])
               })
             ],
@@ -44461,7 +44470,7 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.chosenDoctors, function(doc) {
                 return _c("div", { key: doc.id, staticClass: "inner-list" }, [
-                  _vm._v("Jméno: " + _vm._s(doc.name))
+                  _vm._v("Jméno: " + _vm._s(doc.user.name))
                 ])
               })
             ],
@@ -45208,7 +45217,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()

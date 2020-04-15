@@ -14,11 +14,11 @@
         </div>
         <div class="title-box">
             <h4>Datum nástupu</h4>
-            <div>{{this.user.entry_date}}</div>
+            <div>{{this.userInfo.entry_date}}</div>
         </div>
         <div class="title-box">
             <h4>Datum ukončení</h4>
-            <div>{{this.user.termination_date}}</div>
+            <div>{{this.userInfo.termination_date}}</div>
         </div>
         <div class="title-box">
             <h4>Funkce</h4>
@@ -182,6 +182,8 @@ export default {
         this.section = this.results.find(sec => sec.id == result).name;
     },
     addJob(type){
+      if (type !== 'null')
+      {
         if (type === 'nurse') {
             this.nurseChosen = true;
             this.doctorChosen = false;
@@ -190,6 +192,8 @@ export default {
             this.nurseChosen = false;
         }
         this.job = type;
+      }
+        
     },
     getInfo(){
 
@@ -199,6 +203,7 @@ export default {
         axios.post('/user/getInfo', {id:this.user.id}).then(response => {
 
           this.userInfo = response.data;
+          this.addJob(this.userInfo.userable_type);
           return axios.get('/sections/getAll');
         }).then(response => {
           this.results = response.data;

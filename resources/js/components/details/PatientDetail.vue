@@ -12,7 +12,13 @@
 
       </div>
       <div class="exams list scroll">
-        <h4>Prohlídky</h4>
+        
+        <div class="title-box">
+            <h4>Prohlídky</h4>
+            <div class="ico-box cursor" v-on:click="link('examDetail')">
+              <i class="material-icons">add</i>
+            </div>
+        </div>
         <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.datum}}</div>
       </div>
       <div class="servings list scroll">
