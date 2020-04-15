@@ -54,8 +54,8 @@
                     </div>
 
 
-                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Edit</button>
+                    <button v-if="!editing" type="submit" class="btn btn-primary">Přidat</button>
+                    <button v-if="editing" v-on:click="editserving()" class="btn btn-primary">Upravit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>

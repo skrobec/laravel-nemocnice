@@ -42627,7 +42627,7 @@ var render = function() {
                       staticClass: "btn btn-primary",
                       attrs: { type: "submit" }
                     },
-                    [_vm._v("Submit")]
+                    [_vm._v("Přidat")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -42642,14 +42642,14 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Edit")]
+                    [_vm._v("Upravit")]
                   )
                 : _vm._e(),
               _vm._v(" "),
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -43291,7 +43291,7 @@ var render = function() {
                           staticClass: "btn btn-primary",
                           attrs: { type: "submit" }
                         },
-                        [_vm._v("Submit")]
+                        [_vm._v("Přidat")]
                       )
                     : _vm._e(),
                   _vm._v(" "),
@@ -43306,7 +43306,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Edit")]
+                        [_vm._v("Upravit")]
                       )
                     : _vm._e(),
                   _vm._v(" "),
@@ -43509,7 +43509,7 @@ var render = function() {
                       staticClass: "btn btn-primary",
                       attrs: { type: "submit" }
                     },
-                    [_vm._v("Submit")]
+                    [_vm._v("Přidat")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -43524,14 +43524,14 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Edit")]
+                    [_vm._v("Upravit")]
                   )
                 : _vm._e(),
               _vm._v(" "),
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -43851,7 +43851,7 @@ var render = function() {
               _c(
                 "button",
                 { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Submit")]
+                [_vm._v("Přidat")]
               ),
               _vm._v(" "),
               _vm.success
@@ -44084,7 +44084,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "reason" } }, [_vm._v("Průběh")]),
+                _c("label", { attrs: { for: "record" } }, [_vm._v("Průběh")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -44118,13 +44118,13 @@ var render = function() {
               _c(
                 "button",
                 { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Submit")]
+                [_vm._v("Přidat")]
               ),
               _vm._v(" "),
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -44340,13 +44340,13 @@ var render = function() {
               _c(
                 "button",
                 { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Submit")]
+                [_vm._v("Přidat")]
               ),
               _vm._v(" "),
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -44647,7 +44647,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "drug" } }, [_vm._v("Průběh")]),
+                _c("label", { attrs: { for: "record" } }, [_vm._v("Průběh")]),
                 _vm._v(" "),
                 _c("textarea", {
                   directives: [
@@ -44685,7 +44685,7 @@ var render = function() {
                       staticClass: "btn btn-primary",
                       attrs: { type: "submit" }
                     },
-                    [_vm._v("Submit")]
+                    [_vm._v("Přidat")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -44700,7 +44700,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Edit")]
+                    [_vm._v("Upravit")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -45186,7 +45186,7 @@ var render = function() {
                       staticClass: "btn btn-primary",
                       attrs: { type: "submit" }
                     },
-                    [_vm._v("Submit")]
+                    [_vm._v("Přidat")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -45201,14 +45201,14 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Edit")]
+                    [_vm._v("Upravit")]
                   )
                 : _vm._e(),
               _vm._v(" "),
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()

@@ -66,14 +66,14 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="drug">Průběh</label>
+                        <label for="record">Průběh</label>
                         <textarea type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
 
-                    <button v-if="!editing" type="submit" class="btn btn-primary">Submit</button>
-                    <button v-if="editing" v-on:click="editintervention()" class="btn btn-primary">Edit</button>
+                    <button v-if="!editing" type="submit" class="btn btn-primary">Přidat</button>
+                    <button v-if="editing" v-on:click="editintervention()" class="btn btn-primary">Upravit</button>
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
