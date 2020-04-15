@@ -4947,6 +4947,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -10418,7 +10422,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.list {\n  max-height: 200;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
+exports.push([module.i, "\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-bottom: 20px;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.middle-container {\n  width: 600px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n  width: 300px;\n}\n.titles {\n    margin-top: 10px;\n}\n.forms-container {\n    width: 300px;\n}\n.form-block {\n    width: 300px;\n}\n\n", ""]);
 
 // exports
 
@@ -43912,13 +43916,23 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Pacient")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.patientObj.name))])
+          _c("a", { attrs: { href: "/patients?id=" + this.patientId } }, [
+            _c("h4", [_vm._v(_vm._s(this.patientObj.name))])
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Doktor")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.loadedDoctor.name))])
+          _c("a", { attrs: { href: "/user?id=" + this.loadedDoctor.id } }, [
+            _c("h4", [
+              _vm._v(
+                _vm._s(this.loadedDoctor.name) +
+                  " .. " +
+                  _vm._s(this.loadedDoctor)
+              )
+            ])
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -44187,7 +44201,9 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Pacient")]),
           _vm._v(" "),
-          _c("a", [_c("h4", [_vm._v(_vm._s(this.patientObj.name))])])
+          _c("a", { attrs: { href: "/patients?id=" + this.patientId } }, [
+            _c("h4", [_vm._v(_vm._s(this.patientObj.name))])
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -44392,6 +44408,14 @@ var render = function() {
       _c("h2", [_vm._v("Zákrok")]),
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Jméno")]),
+          _vm._v(" "),
+          _c("a", { attrs: { href: "/patients?id=" + this.patientId } }, [
+            _c("h4", [_vm._v(_vm._s(this.patientObj.name))])
+          ])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),

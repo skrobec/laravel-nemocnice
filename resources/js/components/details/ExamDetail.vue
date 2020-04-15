@@ -9,7 +9,7 @@
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
-            <h4>{{this.patientObj.name}}</h4>
+            <a :href="'/patients?id='+this.patientId"><h4>{{this.patientObj.name}}</h4></a>
         </div>
         <div class="title-box">
             <h4>Doktor</h4>
@@ -80,7 +80,7 @@
 
 <style>
     .list {
-      max-height: 200;
+      max-height: 200px;
       overflow: auto;
       width: 100%;
       display: flex;
