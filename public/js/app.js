@@ -5283,7 +5283,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -44852,29 +44851,18 @@ var render = function() {
             _c("div", { staticClass: "title-box" }, [
               _c("h4", [_vm._v("Zákroky")]),
               _vm._v(" "),
-              _c("div", { staticClass: "details" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "warning hidden",
-                    class: { shown: _vm.warning }
-                  },
-                  [_vm._v("Pacient není hospitalizován")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "ico-box cursor",
-                    on: {
-                      click: function($event) {
-                        return _vm.link("interventionDetail")
-                      }
+              _c(
+                "div",
+                {
+                  staticClass: "ico-box cursor",
+                  on: {
+                    click: function($event) {
+                      return _vm.link("interventionDetail")
                     }
-                  },
-                  [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
-                )
-              ])
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+              )
             ]),
             _vm._v(" "),
             _vm._l(_vm.interventions, function(int) {
