@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $query->where('userable_type','App\Doctor');
     }
 
+    public function scopeNotadmin($query)
+    {
+        return $query->where('type', '!=', 'Admin');
+    }
+
     public function isAdmin() {
         return $this->type === self::ADMIN_TYPE;
     }

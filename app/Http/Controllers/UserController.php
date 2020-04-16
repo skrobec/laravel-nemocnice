@@ -21,7 +21,7 @@ class UserController extends Controller
     }
 
     public function getDoctorUsers() {
-        return User::doctor()->get();
+        return User::doctor()->notadmin()->get();
     }
 
     public function getUsers() {

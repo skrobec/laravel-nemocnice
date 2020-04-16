@@ -44,6 +44,7 @@
                     </ul>
                 </div>
             </div>
+            <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
             <button v-on:click="addNurse()" class="btn btn-primary">Přidat sestru</button>
             </div>
             <div class="left"><label for="nurse">Doktor</label></div>
@@ -56,6 +57,7 @@
                     </ul>
                 </div>
             </div>
+            <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
             <button v-on:click="addDoctor()" class="btn btn-primary">Přidat doktora</button>
             </div>
         </div>
