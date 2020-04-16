@@ -26,6 +26,7 @@
     "dependencies": {
         "@jkryszto/mdb-for-laravel": "^1.0.0",
         "material-design-icons": "^3.0.1",
+        "v-calendar": "^1.0.0-beta.23",
         "vue": "^2.6.11",
         "vue-moment": "^4.1.0"
     }

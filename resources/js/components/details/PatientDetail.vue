@@ -19,7 +19,7 @@
               <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.date}}</div>
+        <div v-for="exam of exams" v-bind:key="exam.id">Datum: {{exam.date}}</div>
       </div>
       <div class="servings list scroll">
         <div class="title-box">
@@ -28,7 +28,7 @@
               <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="serving of servings" v-bind:key="serving.date">Datum: {{serving.date}}</div>
+        <div v-for="serving of servings" v-bind:key="serving.id">Datum: {{serving.date}}</div>
       </div>
       <div class="hospitalization list scroll">
 
@@ -38,7 +38,7 @@
               <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
+        <div v-for="hosp of hospitalizations" v-bind:key="hosp.id">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
       </div>
       <div class="interventions list scroll">
         <div class="title-box">

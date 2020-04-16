@@ -48,7 +48,7 @@
             <form @submit.prevent="submit">
                 <div class="form-group input-container">
                     <label for="date">Datum nástupu</label>
-                    <input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
+                    <date-picker v-model='fields.date'/>
                     <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                 </div>
 
@@ -141,7 +141,9 @@ export default {
   data() {
     return {
       user: {},
-      fields: {},
+      fields: {
+          date: new Date()
+      },
       errors: {},
       doctorChosen: false,
       nurseChosen: false,

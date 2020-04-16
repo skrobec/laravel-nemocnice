@@ -39,6 +39,18 @@ Vue.component('admin-detail', require('./components/details/AdminDetail.vue').de
 Vue.component('hospitalization-detail', require('./components/details/HospitalizationDetail.vue').default);
 Vue.component('exam-detail', require('./components/details/ExamDetail.vue').default);
 Vue.use(require('vue-moment'));
+
+
+import Calendar from 'v-calendar/lib/components/calendar.umd';
+import DatePicker from 'v-calendar/lib/components/date-picker.umd';
+
+// Register components in your 'main.js'
+Vue.component('calendar', Calendar);
+Vue.component('date-picker', DatePicker);
+
+//Vue.component('calendar', require('v-calendar/lib/components/calendar.umd'));
+//Vue.component('date-picker', require('v-calendar/lib/components/date-picker.umd'));
+  
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -48,3 +60,6 @@ Vue.use(require('vue-moment'));
 const app = new Vue({
     el: '#app',
 });
+
+
+
