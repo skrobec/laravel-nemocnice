@@ -23,14 +23,14 @@
                     <h4>Sestry</h4>
                     <i v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
                 </div>
-                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{nurse.user.name}}</div>
+                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{getName(nurse)}}</div>
             </div>
             <div class="doctors-list">
                 <div class="title-box">
                     <h4>Doktoři</h4>
                     <i v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
                 </div>
-                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{doc.user.name}}</div>
+                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{getName(doc)}}</div>
             </div>
         </div>
         <div class="autocompletes">
@@ -65,7 +65,7 @@
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
-                        <input placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
+                        <date-picker v-model='fields.date'/>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
@@ -172,7 +172,9 @@ export default {
       chosenNurses: [],
       chosenDoctors: [],
       doctors: [],
-      fields: {},
+      fields: {
+            date: new Date()
+      },
       errors: {},
       success: false,
       loaded: true,
@@ -224,6 +226,13 @@ export default {
     }
   },
   methods: {
+    getName(obj){
+        if (obj.user == undefined) {
+            return obj.name;
+        } else {
+            return obj.user.name;
+        }
+    },
     clearNurses(){
         this.chosenNurses = [];
     },

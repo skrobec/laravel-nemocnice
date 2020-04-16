@@ -33,6 +33,7 @@
         <div v-for="serving of servings" v-bind:key="serving.id">Datum: {{serving.date}}</div>
       </div>
       <div class="hospitalization list scroll">
+
          <div class="title-box">
             <h4>Hospitalizace</h4>
             <div class="ico-box cursor" v-on:click="link('hospitalizationDetail')">

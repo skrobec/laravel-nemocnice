@@ -43,9 +43,11 @@
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
-                        <input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" />
+                        <!--input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" /-->
+                        <date-picker v-model='fields.date'/>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
+                    
 
                     <div class="form-group input-container">
                         <label for="drugQ">Množství léku</label>
@@ -147,7 +149,9 @@ export default {
           date: ''
       },
       drugs: [],
-      fields: {},
+      fields: {
+        date: new Date()
+      },
       errors: {},
       success: false,
       loaded: true,
@@ -224,6 +228,7 @@ export default {
         }).then( response => {
             this.drugs = response.data;
              console.log(this.drugs);
+          
             if (this.servingId !== undefined && this.servingId !== null ) {
                 this.getEditInfo();
             }
@@ -241,7 +246,7 @@ export default {
           this.drug = this.drugs.find(drug => drug.id == this.servingObj.drug_id ).name;
           this.drugObj = this.drugs.find(drug => drug.id == this.servingObj.drug_id );
           this.fields.quantity = response.data.quantity;
-          this.fields.date = response.data.date;
+          //this.fields.date = response.data.date;
           console.log('ok');
           console.log(this.loadedNurse);
         });
