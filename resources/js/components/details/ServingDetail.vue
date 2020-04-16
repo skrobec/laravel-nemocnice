@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.servingObj.date | moment('DD.MM.YYYY')}}</div>
+            <h4>{{this.servingObj.date | moment('DD.MM.YYYY')}}</h4>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -14,6 +14,14 @@
         <div class="title-box">
             <h4>Sestra</h4>
             <h4>{{this.loadedNurse.name}}</h4>
+        </div>
+        <div class="title-box">
+            <h4>Lék</h4>
+            <h4></h4>
+        </div>
+        <div class="title-box">
+            <h4>Množství</h4>
+            <h4></h4>
         </div>
     </div>
     <div class="left"><label for="nurse">Sestra</label></div>
@@ -27,7 +35,9 @@
           </div>
       </div>
     </div>
-    <div class="left"><label for="nurse">Lék</label></div>
+      <div v-if="errors && errors.nurse_id" class="text-danger">{{ errors.nurse_id[0] }}</div>
+
+      <div class="left"><label for="nurse">Lék</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
           <input class="form-control standard-input shadow-none" id="drug" type="text" v-model="drug">
@@ -38,21 +48,23 @@
           </div>
       </div>
     </div>
-    <div class="forms-container">
+      <div v-if="errors && errors.drug_id" class="text-danger">{{ errors.drug_id[0] }}</div>
+
+      <div class="forms-container">
             <div class="form-block">
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
                         <!--input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" /-->
                         <date-picker id="date" v-model='fields.date'/>
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                        <div v-if="errors && errors.date" class="text-danger">{{ errors.date[0] }}</div>
                     </div>
 
 
                     <div class="form-group input-container">
                         <label for="drugQ">Množství léku</label>
                         <input type="number" class="form-control standard-input shadow-none" name="drugQ" id="drugQ" v-model="fields.quantity" />
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                        <div v-if="errors && errors.quantity" class="text-danger">{{ errors.quantity[0] }}</div>
                     </div>
 
 

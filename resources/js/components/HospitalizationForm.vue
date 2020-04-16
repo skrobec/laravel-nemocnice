@@ -11,11 +11,10 @@
             </div>
             <div class="hospitalization-block">
                 <div class="hospitalization-item" v-for="hospitalization of filteredResults" v-bind:key="hospitalization.id">
-                    <span>Datum začátku: {{hospitalization.date_start}}</span>
-                    <span>Datum konce: {{hospitalization.date_end}}</span>
+                    <span>Datum začátku: {{hospitalization.date_start | moment('DD.MM.YYYY')}}</span>
+                    <span>Datum konce: {{hospitalization.date_end | moment('DD.MM.YYYY')}}</span>
                     <span>Jméno pacienta: {{getPatient(hospitalization.patient_id)}}</span>
-                    <span>Jméno oddělení: {{getSection(hospitalization.section_id)}}</span>
-                    <span>Důvod: {{hospitalization.reason}}</span>
+                    <span>Název oddělení: {{getSection(hospitalization.section_id)}}</span>
                     <div v-on:click="connect(hospitalization.id,hospitalization.patient_id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
@@ -141,8 +140,8 @@ export default {
           this.enterId = id;
       }
       this.getHospitalizations();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -191,7 +190,7 @@ export default {
             }
             console.log('ebin');
         });
-       
+
     },
     deleteHospitalization(id){
         this.fields.id = id;
@@ -201,7 +200,7 @@ export default {
             this.getHospitalizations();
         });
     },
-   
+
   },
 }
 </script>

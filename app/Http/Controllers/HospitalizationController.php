@@ -48,7 +48,7 @@ class HospitalizationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'msg' => 'alreadyActive',
-            ], 200);
+            ], 422);
         }
 
         $hospitalization = new Hospitalization([
@@ -110,7 +110,7 @@ class HospitalizationController extends Controller
     }
 
     public function getHospitalizationInfo(Request $request) {
-        $hospitalization = Hospitalization::find($request->id);
+        $hospitalization = Hospitalization::find($request->get('id'));
         return response()->json([
             'date_start' => $hospitalization->date_start,
             'date_end' => $hospitalization->date_end,
@@ -118,5 +118,11 @@ class HospitalizationController extends Controller
             'patient_id' => $hospitalization->patient_id,
             'section_id' => $hospitalization->section_id,
         ], 201);
+    }
+
+    public function endHospitalization(Request $request){
+        $hospitalization = Hospitalization::find($request->get('id'));
+        $hospitalization->date_end = $request->get('date_end');
+        $hospitalization->save();
     }
 }

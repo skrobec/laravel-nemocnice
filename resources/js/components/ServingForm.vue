@@ -11,7 +11,7 @@
             </div>
             <div class="serving-block">
                 <div class="serving-item" v-for="serving of filteredResults" v-bind:key="serving.id">
-                    <span>Datum: {{serving.date}}</span>
+                    <span>Datum: {{serving.date | moment('DD.MM.YYYY')}}</span>
                     <span>Jméno pacienta: {{getPatient(serving.patient_id)}}</span>
                     <div v-on:click="connect(serving.id,serving.patient_id)" class="connect">
                         <i class="material-icons">build</i>
@@ -166,14 +166,14 @@ export default {
         axios.get('/servings/getAll').then(response => {
           console.log(this.enterId);
           this.buffer = response.data;
-         
+
         });
         axios.get('/pat/get').then(response => {
 
          if (this.enterId !== 0) {
             this.connect(this.enterId);
           }
-         this.patients = response.data;   
+         this.patients = response.data;
          this.servings = this.buffer;
 
         });

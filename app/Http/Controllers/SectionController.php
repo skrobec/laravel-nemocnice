@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SectionController extends Controller
 {
@@ -15,7 +16,7 @@ class SectionController extends Controller
         return Section::all();
     }
 
-    
+
     public function addSection(Request $request){
         $request->validate([
             'name'=> 'required|unique:sections|max:127',
@@ -51,8 +52,9 @@ class SectionController extends Controller
         ], 201);
     }
 
-    public function deleteSection($id){
-        $section = Section::find($id);
+    public function deleteSection(Request $request){
+        Log::info($request);
+        $section = Section::find($request->id);
         $section->delete();
 
         return response()->json([

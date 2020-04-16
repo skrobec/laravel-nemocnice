@@ -11,10 +11,9 @@
             </div>
             <div class="exam-block">
                 <div class="exam-item" v-for="exam of filteredResults" v-bind:key="exam.id">
-                    <span>Datum začátku: {{exam.date}}</span>
+                    <span>Datum: {{exam.date | moment('DD.MM.YYYY')}}</span>
                     <span>Jméno pacienta: {{getPatient(exam.patient_id)}}</span>
                     <!--span>Jméno oddělení: {{getSection(exam.section_id)}}</span-->
-                    <span>Průběh: {{exam.record}}</span>
                     <div v-on:click="connect(exam.id,exam.patient_id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
@@ -133,8 +132,8 @@ export default {
           this.enterId = id;
       }
       this.getExams();
-      
-     
+
+
   },
   computed: {
    filteredResults () {
@@ -183,7 +182,7 @@ export default {
             }
             console.log('ebin');
         });
-       
+
     },
     deleteExam(id){
         this.fields.id = id;
@@ -193,7 +192,7 @@ export default {
             this.getExams();
         });
     },
-   
+
   },
 }
 </script>

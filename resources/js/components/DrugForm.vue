@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="form-group input-container">
-                        <label for="email">Popis</label>
+                        <label for="description">Popis</label>
                         <input type="text" class="form-control standard-input shadow-none" name="description" id="description" v-model="fields.description" />
                         <div v-if="errors && errors.description" class="text-danger">{{ errors.description[0] }}</div>
                     </div>
@@ -191,6 +191,7 @@ export default {
     },
     deleteDrug(id){
         this.fields.id = id;
+        console.log(this.fields);
         axios.post('/drugs/del', this.fields).then(response => {
             console.log(response);
             this.fields = {};

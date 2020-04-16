@@ -14,9 +14,9 @@
       <div class="exams list scroll">
 
         <div class="title-box">
-            <h4>Prohlídky</h4>
+            <h4>Vyšetření</h4>
             <div class="ico-box cursor" v-on:click="link('examDetail')">
-                Přidat prohlídku <i class="material-icons">add</i>
+                Přidat vyšetření <i class="material-icons">add</i>
             </div>
         </div>
         <div class="scroll items">
