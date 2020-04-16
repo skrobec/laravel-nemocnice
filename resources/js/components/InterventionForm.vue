@@ -11,9 +11,8 @@
             </div>
             <div class="intervention-block">
                 <div class="intervention-item" v-for="intervention of filteredResults" v-bind:key="intervention.id">
-                    <span>Datum: {{intervention.date}}</span>
+                    <span>Datum: {{intervention.date | moment('DD.MM.YYYY')}}</span>
                     <span>Jméno pacienta: {{getPatient(intervention.patient_id)}}</span>
-                    <span>Průběh: {{intervention.record}}</span>
                     <div v-on:click="connect(intervention.id,intervention.patient_id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
@@ -132,8 +131,8 @@ export default {
           this.enterId = id;
       }
       this.getInterventions();
-      
-     
+
+
   },
   computed: {
     filteredResults () {
@@ -159,7 +158,7 @@ export default {
         }).then( response => {
             console.log('kg');
             this.hospitalizations = response.data;
-           
+
             this.interventions = this.buffer.map( intervention => {
                 return {
                     id: intervention.id,
@@ -174,7 +173,7 @@ export default {
             }
             console.log('ebin');
         });
-       
+
     },
     deleteIntervention(id){
         this.fields.id = id;
@@ -184,7 +183,7 @@ export default {
             this.getInterventions();
         });
     },
-   
+
   },
 }
 </script>

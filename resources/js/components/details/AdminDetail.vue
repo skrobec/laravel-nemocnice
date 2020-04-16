@@ -10,15 +10,15 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Jméno</h4>
-            <div>{{this.user.name}}</div>
+            <h4>{{this.user.name}}</h4>
         </div>
         <div class="title-box">
             <h4>Datum nástupu</h4>
-            <div>{{this.userInfo.entry_date}}</div>
+            <h4>{{this.userInfo.entry_date | moment('DD.MM.YYYY')}}</h4>
         </div>
         <div class="title-box">
             <h4>Datum ukončení</h4>
-            <div>{{this.userInfo.termination_date}}</div>
+            <h4>{{this.userInfo.termination_date | moment('DD.MM.YYYY')}}</h4>
         </div>
         <div class="title-box">
             <h4>Funkce</h4>

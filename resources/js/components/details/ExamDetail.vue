@@ -35,6 +35,7 @@
           </div>
       </div>
     </div>
+      <div v-if="errors && errors.doctor_id" class="text-danger">{{ errors.doctor_id[0] }}</div>
     <div class="left"><label for="nurse">Sestra</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
@@ -46,6 +47,7 @@
           </div>
       </div>
     </div>
+     <div v-if="errors && errors.nurse_id" class="text-danger">{{ errors.nurse_id[0] }}</div>
 
     <div class="forms-container">
             <div class="form-block">
@@ -53,13 +55,12 @@
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
                         <date-picker id="date" v-model='fields.date'/>
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                        <div v-if="errors && errors.date" class="text-danger">{{ errors.date[0] }}</div>
                     </div>
-
                     <div class="form-group input-container">
                         <label for="record">Průběh</label>
                         <input type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                        <div v-if="errors && errors.record" class="text-danger">{{ errors.record[0] }}</div>
                     </div>
 
 
@@ -266,8 +267,8 @@ export default {
         this.success = false;
         this.errors = {};
         this.fields.patient_id = this.patientObj.id;
-        this.fields.doctor_id = this.doctorObj.userable_id;
-        this.fields.nurse_id = this.nurseObj.userable_id;
+        this.fields.doctor_id = this.doctorObj ? this.doctorObj.userable_id : null;
+        this.fields.nurse_id = this.nurseObj ? this.nurseObj.userable_id : null;
         this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
             console.log(this.fields);
         axios.post('/exams/add', this.fields).then(response => {

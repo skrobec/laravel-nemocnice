@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedHospitalization.date_start | moment('DD.MM.YYYY')}}</div>
+            <h4>{{this.loadedHospitalization.date_start | moment('DD.MM.YYYY')}}</h4>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -31,19 +31,21 @@
           </div>
       </div>
     </div>
-    <div class="forms-container">
+      <div v-if="errors && errors.section_id" class="text-danger">{{ errors.section_id[0] }}</div>
+
+      <div class="forms-container">
             <div class="form-block">
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date_start">Datum</label>
                         <date-picker id="date_start" v-model='fields.date_start'/>
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                        <div v-if="errors && errors.date_start" class="text-danger">{{ errors.date_start[0] }}</div>
                     </div>
 
                     <div class="form-group input-container">
                         <label for="reason">Důvod</label>
                         <input type="text" class="form-control standard-input shadow-none" name="reason" id="reason" v-model="fields.reason" />
-                        <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                        <div v-if="errors && errors.reason" class="text-danger">{{ errors.reason[0] }}</div>
                     </div>
 
 
@@ -51,6 +53,10 @@
                     <div v-if="success" class="alert alert-success mt-3">
                         Úspěšně provedeno !
                     </div>
+                    <div v-if="errors && errors.msg" class="text-danger">
+                        {{ errors.msg[0] }}
+                    </div>
+
                 </form>
             </div>
         </div>

@@ -9,7 +9,7 @@
         </div>
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.interventionObj.date | moment('DD.MM.YYYY')}}</div>
+            <h4>{{this.interventionObj.date | moment('DD.MM.YYYY')}}</h4>
         </div>
         <div class="title-box">
             <h4>Průběh</h4>

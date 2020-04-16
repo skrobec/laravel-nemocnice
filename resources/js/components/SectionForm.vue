@@ -191,6 +191,7 @@ export default {
     },
     deleteSection(id){
         this.fields.id = id;
+        console.log(this.fields);
         axios.post('/sections/del', this.fields).then(response => {
             console.log(response);
             this.fields = {};

@@ -2309,6 +2309,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.fields.id = id;
+      console.log(this.fields);
       axios.post('/drugs/del', this.fields).then(function (response) {
         console.log(response);
         _this3.fields = {};
@@ -2378,7 +2379,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -2743,7 +2743,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2863,7 +2862,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -3562,6 +3560,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.fields.id = id;
+      console.log(this.fields);
       axios.post('/sections/del', this.fields).then(function (response) {
         console.log(response);
         _this3.fields = {};
@@ -4300,6 +4299,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4443,8 +4443,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.success = false;
         this.errors = {};
         this.fields.patient_id = this.patientObj.id;
-        this.fields.doctor_id = this.doctorObj.userable_id;
-        this.fields.nurse_id = this.nurseObj.userable_id;
+        this.fields.doctor_id = this.doctorObj ? this.doctorObj.userable_id : null;
+        this.fields.nurse_id = this.nurseObj ? this.nurseObj.userable_id : null;
         this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
         console.log(this.fields);
         axios.post('/exams/add', this.fields).then(function (response) {
@@ -4480,6 +4480,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4759,6 +4765,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -5375,6 +5383,18 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -86652,7 +86672,9 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "email" } }, [_vm._v("Popis")]),
+                _c("label", { attrs: { for: "description" } }, [
+                  _vm._v("Popis")
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -86716,7 +86738,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -86785,7 +86807,12 @@ var render = function() {
               { staticClass: "exam-block" },
               _vm._l(_vm.filteredResults, function(exam) {
                 return _c("div", { key: exam.id, staticClass: "exam-item" }, [
-                  _c("span", [_vm._v("Datum začátku: " + _vm._s(exam.date))]),
+                  _c("span", [
+                    _vm._v(
+                      "Datum: " +
+                        _vm._s(_vm._f("moment")(exam.date, "DD.MM.YYYY"))
+                    )
+                  ]),
                   _vm._v(" "),
                   _c("span", [
                     _vm._v(
@@ -86793,8 +86820,6 @@ var render = function() {
                         _vm._s(_vm.getPatient(exam.patient_id))
                     )
                   ]),
-                  _vm._v(" "),
-                  _c("span", [_vm._v("Průběh: " + _vm._s(exam.record))]),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -86950,12 +86975,26 @@ var render = function() {
                   [
                     _c("span", [
                       _vm._v(
-                        "Datum začátku: " + _vm._s(hospitalization.date_start)
+                        "Datum začátku: " +
+                          _vm._s(
+                            _vm._f("moment")(
+                              hospitalization.date_start,
+                              "DD.MM.YYYY"
+                            )
+                          )
                       )
                     ]),
                     _vm._v(" "),
                     _c("span", [
-                      _vm._v("Datum konce: " + _vm._s(hospitalization.date_end))
+                      _vm._v(
+                        "Datum konce: " +
+                          _vm._s(
+                            _vm._f("moment")(
+                              hospitalization.date_end,
+                              "DD.MM.YYYY"
+                            )
+                          )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("span", [
@@ -86967,13 +87006,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
-                        "Jméno oddělení: " +
+                        "Název oddělení: " +
                           _vm._s(_vm.getSection(hospitalization.section_id))
                       )
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v("Důvod: " + _vm._s(hospitalization.reason))
                     ]),
                     _vm._v(" "),
                     _c(
@@ -87082,17 +87117,20 @@ var render = function() {
                   "div",
                   { key: intervention.id, staticClass: "intervention-item" },
                   [
-                    _c("span", [_vm._v("Datum: " + _vm._s(intervention.date))]),
+                    _c("span", [
+                      _vm._v(
+                        "Datum: " +
+                          _vm._s(
+                            _vm._f("moment")(intervention.date, "DD.MM.YYYY")
+                          )
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
                         "Jméno pacienta: " +
                           _vm._s(_vm.getPatient(intervention.patient_id))
                       )
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v("Průběh: " + _vm._s(intervention.record))
                     ]),
                     _vm._v(" "),
                     _c(
@@ -87590,7 +87628,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87662,7 +87700,12 @@ var render = function() {
                   "div",
                   { key: serving.id, staticClass: "serving-item" },
                   [
-                    _c("span", [_vm._v("Datum: " + _vm._s(serving.date))]),
+                    _c("span", [
+                      _vm._v(
+                        "Datum: " +
+                          _vm._s(_vm._f("moment")(serving.date, "DD.MM.YYYY"))
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
@@ -87758,19 +87801,29 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Jméno")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.user.name))])
+          _c("h4", [_vm._v(_vm._s(this.user.name))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum nástupu")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.userInfo.entry_date))])
+          _c("h4", [
+            _vm._v(
+              _vm._s(_vm._f("moment")(this.userInfo.entry_date, "DD.MM.YYYY"))
+            )
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum ukončení")]),
           _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.userInfo.termination_date))])
+          _c("h4", [
+            _vm._v(
+              _vm._s(
+                _vm._f("moment")(this.userInfo.termination_date, "DD.MM.YYYY")
+              )
+            )
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -88036,6 +88089,12 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _vm.errors && _vm.errors.doctor_id
+        ? _c("div", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.doctor_id[0]))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
@@ -88085,6 +88144,12 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _vm.errors && _vm.errors.nurse_id
+        ? _c("div", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.nurse_id[0]))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "forms-container" }, [
         _c("div", { staticClass: "form-block" }, [
           _c(
@@ -88115,9 +88180,9 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors && _vm.errors.name
+                  _vm.errors && _vm.errors.date
                     ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0]))
+                        _vm._v(_vm._s(_vm.errors.date[0]))
                       ])
                     : _vm._e()
                 ],
@@ -88149,9 +88214,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors && _vm.errors.name
+                _vm.errors && _vm.errors.record
                   ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.name[0]))
+                      _vm._v(_vm._s(_vm.errors.record[0]))
                     ])
                   : _vm._e()
               ]),
@@ -88223,7 +88288,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),
-          _c("div", [
+          _c("h4", [
             _vm._v(
               _vm._s(
                 _vm._f("moment")(
@@ -88305,6 +88370,12 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _vm.errors && _vm.errors.section_id
+        ? _c("div", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.section_id[0]))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "forms-container" }, [
         _c("div", { staticClass: "form-block" }, [
           _c(
@@ -88337,9 +88408,9 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors && _vm.errors.name
+                  _vm.errors && _vm.errors.date_start
                     ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0]))
+                        _vm._v(_vm._s(_vm.errors.date_start[0]))
                       ])
                     : _vm._e()
                 ],
@@ -88371,9 +88442,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors && _vm.errors.name
+                _vm.errors && _vm.errors.reason
                   ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.name[0]))
+                      _vm._v(_vm._s(_vm.errors.reason[0]))
                     ])
                   : _vm._e()
               ]),
@@ -88388,6 +88459,16 @@ var render = function() {
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
                       "\n                        Úspěšně provedeno !\n                    "
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.errors && _vm.errors.msg
+                ? _c("div", { staticClass: "text-danger" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.errors.msg[0]) +
+                        "\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88445,7 +88526,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),
-          _c("div", [
+          _c("h4", [
             _vm._v(
               _vm._s(_vm._f("moment")(this.interventionObj.date, "DD.MM.YYYY"))
             )
@@ -88571,6 +88652,12 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
+            _vm.errors && _vm.errors.name
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.name[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c(
               "button",
               {
@@ -88632,6 +88719,12 @@ var render = function() {
                   : _vm._e()
               ])
             ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.name
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.name[0]))
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "button",
@@ -88826,7 +88919,7 @@ var render = function() {
           { staticClass: "exams list scroll" },
           [
             _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Prohlídky")]),
+              _c("h4", [_vm._v("Vyšetření")]),
               _vm._v(" "),
               _c(
                 "div",
@@ -88839,7 +88932,7 @@ var render = function() {
                   }
                 },
                 [
-                  _vm._v("\n                Přidat prohlídku "),
+                  _vm._v("\n                Přidat vyšetření "),
                   _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
                 ]
               )
@@ -89062,7 +89155,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Datum")]),
           _vm._v(" "),
-          _c("div", [
+          _c("h4", [
             _vm._v(_vm._s(_vm._f("moment")(this.servingObj.date, "DD.MM.YYYY")))
           ])
         ]),
@@ -89079,10 +89172,14 @@ var render = function() {
           _c("h4", [_vm._v("Sestra")]),
           _vm._v(" "),
           _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1)
       ]),
       _vm._v(" "),
-      _vm._m(0),
+      _vm._m(2),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -89131,7 +89228,13 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1),
+      _vm.errors && _vm.errors.nurse_id
+        ? _c("div", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.nurse_id[0]))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._m(3),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -89180,6 +89283,12 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _vm.errors && _vm.errors.drug_id
+        ? _c("div", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.drug_id[0]))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "forms-container" }, [
         _c("div", { staticClass: "form-block" }, [
           _c(
@@ -89210,9 +89319,9 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors && _vm.errors.name
+                  _vm.errors && _vm.errors.date
                     ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0]))
+                        _vm._v(_vm._s(_vm.errors.date[0]))
                       ])
                     : _vm._e()
                 ],
@@ -89246,9 +89355,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors && _vm.errors.name
+                _vm.errors && _vm.errors.quantity
                   ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.name[0]))
+                      _vm._v(_vm._s(_vm.errors.quantity[0]))
                     ])
                   : _vm._e()
               ]),
@@ -89294,6 +89403,26 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-box" }, [
+      _c("h4", [_vm._v("Lék")]),
+      _vm._v(" "),
+      _c("h4")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-box" }, [
+      _c("h4", [_vm._v("Množství")]),
+      _vm._v(" "),
+      _c("h4")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

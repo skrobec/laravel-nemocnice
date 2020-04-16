@@ -26,7 +26,9 @@ class ServingController extends Controller
         $rules = array(
             'date'=>'required',
             'patient_id'=>'required',
-            'nurse_id'=>'required'
+            'nurse_id'=>'required',
+            'drug_id' =>'required',
+            'quantity' => 'required'
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -59,7 +61,9 @@ class ServingController extends Controller
         $rules = array(
             'date'=>'required',
             'patient_id'=>'required',
-            'nurse_id'=>'required'
+            'nurse_id'=>'required',
+            'drug_id' =>'required',
+            'quantity'=>'required',
         );
 
         $validator = Validator::make($request->all(), $rules);
