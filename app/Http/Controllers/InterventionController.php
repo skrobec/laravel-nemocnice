@@ -8,6 +8,7 @@ use App\Intervention;
 use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class InterventionController extends Controller
 {
@@ -20,11 +21,22 @@ class InterventionController extends Controller
     }
 
     public function addIntervention(Request $request){
-        $request->validate([
+        $rules = array(
             'date'=> 'required',
             'record' => 'required',
             'patient_id' => 'required'
-        ]);
+        );
+
+        Log::info($request->get('date'));
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $intervention = new Intervention([
             'date' => $request->get('date'),
@@ -38,6 +50,7 @@ class InterventionController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $intervention->id,
         ], 201);
     }
 
@@ -59,11 +72,20 @@ class InterventionController extends Controller
 
 
     public function editIntervention(Request $request, $id){
-        $request->validate([
+        $rules = array(
             'date'=> 'required',
             'patient_id'=>'required',
             'record' => 'required'
-        ]);
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $intervention = Intervention::find($id);
         $intervention->date =  $request->get('date');
@@ -74,6 +96,7 @@ class InterventionController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $intervention->id,
         ], 201);
     }
 
