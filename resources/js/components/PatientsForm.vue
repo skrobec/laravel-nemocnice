@@ -13,13 +13,13 @@
                 <div class="patient-item" v-for="patient of filteredResults" v-bind:key="patient.id">
                     <span>Jméno: {{patient.name}}</span>
                     <span>Potíže: {{patient.issues}}</span>
-                    <div v-on:click="connect(patient.id)" class="p_connect">
+                    <div v-on:click="connect(patient.id)" class="p_connect cursor">
                         <i class="material-icons">build</i>
                     </div>
-                    <div v-on:click="deletePatient(patient.id)" class="p_delete">
+                    <div v-on:click="deletePatient(patient.id)" class="p_delete cursor">
                         <i class="material-icons">clear</i>
                     </div>
-                    <div v-on:click="prepareEdit(patient.id)" class="p_edit">
+                    <div v-on:click="prepareEdit(patient.id)" class="p_edit cursor">
                         <i class="material-icons">edit</i>
                     </div>
                 </div>

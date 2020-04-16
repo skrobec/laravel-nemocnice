@@ -17,8 +17,9 @@
         </div>
         <div class="title-box">
             <h4>Důvod</h4>
-            <h4>{{this.loadedHospitalization.reason}}</h4>
+            <h4></h4>
         </div>
+        <div class="text-box">{{this.loadedHospitalization.reason}}</div>
     </div>
     <div class="left"><label for="section">Oddělení</label></div>
     <div  class="wrap-detail">
@@ -42,7 +43,7 @@
 
                     <div class="form-group input-container">
                         <label for="reason">Důvod</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="reason" id="reason" v-model="fields.reason" />
+                        <textarea class="form-control shadow-none" id="reason" name="reason" rows="5" v-model="fields.reason"></textarea>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 

@@ -15,6 +15,7 @@
             <h4>Průběh</h4>
             <div>{{this.interventionObj.record}}</div>
         </div>
+        <div class="text-box">{{this.interventionObj.record}}</div>
     </div>
     <div class="participants-container">
         <div class="lists">
@@ -73,7 +74,7 @@
 
                     <div class="form-group input-container">
                         <label for="record">Průběh</label>
-                        <textarea type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
+                        <textarea type="text" class="form-control shadow-none" name="record" rows="5" id="record" v-model="fields.record" />
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 

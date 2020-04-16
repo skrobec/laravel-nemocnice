@@ -129,3 +129,10 @@ border-radius: 20px;
     display: flex;
     justify-content: center;
 }
+
+.text-box {
+    overflow-y: auto;
+    max-height: 200px;
+    text-align: start;
+    word-break: break-all;
+}

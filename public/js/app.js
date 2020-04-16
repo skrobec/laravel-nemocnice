@@ -2060,6 +2060,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getJob: function getJob(type) {
+      return type == 'App\\Doctor' ? 'Doktor' : 'Sestra';
+    },
     hideDetail: function hideDetail(value) {
       this.detail = false;
       this.connectId = 0;
@@ -4300,6 +4303,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4613,6 +4617,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4759,6 +4764,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -5278,6 +5286,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5317,8 +5337,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('detailToForm', 'hide');
     },
     setDoc: function setDoc(result) {
-      this.doctor = result;
-      this.setDoctor();
+      this.doctor = result.name;
+      this.setDoctor(result);
     },
     getInfo: function getInfo() {
       var _this2 = this;
@@ -5331,9 +5351,16 @@ __webpack_require__.r(__webpack_exports__);
         _this2.interventions = response.data.interventions;
         _this2.servings = response.data.servings;
         _this2.warning = true;
+        _this2.patientInfo = response.data.patient;
         return axios.get('/user/getDoctors');
       }).then(function (response) {
         _this2.doctors = response.data;
+
+        if (_this2.patientInfo.doctor_id !== null) {
+          _this2.doctor = _this2.doctors.find(function (doc) {
+            return doc.id == _this2.patientInfo.doctor_id;
+          });
+        }
       });
     },
     relink: function relink() {
@@ -5342,22 +5369,17 @@ __webpack_require__.r(__webpack_exports__);
     link: function link(destination, parameter) {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
-    setDoctor: function setDoctor() {
+    setDoctor: function setDoctor(id) {
       var _this3 = this;
 
-      if (this.loaded) {
-        var docId = doctors.find(function (doc) {
-          return doc.name === _this3.doctor;
-        }).id;
-        var postData = {
-          patient_id: this.parentData.id,
-          doctor_id: docId
-        };
-        axios.post('/doctor/setPatient', postData).then(function (response) {
-          // TODO
-          _this3.getInfo();
-        });
-      }
+      var postData = {
+        patient_id: this.parentData.id,
+        doctor_id: id
+      };
+      axios.post('/doctor/setPatient', postData).then(function (response) {
+        // TODO
+        _this3.getInfo();
+      });
     }
   }
 });
@@ -10461,7 +10483,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.details {\n  display: flex;\n  width: 200px;\n  justify-content: space-between;\n}\n.list {\n  max-height: 200px;\n  overflow: auto;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  align-items: flex-start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
+exports.push([module.i, "\n.details {\n  display: flex;\n  width: 200px;\n  justify-content: space-between;\n}\n.list {\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  align-items: flex-start;\n}\n.items {\n   max-height: 200px;\n   overflow: auto;\n   text-align: start;\n}\n.wrap-detail {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.option {\n    cursor: pointer;\n}\n.option-container {\n    width: 300px;\n    overflow: auto;\n    height: 50px;\n    margin-top: 40px;\n}\n.auto-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n}\n.back {\n  height: 50px;\n  width: 50px;\n  font-size: 50px;\n  margin-right: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.back i{\n    font-size: 50px;\n}\n.back-cont {\n    width: 100%;\n    display: flex;\n    justify-content: flex-end;\n}\n.patient-info {\n  margin-top: 60px;\n  margin-bottom: 30px;\n  width: 100%;\n}\n.left {\n  display: flex;\n  justify-content: flex-start;\n}\n\n", ""]);
 
 // exports
 
@@ -86472,7 +86494,9 @@ var render = function() {
                 return _c("div", { key: user.id, staticClass: "user-item" }, [
                   _c("span", [_vm._v("Jméno: " + _vm._s(user.name))]),
                   _vm._v(" "),
-                  _c("span", [_vm._v("Datum nástupu: " + _vm._s(user.date))]),
+                  _c("span", [
+                    _vm._v("Funkce: " + _vm._s(_vm.getJob(user.userable_type)))
+                  ]),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -87218,7 +87242,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "p_connect",
+                        staticClass: "p_connect cursor",
                         on: {
                           click: function($event) {
                             return _vm.connect(patient.id)
@@ -87235,7 +87259,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "p_delete",
+                        staticClass: "p_delete cursor",
                         on: {
                           click: function($event) {
                             return _vm.deletePatient(patient.id)
@@ -87252,7 +87276,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "p_edit",
+                        staticClass: "p_edit cursor",
                         on: {
                           click: function($event) {
                             return _vm.prepareEdit(patient.id)
@@ -87787,7 +87811,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    Sestra\n                ")]
+            [_vm._v("\r\n                    Sestra\r\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -87801,7 +87825,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    Doktor\n                ")]
+            [_vm._v("\r\n                    Doktor\r\n                ")]
           )
         ])
       ]),
@@ -87905,7 +87929,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                    Úspěšně provedeno !\n                "
+                      "\r\n                    Úspěšně provedeno !\r\n                "
                     )
                   ])
                 : _vm._e()
@@ -87980,14 +88004,14 @@ var render = function() {
           _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "title-box" }, [
-          _c("h4", [_vm._v("Průběh")]),
-          _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.loadedExam.record))])
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-box" }, [
+          _vm._v(_vm._s(this.loadedExam.record))
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0),
+      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -88036,7 +88060,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1),
+      _vm._m(2),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -88127,7 +88151,7 @@ var render = function() {
               _c("div", { staticClass: "form-group input-container" }, [
                 _c("label", { attrs: { for: "record" } }, [_vm._v("Průběh")]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -88136,8 +88160,8 @@ var render = function() {
                       expression: "fields.record"
                     }
                   ],
-                  staticClass: "form-control standard-input shadow-none",
-                  attrs: { type: "text", name: "record", id: "record" },
+                  staticClass: "form-control shadow-none",
+                  attrs: { id: "record", name: "record", rows: "5" },
                   domProps: { value: _vm.fields.record },
                   on: {
                     input: function($event) {
@@ -88165,7 +88189,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88177,6 +88201,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-box" }, [
+      _c("h4", [_vm._v("Průběh")]),
+      _vm._v(" "),
+      _c("h4")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -88249,14 +88283,14 @@ var render = function() {
           _c("h4", [_vm._v(_vm._s(this.loadedSection.name))])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "title-box" }, [
-          _c("h4", [_vm._v("Důvod")]),
-          _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.loadedHospitalization.reason))])
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-box" }, [
+          _vm._v(_vm._s(this.loadedHospitalization.reason))
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0),
+      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -88349,7 +88383,7 @@ var render = function() {
               _c("div", { staticClass: "form-group input-container" }, [
                 _c("label", { attrs: { for: "reason" } }, [_vm._v("Důvod")]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -88358,8 +88392,8 @@ var render = function() {
                       expression: "fields.reason"
                     }
                   ],
-                  staticClass: "form-control standard-input shadow-none",
-                  attrs: { type: "text", name: "reason", id: "reason" },
+                  staticClass: "form-control shadow-none",
+                  attrs: { id: "reason", name: "reason", rows: "5" },
                   domProps: { value: _vm.fields.reason },
                   on: {
                     input: function($event) {
@@ -88387,7 +88421,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88399,6 +88433,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-box" }, [
+      _c("h4", [_vm._v("Důvod")]),
+      _vm._v(" "),
+      _c("h4")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -88456,6 +88500,10 @@ var render = function() {
           _c("h4", [_vm._v("Průběh")]),
           _vm._v(" "),
           _c("div", [_vm._v(_vm._s(this.interventionObj.record))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-box" }, [
+          _vm._v(_vm._s(this.interventionObj.record))
         ])
       ]),
       _vm._v(" "),
@@ -88571,6 +88619,12 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
+            _vm.errors && _vm.errors.name
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.name[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c(
               "button",
               {
@@ -88632,6 +88686,12 @@ var render = function() {
                   : _vm._e()
               ])
             ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.name
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.name[0]))
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "button",
@@ -88700,8 +88760,13 @@ var render = function() {
                       expression: "fields.record"
                     }
                   ],
-                  staticClass: "form-control standard-input shadow-none",
-                  attrs: { type: "text", name: "record", id: "record" },
+                  staticClass: "form-control shadow-none",
+                  attrs: {
+                    type: "text",
+                    name: "record",
+                    rows: "5",
+                    id: "record"
+                  },
                   domProps: { value: _vm.fields.record },
                   on: {
                     input: function($event) {
@@ -88749,7 +88814,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88821,30 +88886,30 @@ var render = function() {
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "doctor" }),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "exams list scroll" },
-          [
-            _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Prohlídky")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "ico-box cursor",
-                  on: {
-                    click: function($event) {
-                      return _vm.link("examDetail")
-                    }
-                  }
-                },
-                [
-                  _vm._v("\n                Přidat prohlídku "),
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
-                ]
-              )
-            ]),
+        _c("div", { staticClass: "exams list scroll" }, [
+          _c("div", { staticClass: "title-box" }, [
+            _c("h4", [_vm._v("Prohlídky")]),
             _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "ico-box cursor",
+                on: {
+                  click: function($event) {
+                    return _vm.link("examDetail")
+                  }
+                }
+              },
+              [
+                _vm._v("\r\n                Přidat prohlídku "),
+                _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "scroll items" },
             _vm._l(_vm.exams, function(exam) {
               return _c("div", { key: exam.id }, [
                 _c(
@@ -88861,68 +88926,68 @@ var render = function() {
                   [_vm._v(_vm._s(_vm._f("moment")(exam.date, "DD.MM.YYYY")))]
                 )
               ])
-            })
-          ],
-          2
-        ),
+            }),
+            0
+          )
+        ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "servings list scroll" },
-          [
-            _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Podání léků")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "ico-box cursor",
-                  on: {
-                    click: function($event) {
-                      return _vm.link("servingDetail")
-                    }
-                  }
-                },
-                [
-                  _vm._v("\n                Přidat podání "),
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
-                ]
-              )
-            ]),
+        _c("div", { staticClass: "servings list" }, [
+          _c("div", { staticClass: "title-box" }, [
+            _c("h4", [_vm._v("Podání léků")]),
             _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "ico-box cursor",
+                on: {
+                  click: function($event) {
+                    return _vm.link("servingDetail")
+                  }
+                }
+              },
+              [
+                _vm._v("\r\n                Přidat podání "),
+                _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "scroll items" },
             _vm._l(_vm.servings, function(serving) {
               return _c("div", { key: serving.id }, [
                 _vm._v("Datum: " + _vm._s(serving.date))
               ])
-            })
-          ],
-          2
-        ),
+            }),
+            0
+          )
+        ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "hospitalization list scroll" },
-          [
-            _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Hospitalizace")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "ico-box cursor",
-                  on: {
-                    click: function($event) {
-                      return _vm.link("hospitalizationDetail")
-                    }
-                  }
-                },
-                [
-                  _vm._v("\n                Přidat hospitalizaci "),
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
-                ]
-              )
-            ]),
+        _c("div", { staticClass: "hospitalization list scroll" }, [
+          _c("div", { staticClass: "title-box" }, [
+            _c("h4", [_vm._v("Hospitalizace")]),
             _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "ico-box cursor",
+                on: {
+                  click: function($event) {
+                    return _vm.link("hospitalizationDetail")
+                  }
+                }
+              },
+              [
+                _vm._v("\r\n                Přidat hospitalizaci "),
+                _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "scroll items" },
             _vm._l(_vm.hospitalizations, function(hosp) {
               return _c("div", { key: hosp.id }, [
                 _vm._v(
@@ -88933,43 +88998,43 @@ var render = function() {
                     " "
                 )
               ])
-            })
-          ],
-          2
-        ),
+            }),
+            0
+          )
+        ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "interventions list scroll" },
-          [
-            _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Zákroky")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "ico-box cursor",
-                  on: {
-                    click: function($event) {
-                      return _vm.link("interventionDetail")
-                    }
-                  }
-                },
-                [
-                  _vm._v("\n                Přidat zákrok "),
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
-                ]
-              )
-            ]),
+        _c("div", { staticClass: "interventions list scroll" }, [
+          _c("div", { staticClass: "title-box" }, [
+            _c("h4", [_vm._v("Zákroky")]),
             _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "ico-box cursor",
+                on: {
+                  click: function($event) {
+                    return _vm.link("interventionDetail")
+                  }
+                }
+              },
+              [
+                _vm._v("\r\n                Přidat zákrok "),
+                _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "scroll items" },
             _vm._l(_vm.interventions, function(int) {
               return _c("div", { key: int.id }, [
                 _vm._v("Datum: " + _vm._s(int.date))
               ])
-            })
-          ],
-          2
-        )
+            }),
+            0
+          )
+        ])
       ]),
       _vm._v(" "),
       _vm._m(0),
@@ -89282,7 +89347,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -107697,8 +107762,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -12,7 +12,7 @@
             <div class="user-block">
                 <div class="user-item" v-for="user of filteredResults" v-bind:key="user.id">
                     <span>Jméno: {{user.name}}</span>
-                    <span>Datum nástupu: {{user.date}}</span>
+                    <span>Funkce: {{getJob(user.userable_type)}}</span>
                     <div v-on:click="connect(user.id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
@@ -150,6 +150,9 @@ export default {
     }
   },
   methods: {
+    getJob(type){
+        return (type == 'App\\Doctor') ? 'Doktor' : 'Sestra';
+    },
 
     hideDetail(value){
         this.detail = false;

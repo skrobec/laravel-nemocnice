@@ -19,18 +19,22 @@
                 Přidat prohlídku <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="exam of exams" v-bind:key="exam.id">
-            <a :href="'examDetail?examId=' + exam.id + '&patientId='+exam.patient_id">{{exam.date | moment('DD.MM.YYYY')}}</a>
+        <div class="scroll items">
+          <div v-for="exam of exams" v-bind:key="exam.id">
+              <a :href="'examDetail?examId=' + exam.id + '&patientId='+exam.patient_id">{{exam.date | moment('DD.MM.YYYY')}}</a>
+          </div>
         </div>
       </div>
-      <div class="servings list scroll">
+      <div class="servings list">
         <div class="title-box">
             <h4>Podání léků</h4>
             <div class="ico-box cursor" v-on:click="link('servingDetail')">
                 Přidat podání <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="serving of servings" v-bind:key="serving.id">Datum: {{serving.date}}</div>
+        <div class="scroll items">
+          <div v-for="serving of servings" v-bind:key="serving.id">Datum: {{serving.date}}</div>
+        </div>
       </div>
       <div class="hospitalization list scroll">
 
@@ -40,7 +44,10 @@
                 Přidat hospitalizaci <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="hosp of hospitalizations" v-bind:key="hosp.id">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
+        <div class="scroll items">
+           <div v-for="hosp of hospitalizations" v-bind:key="hosp.id">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
+        </div>
+       
       </div>
       <div class="interventions list scroll">
         <div class="title-box">
@@ -52,7 +59,9 @@
 
 
         </div>
-        <div v-for="int of interventions" v-bind:key="int.id">Datum: {{int.date}}</div>
+        <div class="scroll items">
+          <div v-for="int of interventions" v-bind:key="int.id">Datum: {{int.date}}</div>
+        </div>
       </div>
 
     </div>
@@ -83,13 +92,16 @@
       justify-content: space-between;
     }
     .list {
-      max-height: 200px;
-      overflow: auto;
       width: 100%;
       display: flex;
       justify-content: flex-start;
       flex-direction: column;
       align-items: flex-start;
+    }
+    .items {
+       max-height: 200px;
+       overflow: auto;
+       text-align: start;
     }
     .wrap-detail {
         display: flex;
@@ -177,8 +189,8 @@ export default {
         this.$emit('detailToForm', 'hide')
     },
     setDoc(result) {
-        this.doctor = result;
-        this.setDoctor();
+        this.doctor = result.name;
+        this.setDoctor(result);
     },
     getInfo(){
         axios.post('/patient/getInfo',{id: this.parentData.id}).then(response => {
@@ -187,9 +199,13 @@ export default {
             this.interventions = response.data.interventions;
             this.servings = response.data.servings;
             this.warning = true;
+            this.patientInfo = response.data.patient;
             return axios.get('/user/getDoctors');
         }).then( response => {
             this.doctors = response.data;
+             if (this.patientInfo.doctor_id !== null) {
+              this.doctor = this.doctors.find(doc => doc.id == this.patientInfo.doctor_id);
+            }
         });
     },
     relink() {
@@ -199,15 +215,13 @@ export default {
     link(destination, parameter) {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
-    setDoctor(){
-      if (this.loaded) {
+    setDoctor(id){
 
-        const docId = doctors.find(doc => doc.name === this.doctor).id;
-        const postData = {patient_id: this.parentData.id, doctor_id: docId};
+        const postData = {patient_id: this.parentData.id, doctor_id: id};
         axios.post('/doctor/setPatient', postData).then(response => { // TODO
           this.getInfo();
         });
-      }
+      
     }
   },
 }

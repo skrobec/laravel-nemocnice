@@ -21,8 +21,9 @@
         </div>
         <div class="title-box">
             <h4>Průběh</h4>
-            <h4>{{this.loadedExam.record}}</h4>
+            <h4></h4>
         </div>
+        <div class="text-box">{{this.loadedExam.record}}</div>
     </div>
     <div class="left"><label for="doctor">Doktor</label></div>
     <div  class="wrap-detail">
@@ -58,7 +59,7 @@
 
                     <div class="form-group input-container">
                         <label for="record">Průběh</label>
-                        <input type="text" class="form-control standard-input shadow-none" name="record" id="record" v-model="fields.record" />
+                        <textarea class="form-control shadow-none" id="record" name="record" rows="5" v-model="fields.record"></textarea>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
