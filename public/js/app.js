@@ -4029,6 +4029,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4046,7 +4053,8 @@ __webpack_require__.r(__webpack_exports__);
       results: [],
       section: '',
       sectionId: '',
-      userInfo: {}
+      userInfo: {},
+      admin: false
     };
   },
   created: function created() {
@@ -4065,6 +4073,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getJob: function getJob(type) {
+      return type == 'doctor' ? 'Doktor' : 'Sestra';
+    },
     back: function back() {
       this.$emit('detailToForm', 'hide');
     },
@@ -4075,7 +4086,7 @@ __webpack_require__.r(__webpack_exports__);
       }).name;
     },
     addJob: function addJob(type) {
-      if (type !== 'null') {
+      if (type !== 'null' && this.admin == false) {
         if (type === 'nurse') {
           this.nurseChosen = true;
           this.doctorChosen = false;
@@ -4103,8 +4114,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.results = response.data;
         _this2.section = _this2.results.find(function (sec) {
-          return sec.id == section_id;
+          return sec.id == _this2.userInfo.section_id.id;
         }).name;
+        return axios.get('/user/isAdmin');
+      }).then(function (response) {
+        _this2.admin = response.data.isAdmin;
+        console.log(_this2.admin);
       });
     },
     submit: function submit() {
@@ -4303,6 +4318,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4340,7 +4356,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       drugObj: {
         name: ''
       }
-    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "examId", ''), _defineProperty(_ref, "buffer", []), _ref;
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "examId", ''), _defineProperty(_ref, "buffer", []), _defineProperty(_ref, "admin", false), _ref;
   },
   created: function created() {
     var queryString = window.location.href;
@@ -4617,14 +4633,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-<<<<<<< HEAD
-=======
 //
 //
 //
 //
 //
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4936,10 +4950,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-<<<<<<< HEAD
 //
-=======
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -86764,7 +86775,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87654,7 +87665,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87806,20 +87817,26 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "screen-center" }, [
     _c("div", { staticClass: "middle-container" }, [
-      _c("div", { staticClass: "back-cont" }, [
-        _c(
-          "div",
-          {
-            staticClass: "back",
-            on: {
-              click: function($event) {
-                return _vm.back()
-              }
-            }
-          },
-          [_c("i", { staticClass: "material-icons" }, [_vm._v("arrow_back")])]
-        )
-      ]),
+      _vm.admin
+        ? _c("div", { staticClass: "back-cont" }, [
+            _c(
+              "div",
+              {
+                staticClass: "back",
+                on: {
+                  click: function($event) {
+                    return _vm.back()
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "material-icons" }, [
+                  _vm._v("arrow_back")
+                ])
+              ]
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("h2", [_vm._v("Správa uživatele")]),
       _vm._v(" "),
@@ -87852,146 +87869,165 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "title-box" }, [
-          _c("h4", [_vm._v("Funkce")]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "cursor non-marked",
-              class: { marked: _vm.nurseChosen },
-              on: {
-                click: function($event) {
-                  return _vm.addJob("nurse")
-                }
-              }
-            },
-            [_vm._v("\r\n                    Sestra\r\n                ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "cursor non-marked",
-              class: { marked: _vm.doctorChosen },
-              on: {
-                click: function($event) {
-                  return _vm.addJob("doctor")
-                }
-              }
-            },
-            [_vm._v("\r\n                    Doktor\r\n                ")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.section,
-                expression: "section"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "section", type: "text" },
-            domProps: { value: _vm.section },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.section = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredResults.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredResults, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
-                      domProps: { textContent: _vm._s(result.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setSection(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "forms-container" }, [
-        _c("div", { staticClass: "form-block" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
-              }
-            },
-            [
+        !_vm.admin
+          ? _c("div", { staticClass: "title-box" }, [
+              _c("h4", [_vm._v("Funkce")]),
+              _vm._v(" "),
+              _c("h4", [
+                _vm._v(_vm._s(_vm.getJob(this.userInfo.userable_type)))
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.admin
+          ? _c("div", { staticClass: "title-box" }, [
+              _c("h4", [_vm._v("Funkce")]),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "form-group input-container" },
-                [
-                  _c("label", { attrs: { for: "entry_date" } }, [
-                    _vm._v("Datum nástupu")
-                  ]),
-                  _vm._v(" "),
-                  _c("date-picker", {
-                    attrs: { id: "entry_date" },
-                    model: {
-                      value: _vm.fields.entry_date,
-                      callback: function($$v) {
-                        _vm.$set(_vm.fields, "entry_date", $$v)
-                      },
-                      expression: "fields.entry_date"
+                {
+                  staticClass: "cursor non-marked",
+                  class: { marked: _vm.nurseChosen },
+                  on: {
+                    click: function($event) {
+                      return _vm.addJob("nurse")
                     }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors && _vm.errors.name
-                    ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0]))
-                      ])
-                    : _vm._e()
-                ],
-                1
+                  }
+                },
+                [_vm._v("\r\n                    Sestra\r\n                ")]
               ),
               _vm._v(" "),
               _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Přidat")]
-              ),
-              _vm._v(" "),
-              _vm.success
-                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                    _vm._v(
-                      "\r\n                    Úspěšně provedeno !\r\n                "
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        ])
-      ])
+                "div",
+                {
+                  staticClass: "cursor non-marked",
+                  class: { marked: _vm.doctorChosen },
+                  on: {
+                    click: function($event) {
+                      return _vm.addJob("doctor")
+                    }
+                  }
+                },
+                [_vm._v("\r\n                    Doktor\r\n                ")]
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm.admin
+        ? _c("div", [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c("div", { staticClass: "auto-container" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.section,
+                      expression: "section"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { id: "section", type: "text" },
+                  domProps: { value: _vm.section },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.section = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "option-container scroll" }, [
+                  _vm.filteredResults.length > 0
+                    ? _c(
+                        "ul",
+                        _vm._l(_vm.filteredResults, function(result) {
+                          return _c("li", {
+                            key: result.id,
+                            staticClass: "option",
+                            domProps: { textContent: _vm._s(result.name) },
+                            on: {
+                              click: function($event) {
+                                return _vm.setSection(result.id)
+                              }
+                            }
+                          })
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "forms-container" }, [
+              _c("div", { staticClass: "form-block" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "form-group input-container" },
+                      [
+                        _c("label", { attrs: { for: "entry_date" } }, [
+                          _vm._v("Datum nástupu")
+                        ]),
+                        _vm._v(" "),
+                        _c("date-picker", {
+                          attrs: { id: "entry_date" },
+                          model: {
+                            value: _vm.fields.entry_date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.fields, "entry_date", $$v)
+                            },
+                            expression: "fields.entry_date"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors && _vm.errors.name
+                          ? _c("div", { staticClass: "text-danger" }, [
+                              _vm._v(_vm._s(_vm.errors.name[0]))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Přidat")]
+                    ),
+                    _vm._v(" "),
+                    _vm.success
+                      ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                          _vm._v(
+                            "\r\n                          Úspěšně provedeno !\r\n                      "
+                          )
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -88050,13 +88086,17 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Doktor")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.loadedDoctor.name))])
+          _c("a", { attrs: { href: "/users?id=" + this.loadedDoctor.id } }, [
+            _c("h4", [_vm._v(_vm._s(this.loadedDoctor.name))])
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Sestra")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
+          _c("a", { attrs: { href: "/users?id=" + this.loadedNurse.id } }, [
+            _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
+          ])
         ]),
         _vm._v(" "),
         _vm._m(0),
@@ -88115,17 +88155,13 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-<<<<<<< HEAD
-      _vm._m(2),
-=======
       _vm.errors && _vm.errors.doctor_id
         ? _c("div", { staticClass: "text-danger" }, [
             _vm._v(_vm._s(_vm.errors.doctor_id[0]))
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm._m(1),
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
+      _vm._m(2),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -88506,9 +88542,9 @@ var render = function() {
               _vm.errors && _vm.errors.msg
                 ? _c("div", { staticClass: "text-danger" }, [
                     _vm._v(
-                      "\n                        " +
+                      "\r\n                        " +
                         _vm._s(_vm.errors.msg[0]) +
-                        "\n                    "
+                        "\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88619,7 +88655,10 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.chosenNurses, function(nurse) {
                 return _c("div", { key: nurse.id, staticClass: "inner-list" }, [
-                  _vm._v("Jméno: " + _vm._s(_vm.getName(nurse)))
+                  _vm._v("Jméno: "),
+                  _c("a", { attrs: { href: "/users?id=" + nurse.id } }, [
+                    _vm._v(_vm._s(_vm.getName(nurse)))
+                  ])
                 ])
               })
             ],
@@ -88649,7 +88688,10 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.chosenDoctors, function(doc) {
                 return _c("div", { key: doc.id, staticClass: "inner-list" }, [
-                  _vm._v("Jméno: " + _vm._s(_vm.getName(doc)))
+                  _vm._v("Jméno: "),
+                  _c("a", { attrs: { href: "/users?id=" + doc.id } }, [
+                    _vm._v(_vm._s(_vm.getName(doc)))
+                  ])
                 ])
               })
             ],
@@ -88973,35 +89015,9 @@ var render = function() {
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "doctor" }),
         _vm._v(" "),
-<<<<<<< HEAD
         _c("div", { staticClass: "exams list scroll" }, [
           _c("div", { staticClass: "title-box" }, [
-            _c("h4", [_vm._v("Prohlídky")]),
-=======
-        _c(
-          "div",
-          { staticClass: "exams list scroll" },
-          [
-            _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Vyšetření")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "ico-box cursor",
-                  on: {
-                    click: function($event) {
-                      return _vm.link("examDetail")
-                    }
-                  }
-                },
-                [
-                  _vm._v("\n                Přidat vyšetření "),
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
-                ]
-              )
-            ]),
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
+            _c("h4", [_vm._v("Vyšetření")]),
             _vm._v(" "),
             _c(
               "div",
@@ -89014,7 +89030,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n                Přidat prohlídku "),
+                _vm._v("\r\n                Přidat vyšetření "),
                 _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
               ]
             )
@@ -89256,7 +89272,9 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Sestra")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
+          _c("a", { attrs: { href: "/users?id=" + this.loadedNurse.id } }, [
+            _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
+          ])
         ]),
         _vm._v(" "),
         _vm._m(0),
