@@ -47,8 +47,8 @@
         <div class="form-block">
             <form @submit.prevent="submit">
                 <div class="form-group input-container">
-                    <label for="date">Datum nástupu</label>
-                    <date-picker v-model='fields.date'/>
+                    <label for="entry_date">Datum nástupu</label>
+                    <date-picker id="entry_date" v-model='fields.entry_date'/>
                     <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                 </div>
 
@@ -142,7 +142,7 @@ export default {
     return {
       user: {},
       fields: {
-          date: new Date()
+          entry_date: new Date()
       },
       errors: {},
       doctorChosen: false,
@@ -188,13 +188,13 @@ export default {
         }
         this.job = type;
       }
-        
+
     },
     getInfo(){
 
         this.user = this.parentData;
          console.log(this.user);
-         
+
         axios.post('/user/getInfo', {id:this.user.id}).then(response => {
 
           this.userInfo = response.data;
@@ -210,7 +210,8 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        const postData = {id: this.parentData.id, job: this.job, date: this.fields.date, section: this.sectionId };
+        this.fields.entry_date = this.$moment(this.fields.entry_date).format('YYYY-MM-DD');
+        const postData = {id: this.parentData.id, job: this.job, entry_date: this.fields.entry_date, section: this.sectionId };
         axios.post('/user/addJob', postData).then(response => {
           console.log(response);
           this.fields = {};

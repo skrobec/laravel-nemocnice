@@ -66,7 +66,7 @@ class UserController extends Controller
             'entry_date' => $user->userable->entry_date,
             'termination_date' => $user->userable->termination_date,
             'userable_type' => $type,
-            'section' => $user->userable->section,
+            'section_id' => $user->userable->section,
         ], 201);
     }
 

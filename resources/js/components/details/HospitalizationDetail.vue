@@ -36,7 +36,7 @@
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date_start">Datum</label>
-                        <date-picker v-model='fields.date'/>
+                        <date-picker id="date_start" v-model='fields.date_start'/>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
@@ -211,7 +211,6 @@ export default {
         });
     },
     getEditInfo(){
-        console.log("xxxxx" + this.hospitalizationId);
         axios.post('/hospitalization/getInfo',{id: this.hospitalizationId}).then(response => {
           this.loadedHospitalization = response.data;
           this.loadedSection = this.sections.find(section => section.id == this.loadedHospitalization.section_id );
@@ -227,13 +226,14 @@ export default {
         this.errors = {};
         this.fields.patient_id = this.patientObj.id;
         this.fields.section_id = this.sectionObj.id;
+        this.fields.date_start = this.$moment(this.fields.date_start).format('YYYY-MM-DD');
         console.log(this.fields);
         axios.post('/hospitalizations/add', this.fields).then(response => {
           console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
-          this.hospitalizationId = response.id;
+          this.hospitalizationId = response.data.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;

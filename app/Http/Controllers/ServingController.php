@@ -6,6 +6,7 @@ use App\Drug;
 use App\Serving;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ServingController extends Controller
 {
@@ -22,11 +23,20 @@ class ServingController extends Controller
     }
 
     public function addServing(Request $request){
-        $request->validate([
+        $rules = array(
             'date'=>'required',
             'patient_id'=>'required',
             'nurse_id'=>'required'
-        ]);
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $serving = new Serving([
             'date' => $request->get('date'),
@@ -41,15 +51,25 @@ class ServingController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $serving->id,
         ], 201);
     }
 
     public function editServing(Request $request, $id){
-        $request->validate([
+        $rules = array(
             'date'=>'required',
             'patient_id'=>'required',
             'nurse_id'=>'required'
-        ]);
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $serving = Serving::find($id);
         $serving->date =  $request->get('date');
@@ -70,6 +90,7 @@ class ServingController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $serving->id
         ], 201);
     }
 

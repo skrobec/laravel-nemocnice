@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.servingObj.date}}</div>
+            <div>{{this.servingObj.date | moment('DD.MM.YYYY')}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -44,10 +44,10 @@
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
                         <!--input placeholder="YYYY-MM-DD" type="text" class="form-control standard-input shadow-none" name="date" id="date" v-model="fields.date" /-->
-                        <date-picker v-model='fields.date'/>
+                        <date-picker id="date" v-model='fields.date'/>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
-                    
+
 
                     <div class="form-group input-container">
                         <label for="drugQ">Množství léku</label>
@@ -228,7 +228,7 @@ export default {
         }).then( response => {
             this.drugs = response.data;
              console.log(this.drugs);
-          
+
             if (this.servingId !== undefined && this.servingId !== null ) {
                 this.getEditInfo();
             }
@@ -260,13 +260,14 @@ export default {
         this.success = false;
         this.errors = {};
         this.fields.patient_id = this.patientId;
+        this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
         console.log(this.fields);
         axios.post('/servings/add', this.fields).then(response => {
           console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
-          this.servingId = response.id;
+          this.servingId = response.data.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;

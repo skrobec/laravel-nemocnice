@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 
 
 use App\Hospitalization;
+use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 
 class HospitalizationController extends Controller
@@ -24,14 +26,24 @@ class HospitalizationController extends Controller
     }
 
     public function addHospitalization(Request $request){
-        $request->validate([
+        $rules = array(
             'date_start'=> 'required',
             'reason' => 'required',
             'patient_id' => 'required',
             'section_id' => 'required'
-        ]);
+        );
 
-        $tmp = Hospitalization::active()->get();
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
+
+        $patient = Patient::find($request->get('patient_id'));
+        $tmp = $patient->hospitalizations()->active()->get();
         if (sizeof($tmp) > 0){
             return response()->json([
                 'status' => 'error',
@@ -51,16 +63,26 @@ class HospitalizationController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $hospitalization->id,
         ], 201);
     }
 
     public function editHospitalization(Request $request, $id){
-        $request->validate([
+        $rules = array(
             'date_start'=> 'required',
             'reason' => 'required',
             'patient_id' => 'required',
             'section_id' => 'required'
-        ]);
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $hospitalization = Hospitalization::find($id);
         $hospitalization->date_start =  $request->get('date_start');
@@ -73,6 +95,7 @@ class HospitalizationController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $hospitalization->id,
         ], 201);
     }
 

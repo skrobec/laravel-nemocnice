@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Exam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ExamController extends Controller
 {
@@ -18,13 +19,22 @@ class ExamController extends Controller
     }
 
     public function addExam(Request $request){
-        $request->validate([
+        $rules = array(
             'date'=> 'required',
             'record'=>'required',
             'doctor_id' => 'required',
             'patient_id' => 'required',
             'nurse_id' => 'required'
-        ]);
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $exam = new Exam([
             'date' => $request->get('date'),
@@ -38,18 +48,27 @@ class ExamController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
-            'id' => $exam->id
+            'id' => $exam->id,
         ], 201);
     }
 
     public function editExam(Request $request, $id){
-        $request->validate([
+        $rules = array(
             'date'=> 'required',
             'record'=>'required',
             'doctor_id' => 'required',
             'patient_id' => 'required',
             'nurse_id' => 'required'
-        ]);
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error',
+                'errors' => $validator->messages()->get('*'),
+            ], 422);
+        }
 
         $exam = Exam::find($id);
         $exam->date =  $request->get('date');
@@ -72,6 +91,7 @@ class ExamController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $exam->id,
         ], 201);
     }
 

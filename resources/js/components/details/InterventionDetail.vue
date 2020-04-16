@@ -9,7 +9,7 @@
         </div>
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.interventionObj.date}}</div>
+            <div>{{this.interventionObj.date | moment('DD.MM.YYYY')}}</div>
         </div>
         <div class="title-box">
             <h4>Průběh</h4>
@@ -67,7 +67,7 @@
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
-                        <date-picker v-model='fields.date'/>
+                        <date-picker id="date" v-model='fields.date'/>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
@@ -96,7 +96,7 @@
 
 <style>
     .list {
-      max-height: 200;
+      max-height: 200px;
       overflow: auto;
       width: 100%;
       display: flex;
@@ -309,13 +309,14 @@ export default {
         this.fields.nurses = this.chosenNurses.map(a => a.userable_id);
         this.fields.doctors = this.chosenDoctors.map(a => a.userable_id);
         this.fields.patient_id = this.patientObj.id;
+        this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
         console.log(this.fields);
         axios.post('/interventions/add', this.fields).then(response => {
           console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
-          this.interventionId = response.id;
+          this.interventionId = response.data.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;

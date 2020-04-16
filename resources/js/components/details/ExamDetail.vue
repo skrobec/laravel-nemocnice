@@ -5,7 +5,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Datum</h4>
-            <div>{{this.loadedExam.date}}</div>
+            <div>{{this.loadedExam.date | moment('DD.MM.YYYY')}}</div>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -52,7 +52,7 @@
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
                         <label for="date">Datum</label>
-                        <date-picker v-model='fields.date'/>
+                        <date-picker id="date" v-model='fields.date'/>
                         <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                     </div>
 
@@ -268,6 +268,7 @@ export default {
         this.fields.patient_id = this.patientObj.id;
         this.fields.doctor_id = this.doctorObj.userable_id;
         this.fields.nurse_id = this.nurseObj.userable_id;
+        this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
             console.log(this.fields);
         axios.post('/exams/add', this.fields).then(response => {
           console.log(response);
