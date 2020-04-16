@@ -4408,11 +4408,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this3.getEditInfo();
         }
       });
-      ;
     },
     getEditInfo: function getEditInfo() {
       var _this4 = this;
 
+      console.log("chci id ", this.examId);
       axios.post('/exam/getInfo', {
         id: this.examId
       }).then(function (response) {
@@ -4437,14 +4437,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        this.fields.patientId = this.patientObj.id;
-        this.fields.sectionId = this.sectionObj.id;
-        axios.post('/exam/add', this.fields).then(function (response) {
+        this.fields.patient_id = this.patientObj.id;
+        this.fields.doctor_id = this.doctorObj.userable_id;
+        this.fields.nurse_id = this.nurseObj.userable_id;
+        console.log(this.fields);
+        axios.post('/exams/add', this.fields).then(function (response) {
           console.log(response);
           _this5.fields = {};
           _this5.loaded = true;
           _this5.success = true;
-          _this5.examId = response.id;
+          _this5.examId = response.data.id;
 
           _this5.getEditInfo();
         })["catch"](function (error) {
@@ -4470,8 +4472,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js");
-/* harmony import */ var vue_moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_moment__WEBPACK_IMPORTED_MODULE_0__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -4607,7 +4607,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4665,12 +4664,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: {
-    format_date: function format_date(value) {
-      if (value) {
-        console.log(String(date));
-        return vue_moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('DD.MM.YYYY, h:mm:ss a');
-      }
-    },
     setSection: function setSection(result) {
       this.section = this.sections.find(function (section) {
         return section.id == result;
@@ -5124,6 +5117,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -42616,7 +42610,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -43280,7 +43274,7 @@ var render = function() {
                   _vm.success
                     ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                         _vm._v(
-                          "\n                        Úspěšně provedeno !\n                    "
+                          "\r\n                        Úspěšně provedeno !\r\n                    "
                         )
                       ])
                     : _vm._e()
@@ -43490,7 +43484,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -44085,7 +44079,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -44776,13 +44770,28 @@ var render = function() {
                     }
                   }
                 },
-                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+                [
+                  _vm._v("\n                Přidat prohlídku "),
+                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+                ]
               )
             ]),
             _vm._v(" "),
             _vm._l(_vm.exams, function(exam) {
-              return _c("div", { key: exam.date }, [
-                _vm._v("Datum: " + _vm._s(exam.date))
+              return _c("div", { key: exam.id }, [
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "examDetail?examId=" +
+                        exam.id +
+                        "&patientId=" +
+                        exam.patient_id
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm._f("moment")(exam.date, "DD.MM.YYYY")))]
+                )
               ])
             })
           ],
@@ -44806,12 +44815,15 @@ var render = function() {
                     }
                   }
                 },
-                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+                [
+                  _vm._v("\n                Přidat podání "),
+                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+                ]
               )
             ]),
             _vm._v(" "),
             _vm._l(_vm.servings, function(serving) {
-              return _c("div", { key: serving.date }, [
+              return _c("div", { key: serving.id }, [
                 _vm._v("Datum: " + _vm._s(serving.date))
               ])
             })
@@ -44836,12 +44848,15 @@ var render = function() {
                     }
                   }
                 },
-                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+                [
+                  _vm._v("\n                Přidat hospitalizaci "),
+                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+                ]
               )
             ]),
             _vm._v(" "),
             _vm._l(_vm.hospitalizations, function(hosp) {
-              return _c("div", { key: hosp.date_start }, [
+              return _c("div", { key: hosp.id }, [
                 _vm._v(
                   "Začátek: " +
                     _vm._s(hosp.date_start) +
@@ -44872,12 +44887,15 @@ var render = function() {
                     }
                   }
                 },
-                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+                [
+                  _vm._v("\n                Přidat zákrok "),
+                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+                ]
               )
             ]),
             _vm._v(" "),
             _vm._l(_vm.interventions, function(int) {
-              return _c("div", { key: int.date }, [
+              return _c("div", { key: int.id }, [
                 _vm._v("Datum: " + _vm._s(int.date))
               ])
             })

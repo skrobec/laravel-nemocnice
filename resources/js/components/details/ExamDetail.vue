@@ -242,10 +242,10 @@ export default {
             if (this.examId !== undefined && this.examId !== null ) {
                     this.getEditInfo();
             }
-        });;
+        });
     },
     getEditInfo(){
-
+        console.log("chci id ",this.examId);
         axios.post('/exam/getInfo',{id: this.examId}).then(response => {
           this.loadedExam = response.data;
           console.log(this.loadedExam);
@@ -263,14 +263,16 @@ export default {
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        this.fields.patientId = this.patientObj.id;
-        this.fields.sectionId = this.sectionObj.id;
-        axios.post('/exam/add', this.fields).then(response => {
+        this.fields.patient_id = this.patientObj.id;
+        this.fields.doctor_id = this.doctorObj.userable_id;
+        this.fields.nurse_id = this.nurseObj.userable_id;
+            console.log(this.fields);
+        axios.post('/exams/add', this.fields).then(response => {
           console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
-          this.examId = response.id;
+          this.examId = response.data.id;
           this.getEditInfo();
         }).catch(error => {
           this.loaded = true;

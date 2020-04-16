@@ -21,9 +21,9 @@ class ExamController extends Controller
         $request->validate([
             'date'=> 'required',
             'record'=>'required',
-            'doctor_id' => 'required|exists:doctor',
-            'patient_id' => 'required|exists:patient',
-            'nurse_id' => 'required|exists:nurse'
+            'doctor_id' => 'required',
+            'patient_id' => 'required',
+            'nurse_id' => 'required'
         ]);
 
         $exam = new Exam([
@@ -38,6 +38,7 @@ class ExamController extends Controller
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
+            'id' => $exam->id
         ], 201);
     }
 
@@ -45,9 +46,9 @@ class ExamController extends Controller
         $request->validate([
             'date'=> 'required',
             'record'=>'required',
-            'doctor_id' => 'required|exists:doctor',
-            'patient_id' => 'required|exists:patient',
-            'nurse_id' => 'required|exists:nurse'
+            'doctor_id' => 'required',
+            'patient_id' => 'required',
+            'nurse_id' => 'required'
         ]);
 
         $exam = Exam::find($id);

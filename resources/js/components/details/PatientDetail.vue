@@ -12,45 +12,46 @@
 
       </div>
       <div class="exams list scroll">
-        
+
         <div class="title-box">
             <h4>Prohlídky</h4>
             <div class="ico-box cursor" v-on:click="link('examDetail')">
-              <i class="material-icons">add</i>
+                Přidat prohlídku <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="exam of exams" v-bind:key="exam.date">Datum: {{exam.date}}</div>
+        <div v-for="exam of exams" v-bind:key="exam.id">
+            <a :href="'examDetail?examId=' + exam.id + '&patientId='+exam.patient_id">{{exam.date | moment('DD.MM.YYYY')}}</a>
+        </div>
       </div>
       <div class="servings list scroll">
         <div class="title-box">
             <h4>Podání léků</h4>
             <div class="ico-box cursor" v-on:click="link('servingDetail')">
-              <i class="material-icons">add</i>
+                Přidat podání <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="serving of servings" v-bind:key="serving.date">Datum: {{serving.date}}</div>
+        <div v-for="serving of servings" v-bind:key="serving.id">Datum: {{serving.date}}</div>
       </div>
       <div class="hospitalization list scroll">
-
          <div class="title-box">
             <h4>Hospitalizace</h4>
             <div class="ico-box cursor" v-on:click="link('hospitalizationDetail')">
-              <i class="material-icons">add</i>
+                Přidat hospitalizaci <i class="material-icons">add</i>
             </div>
         </div>
-        <div v-for="hosp of hospitalizations" v-bind:key="hosp.date_start">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
+        <div v-for="hosp of hospitalizations" v-bind:key="hosp.id">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
       </div>
       <div class="interventions list scroll">
         <div class="title-box">
             <h4>Zákroky</h4>
-        
+
             <div class="ico-box cursor" v-on:click="link('interventionDetail')">
-              <i class="material-icons">add</i>
+                Přidat zákrok <i class="material-icons">add</i>
             </div>
 
 
         </div>
-        <div v-for="int of interventions" v-bind:key="int.date">Datum: {{int.date}}</div>
+        <div v-for="int of interventions" v-bind:key="int.id">Datum: {{int.date}}</div>
       </div>
 
     </div>
