@@ -67,7 +67,8 @@ class UserController extends Controller
         $user = User::find($request->get('id'));
         if ($user->userable_type == 'App\Doctor'){
             return response()->json([
-                'name' => $user->id,
+                'id' => $user->id,
+                'name' => $user->name,
                 'entry_date' => $user->userable->entry_date,
                 'termination_date' => $user->userable->termination_date,
                 'userable_type' => 'doctor',
@@ -75,7 +76,8 @@ class UserController extends Controller
             ], 201);
         } else if ($user->userable_type == 'App\Nurse') {
             return response()->json([
-                'name' => $user->id,
+                'id' => $user->id,
+                'name' => $user->name,
                 'entry_date' => $user->userable->entry_date,
                 'termination_date' => $user->userable->termination_date,
                 'userable_type' => 'nurse',
@@ -83,7 +85,8 @@ class UserController extends Controller
             ], 201);
         } else {
             return response()->json([
-                'name' => $user->id,
+                'id' => $user->id,
+                'name' => $user->name,
                 'entry_date' => '',
                 'termination_date' => '',
                 'userable_type' => null,
