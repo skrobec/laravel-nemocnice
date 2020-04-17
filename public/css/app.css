@@ -10833,3 +10833,7 @@ input:focus {
   word-break: break-all;
 }
 
+.end-button {
+  margin-top: 20px;
+}
+

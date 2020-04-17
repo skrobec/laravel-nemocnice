@@ -4639,11 +4639,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
 
     return _ref = {
+      hospitalization_date_end: new Date(),
       hospitalizationObj: {
         date_start: ''
       },
@@ -4675,7 +4685,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       drugObj: {
         name: ''
       }
-    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "hospitalizationId", ''), _ref;
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "hospitalizationId", ''), _defineProperty(_ref, "editActive", false), _ref;
   },
   created: function created() {
     var queryString = window.location.href;
@@ -4683,6 +4693,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.patientId = urlParams.searchParams.get('patientId');
     this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
     console.log(this.hospitalizationId);
+
+    if (this.hospitalizationId !== undefined && this.hospitalizationId !== null) {
+      this.editActive = true;
+    }
 
     if (this.patientId !== undefined && this.patientId !== null) {
       this.getInfo();
@@ -4741,8 +4755,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     relink: function relink() {
       window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.patientObj.id);
     },
-    submit: function submit() {
+    endHospitalization: function endHospitalization() {
       var _this4 = this;
+
+      axios.post('/hospitalizations/end', {
+        id: this.loadedHospitalization.id,
+        date_end: this.hospitalization_date_end
+      }).then(function (response) {
+        console.log(response);
+        _this4.fields = {};
+        _this4.loaded = true;
+        _this4.success = true;
+
+        _this4.getEditInfo();
+      })["catch"](function (error) {
+        _this4.loaded = true;
+
+        if (error.response.status === 422) {
+          _this4.errors = error.response.data.errors || {};
+        }
+      });
+    },
+    submit: function submit() {
+      var _this5 = this;
 
       if (this.loaded) {
         this.loaded = false;
@@ -4754,17 +4789,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(this.fields);
         axios.post('/hospitalizations/add', this.fields).then(function (response) {
           console.log(response);
-          _this4.fields = {};
-          _this4.loaded = true;
-          _this4.success = true;
-          _this4.hospitalizationId = response.data.id;
+          _this5.fields = {};
+          _this5.loaded = true;
+          _this5.success = true;
+          _this5.hospitalizationId = response.data.id;
 
-          _this4.getEditInfo();
+          _this5.getEditInfo();
         })["catch"](function (error) {
-          _this4.loaded = true;
+          _this5.loaded = true;
 
           if (error.response.status === 422) {
-            _this4.errors = error.response.data.errors || {};
+            _this5.errors = error.response.data.errors || {};
           }
         });
       }
@@ -88396,6 +88431,53 @@ var render = function() {
           _vm._v(_vm._s(this.loadedHospitalization.reason))
         ])
       ]),
+      _vm._v(" "),
+      _vm.editActive
+        ? _c("div", { staticClass: "wrap-detail" }, [
+            _c(
+              "div",
+              { staticClass: "auto-container" },
+              [
+                _c("h4", [_vm._v("Ukončit hospitalizaci")]),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "date_start" } }, [
+                  _vm._v("Datum")
+                ]),
+                _vm._v(" "),
+                _c("date-picker", {
+                  attrs: { id: "date_start" },
+                  model: {
+                    value: _vm.hospitalization_date_end,
+                    callback: function($$v) {
+                      _vm.hospitalization_date_end = $$v
+                    },
+                    expression: "hospitalization_date_end"
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.hospitalization_date_end
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.hospitalization_date_end[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary end-button",
+                    on: {
+                      click: function($event) {
+                        return _vm.endHospitalization()
+                      }
+                    }
+                  },
+                  [_vm._v("Ukončit")]
+                )
+              ],
+              1
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),

@@ -21,6 +21,15 @@
         </div>
         <div class="text-box">{{this.loadedHospitalization.reason}}</div>
     </div>
+    <div v-if="editActive"  class="wrap-detail">
+      <div class="auto-container">
+            <h4>Ukončit hospitalizaci</h4>
+            <label for="date_start">Datum</label>
+            <date-picker id="date_start" v-model='hospitalization_date_end'/>
+            <div v-if="errors && errors.hospitalization_date_end" class="text-danger">{{ errors.hospitalization_date_end[0] }}</div>
+            <button v-on:click="endHospitalization()"  class="btn btn-primary end-button">Ukončit</button>
+      </div>
+    </div>
     <div class="left"><label for="section">Oddělení</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
@@ -142,6 +151,7 @@
 export default {
   data() {
     return {
+      hospitalization_date_end: new Date(),
       hospitalizationObj: {
           date_start: ''
       },
@@ -174,7 +184,8 @@ export default {
           name: ''
       },
       patientId: '',
-      hospitalizationId: ''
+      hospitalizationId: '',
+      editActive: false
     }
   },
   created(){
@@ -183,6 +194,10 @@ export default {
       this.patientId = urlParams.searchParams.get('patientId');
       this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
       console.log(this.hospitalizationId);
+
+      if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
+        this.editActive = true;
+      }
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
@@ -225,6 +240,20 @@ export default {
     },
     relink() {
       window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.patientObj.id);
+    },
+    endHospitalization(){
+       axios.post('/hospitalizations/end',{ id: this.loadedHospitalization.id, date_end: this.hospitalization_date_end  }).then(response => {
+          console.log(response);
+          this.fields = {};
+          this.loaded = true;
+          this.success = true;
+          this.getEditInfo();
+        }).catch(error => {
+          this.loaded = true;
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors || {};
+          }
+        });
     },
     submit() {
         if (this.loaded) {

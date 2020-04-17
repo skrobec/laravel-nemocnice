@@ -88,6 +88,7 @@ Route::get('/nurse/getAll', 'NurseController@getNurses');
 Route::post('/hospitalizations/add', 'HospitalizationController@addHospitalization');
 Route::post('/hospitalizations/del', 'HospitalizationController@deleteHospitalization');
 Route::post('/hospitalizations/edit', 'HospitalizationController@editHospitalization');
+Route::post('/hospitalizations/end', 'HospitalizationController@endHospitalization');
 Route::get('/hospitalizations/getAll', 'HospitalizationController@getHospitalizations');
 
 // User
