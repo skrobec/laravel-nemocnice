@@ -37,6 +37,15 @@
         </div>
     </div>
     <div v-if="admin">
+      <div v-if="editActive"  class="wrap-detail">
+      <div class="auto-container">
+            <h4>Ukončit hospitalizaci</h4>
+            <label for="date_start">Datum</label>
+            <date-picker id="date_start" v-model='hospitalization_date_end'/>
+            <div v-if="errors && errors.hospitalization_date_end" class="text-danger">{{ errors.hospitalization_date_end[0] }}</div>
+            <button v-on:click="endHospitalization()"  class="btn btn-primary end-button">Ukončit</button>
+      </div>
+    </div>
       <div class="left"><label for="section">Oddělení</label></div>
           <div  class="wrap-detail">
             <div class="auto-container">

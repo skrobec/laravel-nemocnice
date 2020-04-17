@@ -8,8 +8,9 @@
     </div>
     <h2>Pacient: {{parentData.name}}</h2>
     <div class="patient-info">
-      <div class="doctor">
-
+      <div class="title-box">
+          <h4>Doktor</h4>
+          <h4>{{this.doctorName}}</h4>
       </div>
       <div class="exams list scroll">
 
@@ -171,6 +172,8 @@ export default {
       patientId: 0,
       doctor: '',
       warning: false,
+      doctorName: '',
+      doctorId: null
     }
   },
   created(){
@@ -199,12 +202,13 @@ export default {
             this.interventions = response.data.interventions;
             this.servings = response.data.servings;
             this.warning = true;
-            this.patientInfo = response.data.patient;
+            this.doctorId = response.data.doctor_id;
             return axios.get('/user/getDoctors');
         }).then( response => {
             this.doctors = response.data;
-             if (this.patientInfo.doctor_id !== null) {
-              this.doctor = this.doctors.find(doc => doc.id == this.patientInfo.doctor_id);
+             if (this.doctorId !== null) {
+              this.doctor = this.doctors.find(doc => doc.userable_id == this.doctorId).name;
+              this.doctorName = this.doctors.find(doc => doc.userable_id == this.doctorId).name;
             }
         });
     },
