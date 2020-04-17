@@ -121,6 +121,7 @@ class HospitalizationController extends Controller
     }
 
     public function endHospitalization(Request $request){
+        Log::info($request);
         $hospitalization = Hospitalization::find($request->get('id'));
         $hospitalization->date_end = $request->get('date_end');
         $hospitalization->save();

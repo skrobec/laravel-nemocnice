@@ -2061,6 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getJob: function getJob(type) {
+      if (type == null) return "Admin";
       return type == 'App\\Doctor' ? 'Doktor' : 'Sestra';
     },
     hideDetail: function hideDetail(value) {
@@ -4074,6 +4075,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getJob: function getJob(type) {
+      if (type == null) return 'Admin';
       return type == 'doctor' ? 'Doktor' : 'Sestra';
     },
     back: function back() {
@@ -4648,6 +4650,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4758,8 +4764,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     endHospitalization: function endHospitalization() {
       var _this4 = this;
 
+      this.hospitalization_date_end = this.$moment(this.hospitalization_date_end).format('YYYY-MM-DD');
       axios.post('/hospitalizations/end', {
-        id: this.loadedHospitalization.id,
+        id: this.hospitalizationId,
         date_end: this.hospitalization_date_end
       }).then(function (response) {
         console.log(response);
@@ -5629,10 +5636,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       patients: [],
       nurse: '',
       drug: '',
+      loadedQuantity: '',
       loadedServing: {
         date: ''
       },
       loadedNurse: {
+        name: ''
+      },
+      loadedDrug: {
         name: ''
       },
       patientObj: {
@@ -5736,6 +5747,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.drug = _this4.drugs.find(function (drug) {
           return drug.id == _this4.servingObj.drug_id;
         }).name;
+        _this4.loadedDrug = _this4.drugs.find(function (drug) {
+          return drug.id == _this4.servingObj.drug_id;
+        });
+        _this4.loadedQuantity = response.data.quantity;
         _this4.drugObj = _this4.drugs.find(function (drug) {
           return drug.id == _this4.servingObj.drug_id;
         });
@@ -86810,7 +86825,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87700,7 +87715,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87929,7 +87944,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n                    Sestra\r\n                ")]
+                [_vm._v("\n                    Sestra\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -87943,7 +87958,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n                    Doktor\r\n                ")]
+                [_vm._v("\n                    Doktor\n                ")]
               )
             ])
           : _vm._e()
@@ -88053,7 +88068,7 @@ var render = function() {
                     _vm.success
                       ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                           _vm._v(
-                            "\r\n                          Úspěšně provedeno !\r\n                      "
+                            "\n                          Úspěšně provedeno !\n                      "
                           )
                         ])
                       : _vm._e()
@@ -88397,13 +88412,28 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "title-box" }, [
-          _c("h4", [_vm._v("Datum")]),
+          _c("h4", [_vm._v("Datum začátku")]),
           _vm._v(" "),
           _c("h4", [
             _vm._v(
               _vm._s(
                 _vm._f("moment")(
                   this.loadedHospitalization.date_start,
+                  "DD.MM.YYYY"
+                )
+              )
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Datum konce")]),
+          _vm._v(" "),
+          _c("h4", [
+            _vm._v(
+              _vm._s(
+                _vm._f("moment")(
+                  this.loadedHospitalization.date_end,
                   "DD.MM.YYYY"
                 )
               )
@@ -88440,12 +88470,10 @@ var render = function() {
               [
                 _c("h4", [_vm._v("Ukončit hospitalizaci")]),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "date_start" } }, [
-                  _vm._v("Datum")
-                ]),
+                _c("label", { attrs: { for: "date_end" } }, [_vm._v("Datum")]),
                 _vm._v(" "),
                 _c("date-picker", {
-                  attrs: { id: "date_start" },
+                  attrs: { id: "date_end" },
                   model: {
                     value: _vm.hospitalization_date_end,
                     callback: function($$v) {
@@ -88616,7 +88644,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e(),
@@ -88624,9 +88652,9 @@ var render = function() {
               _vm.errors && _vm.errors.msg
                 ? _c("div", { staticClass: "text-danger" }, [
                     _vm._v(
-                      "\r\n                        " +
+                      "\n                        " +
                         _vm._s(_vm.errors.msg[0]) +
-                        "\r\n                    "
+                        "\n                    "
                     )
                   ])
                 : _vm._e()
@@ -89359,12 +89387,20 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Lék")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.loadedDrug.name))])
+        ]),
         _vm._v(" "),
-        _vm._m(1)
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Množství")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.loadedQuantity))])
+        ])
       ]),
       _vm._v(" "),
-      _vm._m(2),
+      _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -89419,7 +89455,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm._m(3),
+      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -89588,26 +89624,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "title-box" }, [
-      _c("h4", [_vm._v("Lék")]),
-      _vm._v(" "),
-      _c("h4")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "title-box" }, [
-      _c("h4", [_vm._v("Množství")]),
-      _vm._v(" "),
-      _c("h4")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -108011,8 +108027,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

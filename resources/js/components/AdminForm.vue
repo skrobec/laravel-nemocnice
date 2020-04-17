@@ -151,6 +151,7 @@ export default {
   },
   methods: {
     getJob(type){
+        if (type == null) return "Admin";
         return (type == 'App\\Doctor') ? 'Doktor' : 'Sestra';
     },
 

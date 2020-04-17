@@ -17,8 +17,7 @@ class UsersTableSeeder extends Seeder
            'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
            'password' => Hash::make('admin'),
            'type' => 'admin',
-           'userable_type' => 'App\Doctor',
-           'userable_id' => 0,
+           'userable_type' => null,
         ]);
 
         DB::table('users')->insert([

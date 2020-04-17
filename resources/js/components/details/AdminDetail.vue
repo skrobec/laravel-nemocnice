@@ -24,7 +24,7 @@
             <h4>Funkce</h4>
             <h4>{{getJob(this.userInfo.userable_type)}}</h4>
         </div>
-        <div v-if="admin" class="title-box"> 
+        <div v-if="admin" class="title-box">
             <h4>Funkce</h4>
 
                 <div class="cursor non-marked" v-bind:class="{'marked': nurseChosen}" v-on:click="addJob('nurse')">
@@ -65,7 +65,7 @@
               </div>
           </div>
     </div>
-    
+
 
   </div>
 </div>
@@ -178,6 +178,7 @@ export default {
   },
   methods: {
     getJob(type){
+        if (type == null) return 'Admin';
         return (type=='doctor') ? 'Doktor' : 'Sestra';
     },
     back(){
@@ -207,7 +208,6 @@ export default {
          console.log(this.user);
 
         axios.post('/user/getInfo', {id:this.user.id}).then(response => {
-
           this.userInfo = response.data;
           this.addJob(this.userInfo.userable_type);
           return axios.get('/sections/getAll');
