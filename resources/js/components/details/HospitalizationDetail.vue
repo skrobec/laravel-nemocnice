@@ -25,7 +25,8 @@
         </div>
         <div class="text-box">{{this.loadedHospitalization.reason}}</div>
     </div>
-    <div v-if="editActive"  class="wrap-detail">
+    <div class="wrap-detail">
+
       <div class="auto-container">
             <h4>Ukončit hospitalizaci</h4>
             <label for="date_end">Datum</label>
@@ -34,7 +35,8 @@
             <button v-on:click="endHospitalization()"  class="btn btn-primary end-button">Ukončit</button>
       </div>
     </div>
-    <div class="left"><label for="section">Oddělení</label></div>
+    <div v-if="editActive">
+      <div class="left"><label for="section">Oddělení</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
           <input class="form-control standard-input shadow-none" id="section" type="text" v-model="section">
@@ -70,10 +72,13 @@
                     <div v-if="errors && errors.msg" class="text-danger">
                         {{ errors.msg[0] }}
                     </div>
+                    <div v-if="errors && (msg =='alreadyActive')" class="text-danger small-top-margin">Nelze mít více aktivních hospitalizací najednou</div>
 
                 </form>
             </div>
         </div>
+    </div>
+    
 
   </div>
 </div>
@@ -163,7 +168,9 @@ export default {
       fields: {
           date: new Date()
       },
-      errors: {},
+      errors: {
+      },
+      msg: '',
       success: false,
       loaded: true,
       editing: false,
@@ -189,7 +196,8 @@ export default {
       },
       patientId: '',
       hospitalizationId: '',
-      editActive: false
+      editActive: true,
+
     }
   },
   created(){
@@ -200,7 +208,7 @@ export default {
       console.log(this.hospitalizationId);
 
       if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
-        this.editActive = true;
+        this.editActive = false;
       }
 
       if (this.patientId !== undefined && this.patientId !== null ) {
@@ -279,8 +287,10 @@ export default {
         }).catch(error => {
           this.loaded = true;
           if (error.response.status === 422) {
+
             this.errors = error.response.data.errors || {};
-            console.log(error.response);
+            this.msg = error.response.data.msg;
+
           }
         });
       }

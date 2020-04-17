@@ -2058,7 +2058,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getJob: function getJob(type) {
-      if (type == null) return "Admin";
+      if (type == null) return "";
       return type == 'App\\Doctor' ? 'Doktor' : 'Sestra';
     },
     hideDetail: function hideDetail(value) {
@@ -2763,15 +2763,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    var queryString = window.location.href;
-    var urlParams = new URL(queryString);
-    var id = urlParams.searchParams.get('id');
-    console.log(id);
-
-    if (id !== null && id !== undefined) {
-      this.enterId = id;
-    }
-
     this.getHospitalizations();
   },
   computed: {
@@ -2805,15 +2796,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/hospitalizations/getAll').then(function (response) {
-        console.log(_this2.enterId);
         _this2.buffer = response.data;
         return axios.get('/pat/get');
       }).then(function (response) {
-        console.log('this.enterId');
         _this2.patients = response.data;
         return axios.get('/sections/getAll');
       }).then(function (response) {
-        console.log('kg');
         _this2.sections = response.data;
         _this2.hospitalizations = _this2.buffer.map(function (hospitalization) {
           return {
@@ -2828,12 +2816,6 @@ __webpack_require__.r(__webpack_exports__);
             }).name
           };
         });
-
-        if (_this2.enterId !== 0) {
-          _this2.connect(_this2.enterId);
-        }
-
-        console.log('ebin');
       });
     },
     deleteHospitalization: function deleteHospitalization(id) {
@@ -2983,15 +2965,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    var queryString = window.location.href;
-    var urlParams = new URL(queryString);
-    var id = urlParams.searchParams.get('id');
-    console.log(id);
-
-    if (id !== null && id !== undefined) {
-      this.enterId = id;
-    }
-
     this.getInterventions();
   },
   computed: {
@@ -3016,11 +2989,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/interventions/getAll').then(function (response) {
-        console.log(_this2.enterId);
         _this2.buffer = response.data;
         return axios.get('/pat/get');
       }).then(function (response) {
-        console.log('this.enterId');
         _this2.patients = response.data;
         return axios.get('/hospitalizations/getAll');
       }).then(function (response) {
@@ -3037,12 +3008,6 @@ __webpack_require__.r(__webpack_exports__);
             }).name
           };
         });
-        ;
-
-        if (_this2.enterId !== 0) {
-          _this2.connect(_this2.enterId);
-        }
-
         console.log('ebin');
       });
     },
@@ -3757,15 +3722,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    var queryString = window.location.href;
-    var urlParams = new URL(queryString);
-    var id = urlParams.searchParams.get('id');
-    console.log(id);
-
-    if (id !== null && id !== undefined) {
-      this.enterId = id;
-    }
-
     this.getServings();
   },
   computed: {
@@ -3788,28 +3744,13 @@ __webpack_require__.r(__webpack_exports__);
     connect: function connect(id, patient_id) {
       window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id;
     },
-    prepareEdit: function prepareEdit(id) {
-      var serving = this.servings.find(function (pat) {
-        return pat.id == id;
-      });
-      this.fields.name = serving.name;
-      this.fields.surname = serving.surname;
-      this.fields.issues = serving.issues;
-      this.editing = true;
-      this.servingId = id;
-    },
     getServings: function getServings() {
       var _this2 = this;
 
       axios.get('/servings/getAll').then(function (response) {
-        console.log(_this2.enterId);
         _this2.buffer = response.data;
       });
       axios.get('/pat/get').then(function (response) {
-        if (_this2.enterId !== 0) {
-          _this2.connect(_this2.enterId);
-        }
-
         _this2.patients = response.data;
         _this2.servings = _this2.buffer;
       });
@@ -4037,6 +3978,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4097,8 +4042,15 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    getSection: function getSection(section) {
+      if (section !== null && section !== undefined && section !== '') {
+        return section.name;
+      } else {
+        return '';
+      }
+    },
     getJob: function getJob(type) {
-      if (type == null) return 'Admin';
+      if (type == null) return 'Nepřiřazeno';
       return type == 'doctor' ? 'Doktor' : 'Sestra';
     },
     back: function back() {
@@ -4138,7 +4090,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.results = response.data;
 
-        if (_this3.userInfo.section_id !== null) {
+        if (_this3.userInfo.section_id !== null && _this3.userInfo.section_id != '') {
           _this3.section = _this3.results.find(function (sec) {
             return sec.id == _this3.userInfo.section_id.id;
           }).name;
@@ -4159,7 +4111,7 @@ __webpack_require__.r(__webpack_exports__);
         this.errors = {};
         this.fields.entry_date = this.$moment(this.fields.entry_date).format('YYYY-MM-DD');
         var postData = {
-          id: this.parentData.id,
+          id: this.userInfo.id,
           job: this.job,
           entry_date: this.fields.entry_date,
           section: this.sectionId
@@ -4196,6 +4148,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -4384,13 +4338,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       drugObj: {
         name: ''
       }
-    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "examId", ''), _defineProperty(_ref, "buffer", []), _defineProperty(_ref, "admin", false), _ref;
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "examId", ''), _defineProperty(_ref, "buffer", []), _defineProperty(_ref, "admin", false), _defineProperty(_ref, "creating", true), _ref;
   },
   created: function created() {
     var queryString = window.location.href;
     var urlParams = new URL(queryString);
     this.patientId = urlParams.searchParams.get('patientId');
     this.examId = urlParams.searchParams.get('examId');
+
+    if (this.examId !== undefined && this.examId !== null) {
+      this.creating = false;
+    }
 
     if (this.patientId !== undefined && this.patientId !== null) {
       this.getInfo();
@@ -4680,6 +4638,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4694,6 +4657,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         date: new Date()
       },
       errors: {},
+      msg: '',
       success: false,
       loaded: true,
       editing: false,
@@ -4717,7 +4681,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       drugObj: {
         name: ''
       }
-    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "hospitalizationId", ''), _defineProperty(_ref, "editActive", false), _ref;
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "hospitalizationId", ''), _defineProperty(_ref, "editActive", true), _ref;
   },
   created: function created() {
     var queryString = window.location.href;
@@ -4727,7 +4691,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     console.log(this.hospitalizationId);
 
     if (this.hospitalizationId !== undefined && this.hospitalizationId !== null) {
-      this.editActive = true;
+      this.editActive = false;
     }
 
     if (this.patientId !== undefined && this.patientId !== null) {
@@ -4833,6 +4797,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           if (error.response.status === 422) {
             _this5.errors = error.response.data.errors || {};
+            _this5.msg = error.response.data.msg;
           }
         });
       }
@@ -5061,13 +5026,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       doctorObj: {
         name: ''
       }
-    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "interventionId", ''), _ref;
+    }, _defineProperty(_ref, "patientId", ''), _defineProperty(_ref, "interventionId", ''), _defineProperty(_ref, "creating", true), _ref;
   },
   created: function created() {
     var queryString = window.location.href;
     var urlParams = new URL(queryString);
     this.patientId = urlParams.searchParams.get('patientId');
     this.interventionId = urlParams.searchParams.get('interventionId');
+
+    if (this.interventionId !== undefined && this.interventionId !== null) {
+      this.creating = false;
+    }
 
     if (this.patientId !== undefined && this.patientId !== null) {
       this.getInfo();
@@ -5166,6 +5135,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this5.doctors = response.data;
 
         if (_this5.interventionId !== undefined && _this5.interventionId !== null) {
+          _this5.creating = false;
+
           _this5.getEditInfo();
         }
       });
@@ -5430,7 +5401,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     setDoc: function setDoc(result) {
       this.doctor = result.name;
-      this.setDoctor(result);
+      this.setDoctor(result.userable_id);
     },
     getInfo: function getInfo() {
       var _this2 = this;
@@ -5647,6 +5618,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -5655,6 +5630,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       servingObj: {
         date: ''
       },
+      creating: true,
       drugs: [],
       fields: {
         date: new Date()
@@ -5694,6 +5670,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var urlParams = new URL(queryString);
     this.patientId = urlParams.searchParams.get('patientId');
     this.servingId = urlParams.searchParams.get('servingId');
+
+    if (this.servingId !== undefined && this.servingId !== null) {
+      this.creating = false;
+    }
 
     if (this.patientId !== undefined && this.patientId !== null) {
       this.getInfo();
@@ -5757,6 +5737,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (_this3.servingId !== undefined && _this3.servingId !== null) {
           _this3.getEditInfo();
+
+          _this3.creating = false;
         }
       });
     },
@@ -87910,15 +87892,17 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        !_vm.admin
-          ? _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Funkce")]),
-              _vm._v(" "),
-              _c("h4", [
-                _vm._v(_vm._s(_vm.getJob(this.userInfo.userable_type)))
-              ])
-            ])
-          : _vm._e(),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Oddělení")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(_vm.getSection(this.userInfo.section_id)))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Funkce")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(_vm.getJob(this.userInfo.userable_type)))])
+        ]),
         _vm._v(" "),
         _vm.admin
           ? _c("div", { staticClass: "title-box" }, [
@@ -88196,204 +88180,215 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.doctor,
-                expression: "doctor"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "doctor", type: "text" },
-            domProps: { value: _vm.doctor },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.doctor = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredDoctors.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredDoctors, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
-                      domProps: { textContent: _vm._s(result.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setDoctor(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.errors && _vm.errors.doctor_id
-        ? _c("div", { staticClass: "text-danger" }, [
-            _vm._v(_vm._s(_vm.errors.doctor_id[0]))
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.nurse,
-                expression: "nurse"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "nurse", type: "text" },
-            domProps: { value: _vm.nurse },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.nurse = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredNurses.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredNurses, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
-                      domProps: { textContent: _vm._s(result.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setNurse(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.errors && _vm.errors.nurse_id
-        ? _c("div", { staticClass: "text-danger" }, [
-            _vm._v(_vm._s(_vm.errors.nurse_id[0]))
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "forms-container" }, [
-        _c("div", { staticClass: "form-block" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "form-group input-container" },
-                [
-                  _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
-                  _vm._v(" "),
-                  _c("date-picker", {
-                    attrs: { id: "date" },
-                    model: {
-                      value: _vm.fields.date,
-                      callback: function($$v) {
-                        _vm.$set(_vm.fields, "date", $$v)
-                      },
-                      expression: "fields.date"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors && _vm.errors.date
-                    ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.date[0]))
-                      ])
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "record" } }, [_vm._v("Průběh")]),
-                _vm._v(" "),
-                _c("textarea", {
+      _vm.creating
+        ? _c("div", [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c("div", { staticClass: "auto-container" }, [
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.fields.record,
-                      expression: "fields.record"
+                      value: _vm.doctor,
+                      expression: "doctor"
                     }
                   ],
-                  staticClass: "form-control shadow-none",
-                  attrs: { id: "record", name: "record", rows: "5" },
-                  domProps: { value: _vm.fields.record },
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { id: "doctor", type: "text" },
+                  domProps: { value: _vm.doctor },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.fields, "record", $event.target.value)
+                      _vm.doctor = $event.target.value
                     }
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors && _vm.errors.record
-                  ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.record[0]))
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Přidat")]
-              ),
-              _vm._v(" "),
-              _vm.success
-                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                    _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        ])
-      ])
+                _c("div", { staticClass: "option-container scroll" }, [
+                  _vm.filteredDoctors.length > 0
+                    ? _c(
+                        "ul",
+                        _vm._l(_vm.filteredDoctors, function(result) {
+                          return _c("li", {
+                            key: result.id,
+                            staticClass: "option",
+                            domProps: { textContent: _vm._s(result.name) },
+                            on: {
+                              click: function($event) {
+                                return _vm.setDoctor(result.id)
+                              }
+                            }
+                          })
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.doctor_id
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.doctor_id[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c("div", { staticClass: "auto-container" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.nurse,
+                      expression: "nurse"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { id: "nurse", type: "text" },
+                  domProps: { value: _vm.nurse },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.nurse = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "option-container scroll" }, [
+                  _vm.filteredNurses.length > 0
+                    ? _c(
+                        "ul",
+                        _vm._l(_vm.filteredNurses, function(result) {
+                          return _c("li", {
+                            key: result.id,
+                            staticClass: "option",
+                            domProps: { textContent: _vm._s(result.name) },
+                            on: {
+                              click: function($event) {
+                                return _vm.setNurse(result.id)
+                              }
+                            }
+                          })
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.nurse_id
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.nurse_id[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "forms-container" }, [
+              _c("div", { staticClass: "form-block" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "form-group input-container" },
+                      [
+                        _c("label", { attrs: { for: "date" } }, [
+                          _vm._v("Datum")
+                        ]),
+                        _vm._v(" "),
+                        _c("date-picker", {
+                          attrs: { id: "date" },
+                          model: {
+                            value: _vm.fields.date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.fields, "date", $$v)
+                            },
+                            expression: "fields.date"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors && _vm.errors.date
+                          ? _c("div", { staticClass: "text-danger" }, [
+                              _vm._v(_vm._s(_vm.errors.date[0]))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-container" }, [
+                      _c("label", { attrs: { for: "record" } }, [
+                        _vm._v("Průběh")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fields.record,
+                            expression: "fields.record"
+                          }
+                        ],
+                        staticClass: "form-control shadow-none",
+                        attrs: { id: "record", name: "record", rows: "5" },
+                        domProps: { value: _vm.fields.record },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.fields, "record", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors && _vm.errors.record
+                        ? _c("div", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.record[0]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Přidat")]
+                    ),
+                    _vm._v(" "),
+                    _vm.success
+                      ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                          _vm._v(
+                            "\r\n                        Úspěšně provedeno !\r\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -88502,206 +88497,225 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm.editActive
-        ? _c("div", { staticClass: "wrap-detail" }, [
-            _c(
-              "div",
-              { staticClass: "auto-container" },
-              [
-                _c("h4", [_vm._v("Ukončit hospitalizaci")]),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "date_end" } }, [_vm._v("Datum")]),
-                _vm._v(" "),
-                _c("date-picker", {
-                  attrs: { id: "date_end" },
-                  model: {
-                    value: _vm.hospitalization_date_end,
-                    callback: function($$v) {
-                      _vm.hospitalization_date_end = $$v
-                    },
-                    expression: "hospitalization_date_end"
-                  }
-                }),
-                _vm._v(" "),
-                _vm.errors && _vm.errors.hospitalization_date_end
-                  ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.hospitalization_date_end[0]))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary end-button",
-                    on: {
-                      click: function($event) {
-                        return _vm.endHospitalization()
-                      }
-                    }
-                  },
-                  [_vm._v("Ukončit")]
-                )
-              ],
-              1
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
+        _c(
+          "div",
+          { staticClass: "auto-container" },
+          [
+            _c("h4", [_vm._v("Ukončit hospitalizaci")]),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "date_end" } }, [_vm._v("Datum")]),
+            _vm._v(" "),
+            _c("date-picker", {
+              attrs: { id: "date_end" },
+              model: {
+                value: _vm.hospitalization_date_end,
+                callback: function($$v) {
+                  _vm.hospitalization_date_end = $$v
+                },
+                expression: "hospitalization_date_end"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.hospitalization_date_end
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.hospitalization_date_end[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "button",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.section,
-                expression: "section"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "section", type: "text" },
-            domProps: { value: _vm.section },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+                staticClass: "btn btn-primary end-button",
+                on: {
+                  click: function($event) {
+                    return _vm.endHospitalization()
+                  }
                 }
-                _vm.section = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredSections.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredSections, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
-                      domProps: { textContent: _vm._s(result.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setSection(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
+              },
+              [_vm._v("Ukončit")]
+            )
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
-      _vm.errors && _vm.errors.section_id
-        ? _c("div", { staticClass: "text-danger" }, [
-            _vm._v(_vm._s(_vm.errors.section_id[0]))
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "forms-container" }, [
-        _c("div", { staticClass: "form-block" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "form-group input-container" },
-                [
-                  _c("label", { attrs: { for: "date_start" } }, [
-                    _vm._v("Datum")
-                  ]),
-                  _vm._v(" "),
-                  _c("date-picker", {
-                    attrs: { id: "date_start" },
-                    model: {
-                      value: _vm.fields.date_start,
-                      callback: function($$v) {
-                        _vm.$set(_vm.fields, "date_start", $$v)
-                      },
-                      expression: "fields.date_start"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors && _vm.errors.date_start
-                    ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.date_start[0]))
-                      ])
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "reason" } }, [_vm._v("Důvod")]),
-                _vm._v(" "),
-                _c("textarea", {
+      _vm.editActive
+        ? _c("div", [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c("div", { staticClass: "auto-container" }, [
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.fields.reason,
-                      expression: "fields.reason"
+                      value: _vm.section,
+                      expression: "section"
                     }
                   ],
-                  staticClass: "form-control shadow-none",
-                  attrs: { id: "reason", name: "reason", rows: "5" },
-                  domProps: { value: _vm.fields.reason },
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { id: "section", type: "text" },
+                  domProps: { value: _vm.section },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.fields, "reason", $event.target.value)
+                      _vm.section = $event.target.value
                     }
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors && _vm.errors.reason
-                  ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.reason[0]))
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Přidat")]
-              ),
-              _vm._v(" "),
-              _vm.success
-                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                    _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.msg
-                ? _c("div", { staticClass: "text-danger" }, [
-                    _vm._v(
-                      "\r\n                        " +
-                        _vm._s(_vm.errors.msg[0]) +
-                        "\r\n                    "
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        ])
-      ])
+                _c("div", { staticClass: "option-container scroll" }, [
+                  _vm.filteredSections.length > 0
+                    ? _c(
+                        "ul",
+                        _vm._l(_vm.filteredSections, function(result) {
+                          return _c("li", {
+                            key: result.id,
+                            staticClass: "option",
+                            domProps: { textContent: _vm._s(result.name) },
+                            on: {
+                              click: function($event) {
+                                return _vm.setSection(result.id)
+                              }
+                            }
+                          })
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.section_id
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.section_id[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "forms-container" }, [
+              _c("div", { staticClass: "form-block" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "form-group input-container" },
+                      [
+                        _c("label", { attrs: { for: "date_start" } }, [
+                          _vm._v("Datum")
+                        ]),
+                        _vm._v(" "),
+                        _c("date-picker", {
+                          attrs: { id: "date_start" },
+                          model: {
+                            value: _vm.fields.date_start,
+                            callback: function($$v) {
+                              _vm.$set(_vm.fields, "date_start", $$v)
+                            },
+                            expression: "fields.date_start"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors && _vm.errors.date_start
+                          ? _c("div", { staticClass: "text-danger" }, [
+                              _vm._v(_vm._s(_vm.errors.date_start[0]))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-container" }, [
+                      _c("label", { attrs: { for: "reason" } }, [
+                        _vm._v("Důvod")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fields.reason,
+                            expression: "fields.reason"
+                          }
+                        ],
+                        staticClass: "form-control shadow-none",
+                        attrs: { id: "reason", name: "reason", rows: "5" },
+                        domProps: { value: _vm.fields.reason },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.fields, "reason", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors && _vm.errors.reason
+                        ? _c("div", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.reason[0]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Přidat")]
+                    ),
+                    _vm._v(" "),
+                    _vm.success
+                      ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                          _vm._v(
+                            "\r\n                        Úspěšně provedeno !\r\n                    "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.errors && _vm.errors.msg
+                      ? _c("div", { staticClass: "text-danger" }, [
+                          _vm._v(
+                            "\r\n                        " +
+                              _vm._s(_vm.errors.msg[0]) +
+                              "\r\n                    "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.errors && _vm.msg == "alreadyActive"
+                      ? _c(
+                          "div",
+                          { staticClass: "text-danger small-top-margin" },
+                          [
+                            _vm._v(
+                              "Nelze mít více aktivních hospitalizací najednou"
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -88789,18 +88803,20 @@ var render = function() {
               _c("div", { staticClass: "title-box" }, [
                 _c("h4", [_vm._v("Sestry")]),
                 _vm._v(" "),
-                _c(
-                  "i",
-                  {
-                    staticClass: "material-icons cursor right-m",
-                    on: {
-                      click: function($event) {
-                        return _vm.clearNurses()
-                      }
-                    }
-                  },
-                  [_vm._v("clear")]
-                )
+                _vm.creating
+                  ? _c(
+                      "i",
+                      {
+                        staticClass: "material-icons cursor right-m",
+                        on: {
+                          click: function($event) {
+                            return _vm.clearNurses()
+                          }
+                        }
+                      },
+                      [_vm._v("clear")]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _vm._l(_vm.chosenNurses, function(nurse) {
@@ -88824,18 +88840,20 @@ var render = function() {
               _c("div", { staticClass: "title-box" }, [
                 _c("h4", [_vm._v("Doktoři")]),
                 _vm._v(" "),
-                _c(
-                  "i",
-                  {
-                    staticClass: "material-icons cursor right-m",
-                    on: {
-                      click: function($event) {
-                        return _vm.clearDoctors()
-                      }
-                    }
-                  },
-                  [_vm._v("clear")]
-                )
+                _vm.creating
+                  ? _c(
+                      "i",
+                      {
+                        staticClass: "material-icons cursor right-m",
+                        on: {
+                          click: function($event) {
+                            return _vm.clearDoctors()
+                          }
+                        }
+                      },
+                      [_vm._v("clear")]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _vm._l(_vm.chosenDoctors, function(doc) {
@@ -88853,258 +88871,266 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "autocompletes" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-detail" }, [
-            _c("div", { staticClass: "auto-container" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.nurse,
-                    expression: "nurse"
-                  }
-                ],
-                staticClass: "form-control standard-input shadow-none",
-                attrs: { id: "nurse", type: "text" },
-                domProps: { value: _vm.nurse },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.nurse = $event.target.value
-                  }
-                }
-              }),
+        _vm.creating
+          ? _c("div", { staticClass: "autocompletes" }, [
+              _vm._m(0),
               _vm._v(" "),
-              _c("div", { staticClass: "option-container scroll" }, [
-                _vm.filteredNurses.length > 0
-                  ? _c(
-                      "ul",
-                      _vm._l(_vm.filteredNurses, function(result) {
-                        return _c("li", {
-                          key: result.id,
-                          staticClass: "option",
-                          domProps: { textContent: _vm._s(result.name) },
-                          on: {
-                            click: function($event) {
-                              return _vm.setNurse(result.id)
-                            }
-                          }
-                        })
-                      }),
-                      0
-                    )
-                  : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm.errors && _vm.errors.name
-              ? _c("div", { staticClass: "text-danger" }, [
-                  _vm._v(_vm._s(_vm.errors.name[0]))
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: {
-                  click: function($event) {
-                    return _vm.addNurse()
-                  }
-                }
-              },
-              [_vm._v("Přidat sestru")]
-            )
-          ]),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-detail" }, [
-            _c("div", { staticClass: "auto-container" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.doctor,
-                    expression: "doctor"
-                  }
-                ],
-                staticClass: "form-control standard-input shadow-none",
-                attrs: { id: "doctor", type: "text" },
-                domProps: { value: _vm.doctor },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.doctor = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "option-container scroll" }, [
-                _vm.filteredDoctors.length > 0
-                  ? _c(
-                      "ul",
-                      _vm._l(_vm.filteredDoctors, function(result) {
-                        return _c("li", {
-                          key: result.id,
-                          staticClass: "option",
-                          domProps: { textContent: _vm._s(result.name) },
-                          on: {
-                            click: function($event) {
-                              return _vm.setDoctor(result.id)
-                            }
-                          }
-                        })
-                      }),
-                      0
-                    )
-                  : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm.errors && _vm.errors.name
-              ? _c("div", { staticClass: "text-danger" }, [
-                  _vm._v(_vm._s(_vm.errors.name[0]))
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: {
-                  click: function($event) {
-                    return _vm.addDoctor()
-                  }
-                }
-              },
-              [_vm._v("Přidat doktora")]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "forms-container" }, [
-        _c("div", { staticClass: "form-block" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "form-group input-container" },
-                [
-                  _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
-                  _vm._v(" "),
-                  _c("date-picker", {
-                    attrs: { id: "date" },
-                    model: {
-                      value: _vm.fields.date,
-                      callback: function($$v) {
-                        _vm.$set(_vm.fields, "date", $$v)
-                      },
-                      expression: "fields.date"
+              _c("div", { staticClass: "wrap-detail" }, [
+                _c("div", { staticClass: "auto-container" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.nurse,
+                        expression: "nurse"
+                      }
+                    ],
+                    staticClass: "form-control standard-input shadow-none",
+                    attrs: { id: "nurse", type: "text" },
+                    domProps: { value: _vm.nurse },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.nurse = $event.target.value
+                      }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors && _vm.errors.name
-                    ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0]))
-                      ])
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "record" } }, [_vm._v("Průběh")]),
-                _vm._v(" "),
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.fields.record,
-                      expression: "fields.record"
-                    }
-                  ],
-                  staticClass: "form-control shadow-none",
-                  attrs: {
-                    type: "text",
-                    name: "record",
-                    rows: "5",
-                    id: "record"
-                  },
-                  domProps: { value: _vm.fields.record },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.fields, "record", $event.target.value)
-                    }
-                  }
-                }),
+                  _c("div", { staticClass: "option-container scroll" }, [
+                    _vm.filteredNurses.length > 0
+                      ? _c(
+                          "ul",
+                          _vm._l(_vm.filteredNurses, function(result) {
+                            return _c("li", {
+                              key: result.id,
+                              staticClass: "option",
+                              domProps: { textContent: _vm._s(result.name) },
+                              on: {
+                                click: function($event) {
+                                  return _vm.setNurse(result.id)
+                                }
+                              }
+                            })
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                ]),
                 _vm._v(" "),
                 _vm.errors && _vm.errors.name
                   ? _c("div", { staticClass: "text-danger" }, [
                       _vm._v(_vm._s(_vm.errors.name[0]))
                     ])
-                  : _vm._e()
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.addNurse()
+                      }
+                    }
+                  },
+                  [_vm._v("Přidat sestru")]
+                )
               ]),
               _vm._v(" "),
-              !_vm.editing
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [_vm._v("Přidat")]
-                  )
-                : _vm._e(),
+              _vm._m(1),
               _vm._v(" "),
-              _vm.editing
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
+              _c("div", { staticClass: "wrap-detail" }, [
+                _c("div", { staticClass: "auto-container" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.doctor,
+                        expression: "doctor"
+                      }
+                    ],
+                    staticClass: "form-control standard-input shadow-none",
+                    attrs: { id: "doctor", type: "text" },
+                    domProps: { value: _vm.doctor },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.doctor = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "option-container scroll" }, [
+                    _vm.filteredDoctors.length > 0
+                      ? _c(
+                          "ul",
+                          _vm._l(_vm.filteredDoctors, function(result) {
+                            return _c("li", {
+                              key: result.id,
+                              staticClass: "option",
+                              domProps: { textContent: _vm._s(result.name) },
+                              on: {
+                                click: function($event) {
+                                  return _vm.setDoctor(result.id)
+                                }
+                              }
+                            })
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("div", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.addDoctor()
+                      }
+                    }
+                  },
+                  [_vm._v("Přidat doktora")]
+                )
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm.creating
+        ? _c("div", { staticClass: "forms-container" }, [
+            _c("div", { staticClass: "form-block" }, [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "form-group input-container" },
+                    [
+                      _c("label", { attrs: { for: "date" } }, [
+                        _vm._v("Datum")
+                      ]),
+                      _vm._v(" "),
+                      _c("date-picker", {
+                        attrs: { id: "date" },
+                        model: {
+                          value: _vm.fields.date,
+                          callback: function($$v) {
+                            _vm.$set(_vm.fields, "date", $$v)
+                          },
+                          expression: "fields.date"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors && _vm.errors.name
+                        ? _c("div", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.name[0]))
+                          ])
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group input-container" }, [
+                    _c("label", { attrs: { for: "record" } }, [
+                      _vm._v("Průběh")
+                    ]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.fields.record,
+                          expression: "fields.record"
+                        }
+                      ],
+                      staticClass: "form-control shadow-none",
+                      attrs: {
+                        type: "text",
+                        name: "record",
+                        rows: "5",
+                        id: "record"
+                      },
+                      domProps: { value: _vm.fields.record },
                       on: {
-                        click: function($event) {
-                          return _vm.editintervention()
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.fields, "record", $event.target.value)
                         }
                       }
-                    },
-                    [_vm._v("Upravit")]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.success
-                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                    _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        ])
-      ])
+                    }),
+                    _vm._v(" "),
+                    _vm.errors && _vm.errors.name
+                      ? _c("div", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.name[0]))
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  !_vm.editing
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Přidat")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.editing
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          on: {
+                            click: function($event) {
+                              return _vm.editintervention()
+                            }
+                          }
+                        },
+                        [_vm._v("Upravit")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.success
+                    ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                        _vm._v(
+                          "\r\n                        Úspěšně provedeno !\r\n                    "
+                        )
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -89450,226 +89476,236 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.nurse,
-                expression: "nurse"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "nurse", type: "text" },
-            domProps: { value: _vm.nurse },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.nurse = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredNurses.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredNurses, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
-                      domProps: { textContent: _vm._s(result.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setNurse(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.errors && _vm.errors.nurse_id
-        ? _c("div", { staticClass: "text-danger" }, [
-            _vm._v(_vm._s(_vm.errors.nurse_id[0]))
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _c("div", { staticClass: "wrap-detail" }, [
-        _c("div", { staticClass: "auto-container" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.drug,
-                expression: "drug"
-              }
-            ],
-            staticClass: "form-control standard-input shadow-none",
-            attrs: { id: "drug", type: "text" },
-            domProps: { value: _vm.drug },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.drug = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "option-container scroll" }, [
-            _vm.filteredDrugs.length > 0
-              ? _c(
-                  "ul",
-                  _vm._l(_vm.filteredDrugs, function(result) {
-                    return _c("li", {
-                      key: result.id,
-                      staticClass: "option",
-                      domProps: { textContent: _vm._s(result.name) },
-                      on: {
-                        click: function($event) {
-                          return _vm.setDrug(result.id)
-                        }
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.errors && _vm.errors.drug_id
-        ? _c("div", { staticClass: "text-danger" }, [
-            _vm._v(_vm._s(_vm.errors.drug_id[0]))
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "forms-container" }, [
-        _c("div", { staticClass: "form-block" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "form-group input-container" },
-                [
-                  _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
-                  _vm._v(" "),
-                  _c("date-picker", {
-                    attrs: { id: "date" },
-                    model: {
-                      value: _vm.fields.date,
-                      callback: function($$v) {
-                        _vm.$set(_vm.fields, "date", $$v)
-                      },
-                      expression: "fields.date"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors && _vm.errors.date
-                    ? _c("div", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.date[0]))
-                      ])
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-container" }, [
-                _c("label", { attrs: { for: "drugQ" } }, [
-                  _vm._v("Množství léku")
-                ]),
-                _vm._v(" "),
+      _vm.creating
+        ? _c("div", [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c("div", { staticClass: "auto-container" }, [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.fields.quantity,
-                      expression: "fields.quantity"
+                      value: _vm.nurse,
+                      expression: "nurse"
                     }
                   ],
                   staticClass: "form-control standard-input shadow-none",
-                  attrs: { type: "number", name: "drugQ", id: "drugQ" },
-                  domProps: { value: _vm.fields.quantity },
+                  attrs: { id: "nurse", type: "text" },
+                  domProps: { value: _vm.nurse },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.fields, "quantity", $event.target.value)
+                      _vm.nurse = $event.target.value
                     }
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors && _vm.errors.quantity
-                  ? _c("div", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.quantity[0]))
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              !_vm.editing
-                ? _c(
-                    "button",
+                _c("div", { staticClass: "option-container scroll" }, [
+                  _vm.filteredNurses.length > 0
+                    ? _c(
+                        "ul",
+                        _vm._l(_vm.filteredNurses, function(result) {
+                          return _c("li", {
+                            key: result.id,
+                            staticClass: "option",
+                            domProps: { textContent: _vm._s(result.name) },
+                            on: {
+                              click: function($event) {
+                                return _vm.setNurse(result.id)
+                              }
+                            }
+                          })
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.nurse_id
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.nurse_id[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c("div", { staticClass: "auto-container" }, [
+                _c("input", {
+                  directives: [
                     {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [_vm._v("Přidat")]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.editing
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      on: {
-                        click: function($event) {
-                          return _vm.editserving()
-                        }
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.drug,
+                      expression: "drug"
+                    }
+                  ],
+                  staticClass: "form-control standard-input shadow-none",
+                  attrs: { id: "drug", type: "text" },
+                  domProps: { value: _vm.drug },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
                       }
-                    },
-                    [_vm._v("Upravit")]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.success
-                ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-                    _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        ])
-      ])
+                      _vm.drug = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "option-container scroll" }, [
+                  _vm.filteredDrugs.length > 0
+                    ? _c(
+                        "ul",
+                        _vm._l(_vm.filteredDrugs, function(result) {
+                          return _c("li", {
+                            key: result.id,
+                            staticClass: "option",
+                            domProps: { textContent: _vm._s(result.name) },
+                            on: {
+                              click: function($event) {
+                                return _vm.setDrug(result.id)
+                              }
+                            }
+                          })
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.errors && _vm.errors.drug_id
+              ? _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.drug_id[0]))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "forms-container" }, [
+              _c("div", { staticClass: "form-block" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "form-group input-container" },
+                      [
+                        _c("label", { attrs: { for: "date" } }, [
+                          _vm._v("Datum")
+                        ]),
+                        _vm._v(" "),
+                        _c("date-picker", {
+                          attrs: { id: "date" },
+                          model: {
+                            value: _vm.fields.date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.fields, "date", $$v)
+                            },
+                            expression: "fields.date"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors && _vm.errors.date
+                          ? _c("div", { staticClass: "text-danger" }, [
+                              _vm._v(_vm._s(_vm.errors.date[0]))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-container" }, [
+                      _c("label", { attrs: { for: "drugQ" } }, [
+                        _vm._v("Množství léku")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fields.quantity,
+                            expression: "fields.quantity"
+                          }
+                        ],
+                        staticClass: "form-control standard-input shadow-none",
+                        attrs: { type: "number", name: "drugQ", id: "drugQ" },
+                        domProps: { value: _vm.fields.quantity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.fields,
+                              "quantity",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors && _vm.errors.quantity
+                        ? _c("div", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.quantity[0]))
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    !_vm.editing
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("Přidat")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.editing
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.editserving()
+                              }
+                            }
+                          },
+                          [_vm._v("Upravit")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.success
+                      ? _c("div", { staticClass: "alert alert-success mt-3" }, [
+                          _vm._v(
+                            "\r\n                        Úspěšně provedeno !\r\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }

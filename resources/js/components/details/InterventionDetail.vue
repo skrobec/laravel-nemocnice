@@ -22,19 +22,19 @@
             <div class="nurses-list">
                 <div class="title-box">
                     <h4>Sestry</h4>
-                    <i v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
+                    <i v-if="creating" v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
                 </div>
                 <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: <a :href="'/users/userDetail?id='+nurse.id">{{getName(nurse)}}</a></div>
             </div>
             <div class="doctors-list">
                 <div class="title-box">
                     <h4>Doktoři</h4>
-                    <i v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
+                    <i v-if="creating" v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
                 </div>
                 <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: <a :href="'/users/userDetail?id='+doc.id">{{getName(doc)}}</a></div>
             </div>
         </div>
-        <div class="autocompletes">
+        <div v-if="creating" class="autocompletes">
             <div class="left"><label for="nurse">Sestra</label></div>
             <div  class="wrap-detail">
             <div class="auto-container">
@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    <div class="forms-container">
+    <div v-if="creating" class="forms-container">
             <div class="form-block">
                 <form @submit.prevent="submit">
                     <div class="form-group input-container">
@@ -206,7 +206,8 @@ export default {
         name: ''
       },
       patientId: '',
-      interventionId: ''
+      interventionId: '',
+      creating: true
     }
   },
   created(){
@@ -214,6 +215,10 @@ export default {
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
       this.interventionId = urlParams.searchParams.get('interventionId');
+
+      if (this.interventionId !== undefined && this.interventionId !== null ) {
+                this.creating = false;
+      }
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
@@ -286,6 +291,7 @@ export default {
         }).then( response => {
             this.doctors = response.data;
             if (this.interventionId !== undefined && this.interventionId !== null ) {
+                this.creating = false;
                 this.getEditInfo();
             }
         });

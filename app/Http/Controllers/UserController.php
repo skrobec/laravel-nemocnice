@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     public function getUsers() {
-        return User::all();
+        return User::notadmin()->get();
     }
 
     public function isAdmin() {

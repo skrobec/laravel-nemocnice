@@ -25,7 +25,8 @@
         </div>
         <div class="text-box">{{this.loadedExam.record}}</div>
     </div>
-    <div class="left"><label for="doctor">Doktor</label></div>
+    <div v-if="creating">
+      <div class="left"><label for="doctor">Doktor</label></div>
     <div  class="wrap-detail">
       <div class="auto-container">
           <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
@@ -72,7 +73,8 @@
                 </form>
             </div>
         </div>
-
+    </div>
+    
   </div>
 </div>
 
@@ -188,7 +190,8 @@ export default {
       patientId: '',
       examId: '',
       buffer: [],
-      admin: false
+      admin: false,
+      creating: true
     }
   },
   created(){
@@ -196,6 +199,11 @@ export default {
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
       this.examId = urlParams.searchParams.get('examId');
+
+
+      if (this.examId !== undefined && this.examId !== null ) {
+        this.creating = false;
+      }
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();

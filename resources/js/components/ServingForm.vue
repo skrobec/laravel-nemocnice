@@ -128,14 +128,7 @@ export default {
     }
   },
   created(){
-      const queryString = window.location.href;
-      const urlParams = new URL(queryString);
-      const id = urlParams.searchParams.get('id');
-      console.log(id);
-
-      if (id !== null && id !== undefined) {
-          this.enterId = id;
-      }
+     
       this.getServings();
 
 
@@ -154,25 +147,13 @@ export default {
     connect(id,patient_id){
          window.location.href = "http://homestead.test/" + "servingDetail" + "?servingId=" + id + '&patientId=' + patient_id ;
     },
-    prepareEdit(id){
-        const serving = this.servings.find(pat => pat.id == id);
-        this.fields.name = serving.name;
-        this.fields.surname = serving.surname;
-        this.fields.issues = serving.issues;
-        this.editing = true;
-        this.servingId = id;
-    },
     getServings(){
         axios.get('/servings/getAll').then(response => {
-          console.log(this.enterId);
           this.buffer = response.data;
 
         });
         axios.get('/pat/get').then(response => {
 
-         if (this.enterId !== 0) {
-            this.connect(this.enterId);
-          }
          this.patients = response.data;
          this.servings = this.buffer;
 

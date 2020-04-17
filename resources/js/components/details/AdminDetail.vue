@@ -16,7 +16,11 @@
             <h4>Datum ukončení</h4>
             <h4>{{this.userInfo.termination_date | moment('DD.MM.YYYY')}}</h4>
         </div>
-        <div v-if="!admin" class="title-box" >
+        <div class="title-box">
+            <h4>Oddělení</h4>
+            <h4>{{getSection(this.userInfo.section_id)}}</h4>
+        </div>
+        <div class="title-box" >
             <h4>Funkce</h4>
             <h4>{{getJob(this.userInfo.userable_type)}}</h4>
         </div>
@@ -200,8 +204,15 @@ export default {
           }
         });
     },
+    getSection(section){
+      if (section !== null && section !== undefined && section !== '') {
+        return section.name;
+      } else {
+        return '';
+      }
+    },
     getJob(type){
-        if (type == null) return 'Admin';
+        if (type == null) return 'Nepřiřazeno';
         return (type=='doctor') ? 'Doktor' : 'Sestra';
     },
     back(){
@@ -237,7 +248,7 @@ export default {
           return axios.get('/sections/getAll');
         }).then(response => {
           this.results = response.data;
-          if (this.userInfo.section_id !== null) {
+          if (this.userInfo.section_id !== null && this.userInfo.section_id != '') {
              this.section = this.results.find(sec => sec.id == this.userInfo.section_id.id).name;
           }
          
@@ -253,7 +264,7 @@ export default {
         this.success = false;
         this.errors = {};
         this.fields.entry_date = this.$moment(this.fields.entry_date).format('YYYY-MM-DD');
-        const postData = {id: this.parentData.id, job: this.job, entry_date: this.fields.entry_date, section: this.sectionId };
+        const postData = {id: this.userInfo.id, job: this.job, entry_date: this.fields.entry_date, section: this.sectionId };
         axios.post('/user/addJob', postData).then(response => {
           console.log(response);
           this.fields = {};
