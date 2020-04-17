@@ -4303,6 +4303,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4617,14 +4618,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-<<<<<<< HEAD
-=======
 //
 //
 //
 //
 //
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4936,10 +4935,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-<<<<<<< HEAD
 //
-=======
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -5583,10 +5579,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       patients: [],
       nurse: '',
       drug: '',
+      loadedQuantity: '',
       loadedServing: {
         date: ''
       },
       loadedNurse: {
+        name: ''
+      },
+      loadedDrug: {
         name: ''
       },
       patientObj: {
@@ -5690,6 +5690,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.drug = _this4.drugs.find(function (drug) {
           return drug.id == _this4.servingObj.drug_id;
         }).name;
+        _this4.loadedDrug = _this4.drugs.find(function (drug) {
+          return drug.id == _this4.servingObj.drug_id;
+        });
+        _this4.loadedQuantity = response.data.quantity;
         _this4.drugObj = _this4.drugs.find(function (drug) {
           return drug.id == _this4.servingObj.drug_id;
         });
@@ -87866,7 +87870,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\r\n                    Sestra\r\n                ")]
+            [_vm._v("\n                    Sestra\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -87880,7 +87884,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\r\n                    Doktor\r\n                ")]
+            [_vm._v("\n                    Doktor\n                ")]
           )
         ])
       ]),
@@ -87984,7 +87988,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                    Úspěšně provedeno !\r\n                "
+                      "\n                    Úspěšně provedeno !\n                "
                     )
                   ])
                 : _vm._e()
@@ -88115,17 +88119,13 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-<<<<<<< HEAD
-      _vm._m(2),
-=======
       _vm.errors && _vm.errors.doctor_id
         ? _c("div", { staticClass: "text-danger" }, [
             _vm._v(_vm._s(_vm.errors.doctor_id[0]))
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm._m(1),
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
+      _vm._m(2),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -88506,9 +88506,9 @@ var render = function() {
               _vm.errors && _vm.errors.msg
                 ? _c("div", { staticClass: "text-danger" }, [
                     _vm._v(
-                      "\n                        " +
+                      "\r\n                        " +
                         _vm._s(_vm.errors.msg[0]) +
-                        "\n                    "
+                        "\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88973,35 +88973,9 @@ var render = function() {
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "doctor" }),
         _vm._v(" "),
-<<<<<<< HEAD
         _c("div", { staticClass: "exams list scroll" }, [
           _c("div", { staticClass: "title-box" }, [
-            _c("h4", [_vm._v("Prohlídky")]),
-=======
-        _c(
-          "div",
-          { staticClass: "exams list scroll" },
-          [
-            _c("div", { staticClass: "title-box" }, [
-              _c("h4", [_vm._v("Vyšetření")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "ico-box cursor",
-                  on: {
-                    click: function($event) {
-                      return _vm.link("examDetail")
-                    }
-                  }
-                },
-                [
-                  _vm._v("\n                Přidat vyšetření "),
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
-                ]
-              )
-            ]),
->>>>>>> 04cfd137e4e7685aefde172d4f0d7dd41fe87df3
+            _c("h4", [_vm._v("Vyšetření")]),
             _vm._v(" "),
             _c(
               "div",
@@ -89014,7 +88988,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n                Přidat prohlídku "),
+                _vm._v("\r\n                Přidat vyšetření "),
                 _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
               ]
             )
@@ -89259,12 +89233,20 @@ var render = function() {
           _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
         ]),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Lék")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.loadedDrug.name))])
+        ]),
         _vm._v(" "),
-        _vm._m(1)
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Množství")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.loadedQuantity))])
+        ])
       ]),
       _vm._v(" "),
-      _vm._m(2),
+      _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -89319,7 +89301,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm._m(3),
+      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-detail" }, [
         _c("div", { staticClass: "auto-container" }, [
@@ -89476,7 +89458,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -89488,26 +89470,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "title-box" }, [
-      _c("h4", [_vm._v("Lék")]),
-      _vm._v(" "),
-      _c("h4")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "title-box" }, [
-      _c("h4", [_vm._v("Množství")]),
-      _vm._v(" "),
-      _c("h4")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -107911,8 +107873,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
