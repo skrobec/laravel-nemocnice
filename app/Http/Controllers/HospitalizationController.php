@@ -48,6 +48,7 @@ class HospitalizationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'msg' => 'alreadyActive',
+                'errors' => $validator->messages()->get('*'),
             ], 422);
         }
 

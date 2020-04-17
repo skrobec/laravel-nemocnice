@@ -201,7 +201,7 @@ export default {
     },
     setDoc(result) {
         this.doctor = result.name;
-        this.setDoctor(result);
+        this.setDoctor(result.userable_id);
     },
     getInfo(){
         axios.post('/patient/getInfo',{id: this.parentData.id}).then(response => {

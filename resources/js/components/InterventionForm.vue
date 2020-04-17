@@ -122,14 +122,7 @@ export default {
     }
   },
   created(){
-      const queryString = window.location.href;
-      const urlParams = new URL(queryString);
-      const id = urlParams.searchParams.get('id');
-      console.log(id);
-
-      if (id !== null && id !== undefined) {
-          this.enterId = id;
-      }
+     
       this.getInterventions();
 
 
@@ -148,11 +141,11 @@ export default {
     },
     getInterventions(){
         axios.get('/interventions/getAll').then(response => {
-          console.log(this.enterId);
+       
           this.buffer = response.data;
           return axios.get('/pat/get');
         }).then( response => {
-            console.log('this.enterId');
+          
             this.patients = response.data;
             return axios.get('/hospitalizations/getAll');
         }).then( response => {
@@ -167,10 +160,8 @@ export default {
                     patient_id: intervention.patient_id,
                     patientName: this.patients.find(pat => pat.id == intervention.patient_id).name
                     }
-            });;
-            if (this.enterId !== 0) {
-                this.connect(this.enterId);
-            }
+            });
+          
             console.log('ebin');
         });
 

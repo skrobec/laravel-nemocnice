@@ -131,14 +131,7 @@ export default {
     }
   },
   created(){
-      const queryString = window.location.href;
-      const urlParams = new URL(queryString);
-      const id = urlParams.searchParams.get('id');
-      console.log(id);
 
-      if (id !== null && id !== undefined) {
-          this.enterId = id;
-      }
       this.getHospitalizations();
 
 
@@ -164,15 +157,15 @@ export default {
     },
     getHospitalizations(){
         axios.get('/hospitalizations/getAll').then(response => {
-          console.log(this.enterId);
+         
           this.buffer = response.data;
           return axios.get('/pat/get');
         }).then( response => {
-            console.log('this.enterId');
+            
             this.patients = response.data;
             return axios.get('/sections/getAll');
         }).then( response => {
-            console.log('kg');
+         
             this.sections = response.data;
             this.hospitalizations = this.buffer.map( hospitalization => {
                 return {
@@ -185,10 +178,8 @@ export default {
                     patientName: this.patients.find(pat => pat.id == hospitalization.patient_id).name
                     }
             });
-            if (this.enterId !== 0) {
-                this.connect(this.enterId);
-            }
-            console.log('ebin');
+           
+           
         });
 
     },

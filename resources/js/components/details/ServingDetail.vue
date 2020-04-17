@@ -24,30 +24,31 @@
             <h4>{{this.loadedQuantity}}</h4>
         </div>
     </div>
-    <div class="left"><label for="nurse">Sestra</label></div>
-    <div class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
-          <div class="option-container scroll">
-              <ul v-if="filteredNurses.length > 0">
-                  <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.name"></li>
-              </ul>
-          </div>
+    <div v-if="creating">
+      <div class="left"><label for="nurse">Sestra</label></div>
+      <div class="wrap-detail">
+        <div class="auto-container">
+            <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
+            <div class="option-container scroll">
+                <ul v-if="filteredNurses.length > 0">
+                    <li class="option" v-on:click="setNurse(result.id)"  v-for="result in filteredNurses" :key="result.id" v-text="result.name"></li>
+                </ul>
+            </div>
+        </div>
       </div>
-    </div>
       <div v-if="errors && errors.nurse_id" class="text-danger">{{ errors.nurse_id[0] }}</div>
 
       <div class="left"><label for="nurse">Lék</label></div>
-    <div  class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="drug" type="text" v-model="drug">
-          <div class="option-container scroll">
-              <ul v-if="filteredDrugs.length > 0">
-                  <li class="option" v-on:click="setDrug(result.id)" v-for="result in filteredDrugs" :key="result.id" v-text="result.name"></li>
-              </ul>
-          </div>
+      <div  class="wrap-detail">
+        <div class="auto-container">
+            <input class="form-control standard-input shadow-none" id="drug" type="text" v-model="drug">
+            <div class="option-container scroll">
+                <ul v-if="filteredDrugs.length > 0">
+                    <li class="option" v-on:click="setDrug(result.id)" v-for="result in filteredDrugs" :key="result.id" v-text="result.name"></li>
+                </ul>
+            </div>
+        </div>
       </div>
-    </div>
       <div v-if="errors && errors.drug_id" class="text-danger">{{ errors.drug_id[0] }}</div>
 
       <div class="forms-container">
@@ -76,6 +77,9 @@
                 </form>
             </div>
         </div>
+    </div>
+    
+      
 
   </div>
 </div>
@@ -160,6 +164,7 @@ export default {
       servingObj: {
           date: ''
       },
+      creating: true,
       drugs: [],
       fields: {
         date: new Date()
@@ -201,6 +206,10 @@ export default {
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
       this.servingId = urlParams.searchParams.get('servingId');
+
+      if (this.servingId !== undefined && this.servingId !== null ) {
+              this.creating = false;
+      }
 
       if (this.patientId !== undefined && this.patientId !== null ) {
         this.getInfo();
@@ -247,6 +256,7 @@ export default {
 
             if (this.servingId !== undefined && this.servingId !== null ) {
                 this.getEditInfo();
+                this.creating = false;
             }
         });
     },
