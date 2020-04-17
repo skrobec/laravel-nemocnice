@@ -4059,7 +4059,8 @@ __webpack_require__.r(__webpack_exports__);
       section: '',
       sectionId: '',
       userInfo: {},
-      admin: false
+      admin: false,
+      termination_date: new Date()
     };
   },
   created: function created() {
@@ -4078,6 +4079,28 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    endUser: function endUser() {
+      var _this2 = this;
+
+      this.termination_date = this.$moment(this.termination_date).format('YYYY-MM-DD');
+      axios.post('/user/end', {
+        id: this.userId,
+        termination_date: this.termination_date
+      }).then(function (response) {
+        console.log(response);
+        _this2.fields = {};
+        _this2.loaded = true;
+        _this2.success = true;
+
+        _this2.getInfo();
+      })["catch"](function (error) {
+        _this2.loaded = true;
+
+        if (error.response.status === 422) {
+          _this2.errors = error.response.data.errors || {};
+        }
+      });
+    },
     getJob: function getJob(type) {
       if (type == null) return 'Admin';
       return type == 'doctor' ? 'Doktor' : 'Sestra';
@@ -4105,30 +4128,34 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getInfo: function getInfo() {
-      var _this2 = this;
+      var _this3 = this;
 
       console.log(this.user);
       axios.post('/user/getInfo', {
         id: this.userId
       }).then(function (response) {
-        _this2.userInfo = response.data;
+        _this3.userInfo = response.data;
 
-        _this2.addJob(_this2.userInfo.userable_type);
+        _this3.addJob(_this3.userInfo.userable_type);
 
         return axios.get('/sections/getAll');
       }).then(function (response) {
-        _this2.results = response.data;
-        _this2.section = _this2.results.find(function (sec) {
-          return sec.id == _this2.userInfo.section_id.id;
-        }).name;
+        _this3.results = response.data;
+
+        if (_this3.userInfo.section_id !== null) {
+          _this3.section = _this3.results.find(function (sec) {
+            return sec.id == _this3.userInfo.section_id.id;
+          }).name;
+        }
+
         return axios.get('/user/isAdmin');
       }).then(function (response) {
-        _this2.admin = response.data.isAdmin;
-        console.log(_this2.admin);
+        _this3.admin = response.data.isAdmin;
+        console.log(_this3.admin);
       });
     },
     submit: function submit() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.loaded) {
         this.loaded = false;
@@ -4143,16 +4170,16 @@ __webpack_require__.r(__webpack_exports__);
         };
         axios.post('/user/addJob', postData).then(function (response) {
           console.log(response);
-          _this3.fields = {};
-          _this3.loaded = true;
-          _this3.success = true;
+          _this4.fields = {};
+          _this4.loaded = true;
+          _this4.success = true;
 
-          _this3.getInfo();
+          _this4.getInfo();
         })["catch"](function (error) {
-          _this3.loaded = true;
+          _this4.loaded = true;
 
           if (error.response.status === 422) {
-            _this3.errors = error.response.data.errors || {};
+            _this4.errors = error.response.data.errors || {};
           }
         });
       }
@@ -86814,7 +86841,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87704,7 +87731,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87933,7 +87960,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n                    Sestra\n                ")]
+                [_vm._v("\r\n                    Sestra\r\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -87947,7 +87974,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n                    Doktor\n                ")]
+                [_vm._v("\r\n                    Doktor\r\n                ")]
               )
             ])
           : _vm._e()
@@ -87955,54 +87982,50 @@ var render = function() {
       _vm._v(" "),
       _vm.admin
         ? _c("div", [
-            _vm.editActive
-              ? _c("div", { staticClass: "wrap-detail" }, [
+            _c("div", { staticClass: "wrap-detail" }, [
+              _c(
+                "div",
+                { staticClass: "auto-container" },
+                [
+                  _c("h4", [_vm._v("Ukončit")]),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "date_start" } }, [
+                    _vm._v("Datum")
+                  ]),
+                  _vm._v(" "),
+                  _c("date-picker", {
+                    attrs: { id: "date_start" },
+                    model: {
+                      value: _vm.termination_date,
+                      callback: function($$v) {
+                        _vm.termination_date = $$v
+                      },
+                      expression: "termination_date"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors && _vm.errors.termination_date
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.termination_date[0]))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "auto-container" },
-                    [
-                      _c("h4", [_vm._v("Ukončit hospitalizaci")]),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "date_start" } }, [
-                        _vm._v("Datum")
-                      ]),
-                      _vm._v(" "),
-                      _c("date-picker", {
-                        attrs: { id: "date_start" },
-                        model: {
-                          value: _vm.hospitalization_date_end,
-                          callback: function($$v) {
-                            _vm.hospitalization_date_end = $$v
-                          },
-                          expression: "hospitalization_date_end"
+                    "button",
+                    {
+                      staticClass: "btn btn-primary end-button",
+                      on: {
+                        click: function($event) {
+                          return _vm.endUser()
                         }
-                      }),
-                      _vm._v(" "),
-                      _vm.errors && _vm.errors.hospitalization_date_end
-                        ? _c("div", { staticClass: "text-danger" }, [
-                            _vm._v(
-                              _vm._s(_vm.errors.hospitalization_date_end[0])
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary end-button",
-                          on: {
-                            click: function($event) {
-                              return _vm.endHospitalization()
-                            }
-                          }
-                        },
-                        [_vm._v("Ukončit")]
-                      )
-                    ],
-                    1
+                      }
+                    },
+                    [_vm._v("Ukončit")]
                   )
-                ])
-              : _vm._e(),
+                ],
+                1
+              )
+            ]),
             _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
@@ -88106,7 +88129,7 @@ var render = function() {
                     _vm.success
                       ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                           _vm._v(
-                            "\n                          Úspěšně provedeno !\n                      "
+                            "\r\n                          Úspěšně provedeno !\r\n                      "
                           )
                         ])
                       : _vm._e()
@@ -88686,7 +88709,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\n                        Úspěšně provedeno !\n                    "
+                      "\r\n                        Úspěšně provedeno !\r\n                    "
                     )
                   ])
                 : _vm._e(),
@@ -88694,9 +88717,9 @@ var render = function() {
               _vm.errors && _vm.errors.msg
                 ? _c("div", { staticClass: "text-danger" }, [
                     _vm._v(
-                      "\n                        " +
+                      "\r\n                        " +
                         _vm._s(_vm.errors.msg[0]) +
-                        "\n                    "
+                        "\r\n                    "
                     )
                   ])
                 : _vm._e()
@@ -108079,8 +108102,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

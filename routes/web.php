@@ -120,6 +120,7 @@ Route::get('/user/getNurses', 'UserController@getNurseUsers');
 Route::get('/user/getDoctors', 'UserController@getDoctorUsers');
 Route::get('/user/isAdmin', 'UserController@isAdmin');
 Route::get('/users/userDetail', 'UserController@showUserDetail');
+Route::get('/users/end', 'UserController@endUser');
 
 
 // EXam

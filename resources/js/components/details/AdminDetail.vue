@@ -37,13 +37,13 @@
         </div>
     </div>
     <div v-if="admin">
-      <div v-if="editActive"  class="wrap-detail">
+      <div class="wrap-detail">
       <div class="auto-container">
-            <h4>Ukončit hospitalizaci</h4>
+            <h4>Ukončit</h4>
             <label for="date_start">Datum</label>
-            <date-picker id="date_start" v-model='hospitalization_date_end'/>
-            <div v-if="errors && errors.hospitalization_date_end" class="text-danger">{{ errors.hospitalization_date_end[0] }}</div>
-            <button v-on:click="endHospitalization()"  class="btn btn-primary end-button">Ukončit</button>
+            <date-picker id="date_start" v-model='termination_date'/>
+            <div v-if="errors && errors.termination_date" class="text-danger">{{ errors.termination_date[0] }}</div>
+            <button v-on:click="endUser()"  class="btn btn-primary end-button">Ukončit</button>
       </div>
     </div>
       <div class="left"><label for="section">Oddělení</label></div>
@@ -171,7 +171,8 @@ export default {
       section: '',
       sectionId: '',
       userInfo: {},
-      admin: false
+      admin: false,
+      termination_date: new Date(),
     }
   },
   created(){
@@ -188,6 +189,21 @@ export default {
     }
   },
   methods: {
+    endUser(){
+         this.termination_date =  this.$moment(this.termination_date).format('YYYY-MM-DD');
+         axios.post('/user/end',{ id: this.userId, termination_date: this.termination_date  }).then(response => {
+          console.log(response);
+          this.fields = {};
+          this.loaded = true;
+          this.success = true;
+          this.getInfo();
+        }).catch(error => {
+          this.loaded = true;
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors || {};
+          }
+        });
+    },
     getJob(type){
         if (type == null) return 'Admin';
         return (type=='doctor') ? 'Doktor' : 'Sestra';
@@ -225,7 +241,10 @@ export default {
           return axios.get('/sections/getAll');
         }).then(response => {
           this.results = response.data;
-          this.section = this.results.find(sec => sec.id == this.userInfo.section_id.id).name;
+          if (this.userInfo.section_id !== null) {
+             this.section = this.results.find(sec => sec.id == this.userInfo.section_id.id).name;
+          }
+         
           return axios.get('/user/isAdmin');
         }).then(response => {
           this.admin = response.data.isAdmin;
