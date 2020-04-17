@@ -280,6 +280,7 @@ export default {
           this.loaded = true;
           if (error.response.status === 422) {
             this.errors = error.response.data.errors || {};
+            console.log(error.response);
           }
         });
       }

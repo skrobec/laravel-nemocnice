@@ -261,7 +261,6 @@ export default {
         }
     },
     addDoctor() {
-
         const contains =  this.chosenDoctors.find( doc => doc.id == this.doctorObj.id );
         if (this.doctorObj !== undefined && (contains === undefined || contains === null )){
             if (this.doctorObj.id !== undefined) {
