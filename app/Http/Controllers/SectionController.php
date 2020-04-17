@@ -35,13 +35,13 @@ class SectionController extends Controller
         ], 201);
     }
 
-    public function editSection(Request $request, $id){
+    public function editSection(Request $request){
         $request->validate([
             'name'=>'required',
             'capacity'=>'required',
         ]);
 
-        $section = Section::find($id);
+        $section = Section::find($request->get('id'));
         $section->name =  $request->get('name');
         $section->capacity = $request->get('capacity');
         $section->save();

@@ -17,15 +17,15 @@
         </div>
         <div class="title-box">
             <h4>Lék</h4>
-            <h4></h4>
+            <h4>{{this.loadedDrug.name}}</h4>
         </div>
         <div class="title-box">
             <h4>Množství</h4>
-            <h4></h4>
+            <h4>{{this.loadedQuantity}}</h4>
         </div>
     </div>
     <div class="left"><label for="nurse">Sestra</label></div>
-    <div  class="wrap-detail">
+    <div class="wrap-detail">
       <div class="auto-container">
           <input class="form-control standard-input shadow-none" id="nurse" type="text" v-model="nurse">
           <div class="option-container scroll">
@@ -173,10 +173,14 @@ export default {
       patients: [],
       nurse: '',
       drug: '',
+      loadedQuantity:'',
       loadedServing: {
           date: ''
       },
       loadedNurse: {
+          name: ''
+      },
+      loadedDrug: {
           name: ''
       },
       patientObj: {
@@ -256,6 +260,8 @@ export default {
           this.nurseObj = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );
           this.nurse = this.nurseObj.name;
           this.drug = this.drugs.find(drug => drug.id == this.servingObj.drug_id ).name;
+          this.loadedDrug = this.drugs.find(drug => drug.id == this.servingObj.drug_id );
+          this.loadedQuantity = response.data.quantity;
           this.drugObj = this.drugs.find(drug => drug.id == this.servingObj.drug_id );
           this.fields.quantity = response.data.quantity;
           //this.fields.date = response.data.date;

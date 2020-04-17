@@ -1,18 +1,18 @@
 
-    
+
         <!DOCTYPE html>
         <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
                 <title>Laravel</title>
                 <!-- Fonts -->
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
                 <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
                 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        
+
                 <!-- Styles -->
                 <style>
                     .center {
@@ -42,7 +42,7 @@
                     .links {
                         display: flex;
                         justify-content: space-between;
-                        width: 300px;
+                        width: 450px;
                         margin-top: 50px;
                     }
                     .cont {
@@ -58,11 +58,11 @@
                     <div class="cont">
                         <h1>IS Nemocnice</h1>
                         <div class="links">
-                            <a href="{{ route('login') }}">Login</a>
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('login') }}">Přihlásit</a>
+                            <a href="{{ route('register') }}">Registrovat</a>
                         </div>
-                    </div>   
+                    </div>
                 </div>
             </body>
         </html>
-        
+

@@ -66,20 +66,30 @@ class UserController extends Controller
     public function getInfo(Request $request){
         $user = User::find($request->get('id'));
         if ($user->userable_type == 'App\Doctor'){
-            $type = 'doctor';
+            return response()->json([
+                'name' => $user->id,
+                'entry_date' => $user->userable->entry_date,
+                'termination_date' => $user->userable->termination_date,
+                'userable_type' => 'doctor',
+                'section_id' => $user->userable->section,
+            ], 201);
         } else if ($user->userable_type == 'App\Nurse') {
-            $type = 'nurse';
+            return response()->json([
+                'name' => $user->id,
+                'entry_date' => $user->userable->entry_date,
+                'termination_date' => $user->userable->termination_date,
+                'userable_type' => 'nurse',
+                'section_id' => $user->userable->section,
+            ], 201);
         } else {
-            $type = null;
+            return response()->json([
+                'name' => $user->id,
+                'entry_date' => '',
+                'termination_date' => '',
+                'userable_type' => null,
+                'section_id' => '',
+            ], 201);
         }
-
-        return response()->json([
-            'name' => $user->id,
-            'entry_date' => $user->userable->entry_date,
-            'termination_date' => $user->userable->termination_date,
-            'userable_type' => $type,
-            'section_id' => $user->userable->section,
-        ], 201);
     }
 
 }

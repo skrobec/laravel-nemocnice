@@ -4,8 +4,12 @@
     <h2>Hospitalizace</h2>
     <div class="patient-info">
         <div class="title-box">
-            <h4>Datum</h4>
+            <h4>Datum začátku</h4>
             <h4>{{this.loadedHospitalization.date_start | moment('DD.MM.YYYY')}}</h4>
+        </div>
+        <div class="title-box">
+            <h4>Datum konce</h4>
+            <h4>{{this.loadedHospitalization.date_end | moment('DD.MM.YYYY')}}</h4>
         </div>
         <div class="title-box">
             <h4>Pacient</h4>
@@ -24,8 +28,8 @@
     <div v-if="editActive"  class="wrap-detail">
       <div class="auto-container">
             <h4>Ukončit hospitalizaci</h4>
-            <label for="date_start">Datum</label>
-            <date-picker id="date_start" v-model='hospitalization_date_end'/>
+            <label for="date_end">Datum</label>
+            <date-picker id="date_end" v-model='hospitalization_date_end'/>
             <div v-if="errors && errors.hospitalization_date_end" class="text-danger">{{ errors.hospitalization_date_end[0] }}</div>
             <button v-on:click="endHospitalization()"  class="btn btn-primary end-button">Ukončit</button>
       </div>
@@ -242,7 +246,8 @@ export default {
       window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.patientObj.id);
     },
     endHospitalization(){
-       axios.post('/hospitalizations/end',{ id: this.loadedHospitalization.id, date_end: this.hospitalization_date_end  }).then(response => {
+        this.hospitalization_date_end =  this.$moment(this.hospitalization_date_end).format('YYYY-MM-DD');
+        axios.post('/hospitalizations/end',{ id: this.hospitalizationId, date_end: this.hospitalization_date_end  }).then(response => {
           console.log(response);
           this.fields = {};
           this.loaded = true;
