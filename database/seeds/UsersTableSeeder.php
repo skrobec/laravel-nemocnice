@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'TestDoktor1',
+            'name' => 'Petr Petr',
             'email' => 'test1@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'TestDoktor2',
+            'name' => 'Milan Petr',
             'email' => 'test2@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'TestDoktor3',
+            'name' => 'Michaela Netopilová',
             'email' => 'test3@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'TestSestra1',
+            'name' => 'Jitka Nová',
             'email' => 'test1@test.testt',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
@@ -58,7 +58,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'TestSestra2',
+            'name' => 'Petra Mladá',
             'email' => 'test2@test.testt',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'TestSestra3',
+            'name' => 'Kristýna Tichá',
             'email' => 'test3@test.testt',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),

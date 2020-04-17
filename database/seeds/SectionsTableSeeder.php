@@ -18,5 +18,15 @@ class SectionsTableSeeder extends Seeder
             'name' => 'Chirurgie',
             'capacity' => 42,
         ]);
+
+        DB::table('sections')->insert([
+            'name' => 'Ortopedie',
+            'capacity' => 50,
+        ]);
+
+        DB::table('sections')->insert([
+            'name' => 'JIP',
+            'capacity' => 32,
+        ]);
     }
 }

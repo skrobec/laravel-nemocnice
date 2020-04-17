@@ -4037,6 +4037,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5361,6 +5370,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5377,7 +5387,9 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       patientId: 0,
       doctor: '',
-      warning: false
+      warning: false,
+      doctorName: '',
+      doctorId: null
     };
   },
   created: function created() {
@@ -5414,15 +5426,18 @@ __webpack_require__.r(__webpack_exports__);
         _this2.interventions = response.data.interventions;
         _this2.servings = response.data.servings;
         _this2.warning = true;
-        _this2.patientInfo = response.data.patient;
+        _this2.doctorId = response.data.doctor_id;
         return axios.get('/user/getDoctors');
       }).then(function (response) {
         _this2.doctors = response.data;
 
-        if (_this2.patientInfo.doctor_id !== null) {
+        if (_this2.doctorId !== null) {
           _this2.doctor = _this2.doctors.find(function (doc) {
-            return doc.id == _this2.patientInfo.doctor_id;
-          });
+            return doc.userable_id == _this2.doctorId;
+          }).name;
+          _this2.doctorName = _this2.doctors.find(function (doc) {
+            return doc.userable_id == _this2.doctorId;
+          }).name;
         }
       });
     },
@@ -87966,6 +87981,55 @@ var render = function() {
       _vm._v(" "),
       _vm.admin
         ? _c("div", [
+            _vm.editActive
+              ? _c("div", { staticClass: "wrap-detail" }, [
+                  _c(
+                    "div",
+                    { staticClass: "auto-container" },
+                    [
+                      _c("h4", [_vm._v("Ukončit hospitalizaci")]),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "date_start" } }, [
+                        _vm._v("Datum")
+                      ]),
+                      _vm._v(" "),
+                      _c("date-picker", {
+                        attrs: { id: "date_start" },
+                        model: {
+                          value: _vm.hospitalization_date_end,
+                          callback: function($$v) {
+                            _vm.hospitalization_date_end = $$v
+                          },
+                          expression: "hospitalization_date_end"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors && _vm.errors.hospitalization_date_end
+                        ? _c("div", { staticClass: "text-danger" }, [
+                            _vm._v(
+                              _vm._s(_vm.errors.hospitalization_date_end[0])
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary end-button",
+                          on: {
+                            click: function($event) {
+                              return _vm.endHospitalization()
+                            }
+                          }
+                        },
+                        [_vm._v("Ukončit")]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "wrap-detail" }, [
@@ -89123,7 +89187,11 @@ var render = function() {
       _c("h2", [_vm._v("Pacient: " + _vm._s(_vm.parentData.name))]),
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
-        _c("div", { staticClass: "doctor" }),
+        _c("div", { staticClass: "title-box" }, [
+          _c("h4", [_vm._v("Doktor")]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(this.doctorName))])
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "exams list scroll" }, [
           _c("div", { staticClass: "title-box" }, [
