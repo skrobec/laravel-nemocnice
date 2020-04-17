@@ -37,9 +37,8 @@ Route::get('/hospitalizations', 'ServingController@showHospitalizations')->name(
 Route::get('/interventions', 'InterventionController@showInterventions')->name('interventions');
 Route::get('/hospitalizations', 'HospitalizationController@showHospitalizations')->name('hospitalizations');
 
-Route::get('/users', 'AdminController@users')
-    ->middleware('is_admin')
-    ->name('admin');
+Route::get('/users', 'AdminController@users')->name('admin');
+//Route::get('/users', 'AdminController@users')->middleware('is_admin')->name('admin');
 // CRUD routes :)
 
 //Patient
@@ -89,6 +88,7 @@ Route::get('/nurse/getAll', 'NurseController@getNurses');
 Route::post('/hospitalizations/add', 'HospitalizationController@addHospitalization');
 Route::post('/hospitalizations/del', 'HospitalizationController@deleteHospitalization');
 Route::post('/hospitalizations/edit', 'HospitalizationController@editHospitalization');
+Route::post('/hospitalizations/end', 'HospitalizationController@endHospitalization');
 Route::get('/hospitalizations/getAll', 'HospitalizationController@getHospitalizations');
 
 // User
@@ -118,6 +118,7 @@ Route::post('/hospitalization/getInfo', 'HospitalizationController@getHospitaliz
 // USER routes
 Route::get('/user/getNurses', 'UserController@getNurseUsers');
 Route::get('/user/getDoctors', 'UserController@getDoctorUsers');
+Route::get('/user/isAdmin', 'UserController@isAdmin');
 
 
 // EXam

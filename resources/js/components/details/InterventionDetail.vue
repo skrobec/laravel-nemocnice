@@ -24,14 +24,14 @@
                     <h4>Sestry</h4>
                     <i v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
                 </div>
-                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: {{getName(nurse)}}</div>
+                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: <a :href="'/users?id='+nurse.id">{{getName(nurse)}}</a></div>
             </div>
             <div class="doctors-list">
                 <div class="title-box">
                     <h4>Doktoři</h4>
                     <i v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
                 </div>
-                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: {{getName(doc)}}</div>
+                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: <a :href="'/users?id='+doc.id">{{getName(doc)}}</a></div>
             </div>
         </div>
         <div class="autocompletes">

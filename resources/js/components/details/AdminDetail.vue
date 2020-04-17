@@ -1,7 +1,7 @@
 <template>
 <div class="screen-center">
   <div class="middle-container">
-    <div class="back-cont">
+    <div v-if="admin" class="back-cont">
       <div v-on:click="back()" class="back">
           <i class="material-icons">arrow_back</i>
       </div>
@@ -20,7 +20,11 @@
             <h4>Datum ukončení</h4>
             <h4>{{this.userInfo.termination_date | moment('DD.MM.YYYY')}}</h4>
         </div>
-        <div class="title-box">
+        <div v-if="!admin" class="title-box" >
+            <h4>Funkce</h4>
+            <h4>{{getJob(this.userInfo.userable_type)}}</h4>
+        </div>
+        <div v-if="admin" class="title-box"> 
             <h4>Funkce</h4>
 
                 <div class="cursor non-marked" v-bind:class="{'marked': nurseChosen}" v-on:click="addJob('nurse')">
@@ -32,33 +36,36 @@
 
         </div>
     </div>
-    <div class="left"><label for="section">Oddělení</label></div>
-    <div  class="wrap-detail">
-      <div class="auto-container">
-          <input class="form-control standard-input shadow-none" id="section" type="text" v-model="section">
-          <div class="option-container scroll">
-              <ul v-if="filteredResults.length > 0">
-                  <li class="option" v-on:click="setSection(result.id)"  v-for="result in filteredResults" :key="result.id" v-text="result.name"></li>
-              </ul>
+    <div v-if="admin">
+      <div class="left"><label for="section">Oddělení</label></div>
+          <div  class="wrap-detail">
+            <div class="auto-container">
+                <input class="form-control standard-input shadow-none" id="section" type="text" v-model="section">
+                <div class="option-container scroll">
+                    <ul v-if="filteredResults.length > 0">
+                        <li class="option" v-on:click="setSection(result.id)"  v-for="result in filteredResults" :key="result.id" v-text="result.name"></li>
+                    </ul>
+                </div>
+            </div>
           </div>
-      </div>
-    </div>
-    <div class="forms-container">
-        <div class="form-block">
-            <form @submit.prevent="submit">
-                <div class="form-group input-container">
-                    <label for="entry_date">Datum nástupu</label>
-                    <date-picker id="entry_date" v-model='fields.entry_date'/>
-                    <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
-                </div>
+          <div class="forms-container">
+              <div class="form-block">
+                  <form @submit.prevent="submit">
+                      <div class="form-group input-container">
+                          <label for="entry_date">Datum nástupu</label>
+                          <date-picker id="entry_date" v-model='fields.entry_date'/>
+                          <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
+                      </div>
 
-                <button type="submit" class="btn btn-primary">Přidat</button>
-                <div v-if="success" class="alert alert-success mt-3">
-                    Úspěšně provedeno !
-                </div>
-            </form>
-        </div>
+                      <button type="submit" class="btn btn-primary">Přidat</button>
+                      <div v-if="success" class="alert alert-success mt-3">
+                          Úspěšně provedeno !
+                      </div>
+                  </form>
+              </div>
+          </div>
     </div>
+    
 
   </div>
 </div>
@@ -154,7 +161,8 @@ export default {
       results: [],
       section: '',
       sectionId: '',
-      userInfo: {}
+      userInfo: {},
+      admin: false
     }
   },
   created(){
@@ -169,6 +177,9 @@ export default {
     }
   },
   methods: {
+    getJob(type){
+        return (type=='doctor') ? 'Doktor' : 'Sestra';
+    },
     back(){
         this.$emit('detailToForm', 'hide')
     },
@@ -177,7 +188,7 @@ export default {
         this.section = this.results.find(sec => sec.id == result).name;
     },
     addJob(type){
-      if (type !== 'null')
+      if (type !== 'null' && this.admin == false)
       {
         if (type === 'nurse') {
             this.nurseChosen = true;
@@ -202,7 +213,11 @@ export default {
           return axios.get('/sections/getAll');
         }).then(response => {
           this.results = response.data;
-          this.section = this.results.find(sec => sec.id == section_id).name;
+          this.section = this.results.find(sec => sec.id == this.userInfo.section_id.id).name;
+          return axios.get('/user/isAdmin');
+        }).then(response => {
+          this.admin = response.data.isAdmin;
+          console.log(this.admin)
         });
     },
     submit(){

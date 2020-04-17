@@ -13,11 +13,11 @@
         </div>
         <div class="title-box">
             <h4>Doktor</h4>
-            <h4>{{this.loadedDoctor.name}}</h4>
+            <a :href="'/users?id='+this.loadedDoctor.id"><h4>{{this.loadedDoctor.name}}</h4></a>
         </div>
         <div class="title-box">
             <h4>Sestra</h4>
-            <h4>{{this.loadedNurse.name}}</h4>
+            <a :href="'/users?id='+this.loadedNurse.id"><h4>{{this.loadedNurse.name}}</h4></a>
         </div>
         <div class="title-box">
             <h4>Průběh</h4>
@@ -187,7 +187,8 @@ export default {
       },
       patientId: '',
       examId: '',
-      buffer: []
+      buffer: [],
+      admin: false
     }
   },
   created(){
