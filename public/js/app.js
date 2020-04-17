@@ -4037,10 +4037,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4115,7 +4111,7 @@ __webpack_require__.r(__webpack_exports__);
       }).name;
     },
     addJob: function addJob(type) {
-      if (type !== 'null' && this.admin == false) {
+      if (type !== 'null' && this.admin == true) {
         if (type === 'nurse') {
           this.nurseChosen = true;
           this.doctorChosen = false;
@@ -87883,27 +87879,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "screen-center" }, [
     _c("div", { staticClass: "middle-container" }, [
-      _vm.admin
-        ? _c("div", { staticClass: "back-cont" }, [
-            _c(
-              "div",
-              {
-                staticClass: "back",
-                on: {
-                  click: function($event) {
-                    return _vm.back()
-                  }
-                }
-              },
-              [
-                _c("i", { staticClass: "material-icons" }, [
-                  _vm._v("arrow_back")
-                ])
-              ]
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
       _c("h2", [_vm._v("Správa uživatele")]),
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [

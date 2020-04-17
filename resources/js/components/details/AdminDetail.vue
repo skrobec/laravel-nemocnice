@@ -1,11 +1,7 @@
 <template>
 <div class="screen-center">
   <div class="middle-container">
-    <div v-if="admin" class="back-cont">
-      <div v-on:click="back()" class="back">
-          <i class="material-icons">arrow_back</i>
-      </div>
-    </div>
+  
     <h2>Správa uživatele</h2>
     <div class="patient-info">
         <div class="title-box">
@@ -216,7 +212,7 @@ export default {
         this.section = this.results.find(sec => sec.id == result).name;
     },
     addJob(type){
-      if (type !== 'null' && this.admin == false)
+      if (type !== 'null' && this.admin == true)
       {
         if (type === 'nurse') {
             this.nurseChosen = true;
