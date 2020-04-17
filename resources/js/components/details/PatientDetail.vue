@@ -213,7 +213,7 @@ export default {
         });
     },
     relink() {
-      window.history.pushState({}, '', "http://homestead.test/patients"  + '?' + this.parentData.id);
+      window.history.pushState({}, '', "http://homestead.test/users");
 
     },
     link(destination, parameter) {

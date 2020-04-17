@@ -17,6 +17,10 @@ class UserController extends Controller
         return view('adminViews.users', ['users' => User::all()]);
     }
 
+    public function showUserDetail(){
+        return view('detailViews.userDetail');
+    }
+
     public function getNurseUsers() {
         return User::nurse()->get();
     }

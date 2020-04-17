@@ -10,7 +10,7 @@
     <div class="patient-info">
         <div class="title-box">
             <h4>Jméno</h4>
-            <h4>{{this.user.name}}</h4>
+            <h4>{{this.userInfo.name}}</h4>
         </div>
         <div class="title-box">
             <h4>Datum nástupu</h4>
@@ -156,7 +156,7 @@
 export default {
   data() {
     return {
-      user: {},
+      userId: null,
       fields: {
           entry_date: new Date()
       },
@@ -175,10 +175,12 @@ export default {
     }
   },
   created(){
+      const queryString = window.location.href;
+      const urlParams = new URL(queryString);
+      this.userId = urlParams.searchParams.get('id');
+
+
       this.getInfo();
-  },
-  props: {
-    parentData: Object
   },
   computed: {
     filteredResults () {
@@ -212,10 +214,10 @@ export default {
     },
     getInfo(){
 
-        this.user = this.parentData;
+        
          console.log(this.user);
 
-        axios.post('/user/getInfo', {id:this.user.id}).then(response => {
+        axios.post('/user/getInfo', {id: this.userId}).then(response => {
 
           this.userInfo = response.data;
           this.addJob(this.userInfo.userable_type);

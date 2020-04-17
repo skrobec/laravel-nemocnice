@@ -2019,9 +2019,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2069,12 +2066,10 @@ __webpack_require__.r(__webpack_exports__);
       window.history.replaceState({}, '', "http://homestead.test/users");
     },
     connect: function connect(id) {
-      window.history.replaceState({}, '', "http://homestead.test/users" + '?id=' + id);
-      this.detailProp = this.users.find(function (pat) {
-        return pat.id == id;
-      });
-      console.log(id);
-      this.detail = true;
+      /* window.history.pushState({}, '', "http://homestead.test/users");
+       window.history.replaceState({}, '', "http://homestead.test/users" + '?id=' + id);
+       this.detailProp = this.users.find(pat => pat.id == id);*/
+      window.location.href = "http://homestead.test/users/userDetail" + '?id=' + id;
     },
     getUsers: function getUsers() {
       var _this2 = this;
@@ -4048,7 +4043,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      user: {},
+      userId: null,
       fields: {
         entry_date: new Date()
       },
@@ -4067,10 +4062,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
+    var queryString = window.location.href;
+    var urlParams = new URL(queryString);
+    this.userId = urlParams.searchParams.get('id');
     this.getInfo();
-  },
-  props: {
-    parentData: Object
   },
   computed: {
     filteredResults: function filteredResults() {
@@ -4110,10 +4105,9 @@ __webpack_require__.r(__webpack_exports__);
     getInfo: function getInfo() {
       var _this2 = this;
 
-      this.user = this.parentData;
       console.log(this.user);
       axios.post('/user/getInfo', {
-        id: this.user.id
+        id: this.userId
       }).then(function (response) {
         _this2.userInfo = response.data;
 
@@ -5435,7 +5429,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     relink: function relink() {
-      window.history.pushState({}, '', "http://homestead.test/patients" + '?' + this.parentData.id);
+      window.history.pushState({}, '', "http://homestead.test/users");
     },
     link: function link(destination, parameter) {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
@@ -86530,96 +86524,76 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "full" }, [
-    _vm.detail
-      ? _c(
-          "div",
-          { staticClass: "full" },
-          [
-            _c("admin-detail", {
-              attrs: { parentData: _vm.detailProp },
-              on: { detailToForm: _vm.hideDetail }
-            })
-          ],
-          1
-        )
-      : _c("div", { staticClass: "wrap" }, [
-          _c("h1", [_vm._v("Uživatelé")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "user-container" }, [
-            _c("div", { staticClass: "input-block" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenUser,
-                    expression: "chosenUser"
-                  }
-                ],
-                staticClass: "form-control standard-input shadow-none",
-                attrs: { id: "chosenUser", type: "text" },
-                domProps: { value: _vm.chosenUser },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenUser = $event.target.value
-                  }
+    _c("div", { staticClass: "wrap" }, [
+      _c("h1", [_vm._v("Uživatelé")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "user-container" }, [
+        _c("div", { staticClass: "input-block" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.chosenUser,
+                expression: "chosenUser"
+              }
+            ],
+            staticClass: "form-control standard-input shadow-none",
+            attrs: { id: "chosenUser", type: "text" },
+            domProps: { value: _vm.chosenUser },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "user-block" },
-              _vm._l(_vm.filteredResults, function(user) {
-                return _c("div", { key: user.id, staticClass: "user-item" }, [
-                  _c("span", [_vm._v("Jméno: " + _vm._s(user.name))]),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v("Funkce: " + _vm._s(_vm.getJob(user.userable_type)))
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "connect",
-                      on: {
-                        click: function($event) {
-                          return _vm.connect(user.id)
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "material-icons" }, [
-                        _vm._v("build")
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "delete",
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteUser(user.id)
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "material-icons" }, [
-                        _vm._v("clear")
-                      ])
-                    ]
-                  )
-                ])
-              }),
-              0
-            )
-          ])
-        ])
+                _vm.chosenUser = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "user-block" },
+          _vm._l(_vm.filteredResults, function(user) {
+            return _c("div", { key: user.id, staticClass: "user-item" }, [
+              _c("span", [_vm._v("Jméno: " + _vm._s(user.name))]),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v("Funkce: " + _vm._s(_vm.getJob(user.userable_type)))
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "connect",
+                  on: {
+                    click: function($event) {
+                      return _vm.connect(user.id)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("build")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "delete",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteUser(user.id)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
+              )
+            ])
+          }),
+          0
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -87894,7 +87868,7 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Jméno")]),
           _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(this.user.name))])
+          _c("h4", [_vm._v(_vm._s(this.userInfo.name))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
@@ -88185,17 +88159,21 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Doktor")]),
           _vm._v(" "),
-          _c("a", { attrs: { href: "/users?id=" + this.loadedDoctor.id } }, [
-            _c("h4", [_vm._v(_vm._s(this.loadedDoctor.name))])
-          ])
+          _c(
+            "a",
+            { attrs: { href: "/users/userDetail?id=" + this.loadedDoctor.id } },
+            [_c("h4", [_vm._v(_vm._s(this.loadedDoctor.name))])]
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Sestra")]),
           _vm._v(" "),
-          _c("a", { attrs: { href: "/users?id=" + this.loadedNurse.id } }, [
-            _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
-          ])
+          _c(
+            "a",
+            { attrs: { href: "/users/userDetail?id=" + this.loadedNurse.id } },
+            [_c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])]
+          )
         ]),
         _vm._v(" "),
         _vm._m(0),
@@ -88802,9 +88780,11 @@ var render = function() {
               _vm._l(_vm.chosenNurses, function(nurse) {
                 return _c("div", { key: nurse.id, staticClass: "inner-list" }, [
                   _vm._v("Jméno: "),
-                  _c("a", { attrs: { href: "/users?id=" + nurse.id } }, [
-                    _vm._v(_vm._s(_vm.getName(nurse)))
-                  ])
+                  _c(
+                    "a",
+                    { attrs: { href: "/users/userDetail?id=" + nurse.id } },
+                    [_vm._v(_vm._s(_vm.getName(nurse)))]
+                  )
                 ])
               })
             ],
@@ -88835,9 +88815,11 @@ var render = function() {
               _vm._l(_vm.chosenDoctors, function(doc) {
                 return _c("div", { key: doc.id, staticClass: "inner-list" }, [
                   _vm._v("Jméno: "),
-                  _c("a", { attrs: { href: "/users?id=" + doc.id } }, [
-                    _vm._v(_vm._s(_vm.getName(doc)))
-                  ])
+                  _c(
+                    "a",
+                    { attrs: { href: "/users/userDetail?id=" + doc.id } },
+                    [_vm._v(_vm._s(_vm.getName(doc)))]
+                  )
                 ])
               })
             ],
@@ -89422,9 +89404,11 @@ var render = function() {
         _c("div", { staticClass: "title-box" }, [
           _c("h4", [_vm._v("Sestra")]),
           _vm._v(" "),
-          _c("a", { attrs: { href: "/users?id=" + this.loadedNurse.id } }, [
-            _c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])
-          ])
+          _c(
+            "a",
+            { attrs: { href: "/users/userDetail?id=" + this.loadedNurse.id } },
+            [_c("h4", [_vm._v(_vm._s(this.loadedNurse.name))])]
+          )
         ]),
         _vm._v(" "),
         _vm._m(0),

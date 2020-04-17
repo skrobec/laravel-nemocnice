@@ -1,9 +1,6 @@
 <template>
 <div class="full">
-    <div v-if="detail" class="full">
-        <admin-detail :parentData="detailProp" v-on:detailToForm="hideDetail"></admin-detail>
-    </div>
-    <div v-else class="wrap">
+    <div class="wrap">
         <h1>Uživatelé</h1>
         <div class="user-container">
             <div class="input-block">
@@ -160,10 +157,11 @@ export default {
         window.history.replaceState({}, '',  "http://homestead.test/users");
     },
     connect(id){
+       /* window.history.pushState({}, '', "http://homestead.test/users");
         window.history.replaceState({}, '', "http://homestead.test/users" + '?id=' + id);
-        this.detailProp = this.users.find(pat => pat.id == id);
-         console.log(id);
-        this.detail = true;
+        this.detailProp = this.users.find(pat => pat.id == id);*/
+        window.location.href = "http://homestead.test/users/userDetail" + '?id=' + id;
+    
     },
     getUsers(){
         axios.get('/user/getAll').then(response => {

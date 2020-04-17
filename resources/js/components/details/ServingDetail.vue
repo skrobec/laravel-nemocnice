@@ -13,7 +13,7 @@
         </div>
         <div class="title-box">
             <h4>Sestra</h4>
-            <a :href="'/users?id='+this.loadedNurse.id"><h4>{{this.loadedNurse.name}}</h4></a>
+            <a :href="'/users/userDetail?id='+this.loadedNurse.id"><h4>{{this.loadedNurse.name}}</h4></a>
         </div>
         <div class="title-box">
             <h4>Lék</h4>
