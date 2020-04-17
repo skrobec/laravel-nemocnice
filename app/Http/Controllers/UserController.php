@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     public function getUsers() {
-        return User::all();
+        return User::notadmin()->get();
     }
 
     public function isAdmin() {
@@ -61,6 +61,16 @@ class UserController extends Controller
         $job->save();
         $user->userable_id=$job->id;
         $user->save();
+    }
+
+    public function deleteUser(Request $request){
+
+    }
+
+    public function endJob(Request $request){
+        $user = User::find($request->get('id'));
+        $user->userable->termination_date = $request->get('termination_date');
+        $user->userable->save();
     }
 
     public function getInfo(Request $request){

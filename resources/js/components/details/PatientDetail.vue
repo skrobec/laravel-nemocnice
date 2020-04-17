@@ -9,7 +9,7 @@
     <h2>Pacient: {{parentData.name}}</h2>
     <div class="patient-info">
       <div class="title-box">
-          <h4>Doktor</h4>
+          <h4>Ošetřující doktor</h4>
           <h4>{{this.doctorName}}</h4>
       </div>
       <div class="exams list scroll">
@@ -34,7 +34,9 @@
             </div>
         </div>
         <div class="scroll items">
-          <div v-for="serving of servings" v-bind:key="serving.id">Datum: {{serving.date}}</div>
+          <div v-for="serving of servings" v-bind:key="serving.id">
+              <a :href="'servingDetail?servingId=' + serving.id + '&patientId='+serving.patient_id">{{serving.date | moment('DD.MM.YYYY')}}</a>
+          </div>
         </div>
       </div>
       <div class="hospitalization list scroll">
@@ -46,9 +48,13 @@
             </div>
         </div>
         <div class="scroll items">
-           <div v-for="hosp of hospitalizations" v-bind:key="hosp.id">Začátek: {{hosp.date_start}} Konec: {{hosp.date_end}} </div>
+           <div v-for="hosp of hospitalizations" v-bind:key="hosp.id">
+               <a :href="'hospitalizationDetail?hospitalizationId=' + hosp.id + '&patientId='+hosp.patient_id">
+                   {{hosp.date_start | moment('DD.MM.YYYY')}} - <span v-if="hosp.date_end == null">AKTIVNÍ</span>{{hosp.date_end | moment('DD.MM.YYYY')}}
+               </a>
+           </div>
         </div>
-       
+
       </div>
       <div class="interventions list scroll">
         <div class="title-box">
@@ -61,7 +67,9 @@
 
         </div>
         <div class="scroll items">
-          <div v-for="int of interventions" v-bind:key="int.id">Datum: {{int.date}}</div>
+          <div v-for="int of interventions" v-bind:key="int.id">
+              <a :href="'interventionDetail?interventionId=' + int.id + '&patientId='+int.patient_id">{{int.date | moment('DD.MM.YYYY')}}</a>
+          </div>
         </div>
       </div>
 
@@ -73,7 +81,7 @@
           <input class="form-control standard-input shadow-none" id="doctor" type="text" v-model="doctor">
           <div class="option-container scroll">
               <ul v-if="filteredResults.length > 0">
-                  <li class="option" v-on:click="setDoc(result)"  v-for="result in filteredResults" :key="result.id" v-text="result.name"></li>
+                  <li class="option" v-on:click="setDoc(result.userable_id)"  v-for="result in filteredResults" :key="result.id" v-text="result.name"></li>
               </ul>
           </div>
       </div>
@@ -220,12 +228,12 @@ export default {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
     setDoctor(id){
-
+        console.log("setdoctor id = " + id);
         const postData = {patient_id: this.parentData.id, doctor_id: id};
         axios.post('/doctor/setPatient', postData).then(response => { // TODO
           this.getInfo();
         });
-      
+
     }
   },
 }

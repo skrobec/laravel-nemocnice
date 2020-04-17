@@ -13,19 +13,19 @@ class NursesTableSeeder extends Seeder
         DB::table('nurses')->insert([
             'section_id' => 1,
             'entry_date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'termination_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'termination_date' => null,
         ]);
 
         DB::table('nurses')->insert([
             'section_id' => 1,
             'entry_date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'termination_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'termination_date' => null,
         ]);
 
         DB::table('nurses')->insert([
             'section_id' => 1,
             'entry_date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'termination_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'termination_date' => null,
         ]);
     }
 }

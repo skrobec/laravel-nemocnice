@@ -2058,7 +2058,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getJob: function getJob(type) {
-      if (type == null) return "Admin";
+      if (type == null) return "";
       return type == 'App\\Doctor' ? 'Doktor' : 'Sestra';
     },
     hideDetail: function hideDetail(value) {
@@ -2479,7 +2479,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2504,7 +2503,6 @@ __webpack_require__.r(__webpack_exports__);
     var queryString = window.location.href;
     var urlParams = new URL(queryString);
     var id = urlParams.searchParams.get('id');
-    console.log(id);
 
     if (id !== null && id !== undefined) {
       this.enterId = id;
@@ -2523,15 +2521,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPatient: function getPatient(id) {
-      console.log(this.patients);
-      console.log(id);
       return this.patients.find(function (pat) {
         return pat.id == id;
       }).name;
     },
     getSection: function getSection(id) {
-      console.log(this.patients);
-      console.log(id);
       return this.sections.find(function (pat) {
         return pat.id == id;
       }).name;
@@ -2543,15 +2537,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/exams/getAll').then(function (response) {
-        console.log(_this2.enterId);
         _this2.buffer = response.data;
         return axios.get('/pat/get');
       }).then(function (response) {
-        console.log('this.enterId');
         _this2.patients = response.data;
         return axios.get('/sections/getAll');
       }).then(function (response) {
-        console.log('kg');
         _this2.sections = response.data;
         _this2.exams = _this2.buffer.map(function (exam) {
           return {
@@ -2570,8 +2561,6 @@ __webpack_require__.r(__webpack_exports__);
         if (_this2.enterId !== 0) {
           _this2.connect(_this2.enterId);
         }
-
-        console.log('ebin');
       });
     },
     deleteExam: function deleteExam(id) {
@@ -4098,7 +4087,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getJob: function getJob(type) {
-      if (type == null) return 'Admin';
+      if (type == null) return '';
       return type == 'doctor' ? 'Doktor' : 'Sestra';
     },
     back: function back() {
@@ -4464,13 +4453,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getEditInfo: function getEditInfo() {
       var _this4 = this;
 
-      console.log("chci id ", this.examId);
       axios.post('/exam/getInfo', {
         id: this.examId
       }).then(function (response) {
         _this4.loadedExam = response.data;
-        console.log(_this4.loadedExam);
-        console.log('gangow');
         _this4.loadedNurse = _this4.nurses.find(function (section) {
           return section.userable_id == _this4.loadedExam.doctor_id;
         });
@@ -4493,9 +4479,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.fields.doctor_id = this.doctorObj ? this.doctorObj.userable_id : null;
         this.fields.nurse_id = this.nurseObj ? this.nurseObj.userable_id : null;
         this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
-        console.log(this.fields);
         axios.post('/exams/add', this.fields).then(function (response) {
-          console.log(response);
           _this5.fields = {};
           _this5.loaded = true;
           _this5.success = true;
@@ -5018,7 +5002,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -5095,6 +5078,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return obj.name;
       } else {
         return obj.user.name;
+      }
+    },
+    getUserId: function getUserId(obj) {
+      if (obj.user == undefined) {
+        return obj.name;
+      } else {
+        return obj.user.id;
       }
     },
     clearNurses: function clearNurses() {
@@ -5388,6 +5378,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5467,6 +5465,7 @@ __webpack_require__.r(__webpack_exports__);
     setDoctor: function setDoctor(id) {
       var _this3 = this;
 
+      console.log("setdoctor id = " + id);
       var postData = {
         patient_id: this.parentData.id,
         doctor_id: id
@@ -86837,7 +86836,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87727,7 +87726,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -87935,7 +87934,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n                    Sestra\r\n                ")]
+                [_vm._v("\n                    Sestra\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -87949,7 +87948,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n                    Doktor\r\n                ")]
+                [_vm._v("\n                    Doktor\n                ")]
               )
             ])
           : _vm._e()
@@ -88104,7 +88103,7 @@ var render = function() {
                     _vm.success
                       ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                           _vm._v(
-                            "\r\n                          Úspěšně provedeno !\r\n                      "
+                            "\n                          Úspěšně provedeno !\n                      "
                           )
                         ])
                       : _vm._e()
@@ -88386,7 +88385,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88684,7 +88683,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e(),
@@ -88692,9 +88691,9 @@ var render = function() {
               _vm.errors && _vm.errors.msg
                 ? _c("div", { staticClass: "text-danger" }, [
                     _vm._v(
-                      "\r\n                        " +
+                      "\n                        " +
                         _vm._s(_vm.errors.msg[0]) +
-                        "\r\n                    "
+                        "\n                    "
                     )
                   ])
                 : _vm._e()
@@ -88769,11 +88768,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "title-box" }, [
-          _c("h4", [_vm._v("Průběh")]),
-          _vm._v(" "),
-          _c("div", [_vm._v(_vm._s(this.interventionObj.record))])
-        ]),
+        _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "text-box" }, [
           _vm._v(_vm._s(this.interventionObj.record))
@@ -88808,7 +88803,11 @@ var render = function() {
                   _vm._v("Jméno: "),
                   _c(
                     "a",
-                    { attrs: { href: "/users/userDetail?id=" + nurse.id } },
+                    {
+                      attrs: {
+                        href: "/users/userDetail?id=" + _vm.getUserId(nurse)
+                      }
+                    },
                     [_vm._v(_vm._s(_vm.getName(nurse)))]
                   )
                 ])
@@ -88843,7 +88842,11 @@ var render = function() {
                   _vm._v("Jméno: "),
                   _c(
                     "a",
-                    { attrs: { href: "/users/userDetail?id=" + doc.id } },
+                    {
+                      attrs: {
+                        href: "/users/userDetail?id=" + _vm.getUserId(doc)
+                      }
+                    },
                     [_vm._v(_vm._s(_vm.getName(doc)))]
                   )
                 ])
@@ -88854,7 +88857,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "autocompletes" }, [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "wrap-detail" }, [
             _c("div", { staticClass: "auto-container" }, [
@@ -88922,7 +88925,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "wrap-detail" }, [
             _c("div", { staticClass: "auto-container" }, [
@@ -89097,7 +89100,7 @@ var render = function() {
               _vm.success
                 ? _c("div", { staticClass: "alert alert-success mt-3" }, [
                     _vm._v(
-                      "\r\n                        Úspěšně provedeno !\r\n                    "
+                      "\n                        Úspěšně provedeno !\n                    "
                     )
                   ])
                 : _vm._e()
@@ -89109,6 +89112,14 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-box" }, [
+      _c("h4", [_vm._v("Průběh")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -89168,7 +89179,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "patient-info" }, [
         _c("div", { staticClass: "title-box" }, [
-          _c("h4", [_vm._v("Doktor")]),
+          _c("h4", [_vm._v("Ošetřující doktor")]),
           _vm._v(" "),
           _c("h4", [_vm._v(_vm._s(this.doctorName))])
         ]),
@@ -89188,7 +89199,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n                Přidat vyšetření "),
+                _vm._v("\n                Přidat vyšetření "),
                 _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
               ]
             )
@@ -89233,7 +89244,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n                Přidat podání "),
+                _vm._v("\n                Přidat podání "),
                 _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
               ]
             )
@@ -89244,7 +89255,19 @@ var render = function() {
             { staticClass: "scroll items" },
             _vm._l(_vm.servings, function(serving) {
               return _c("div", { key: serving.id }, [
-                _vm._v("Datum: " + _vm._s(serving.date))
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "servingDetail?servingId=" +
+                        serving.id +
+                        "&patientId=" +
+                        serving.patient_id
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm._f("moment")(serving.date, "DD.MM.YYYY")))]
+                )
               ])
             }),
             0
@@ -89266,7 +89289,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n                Přidat hospitalizaci "),
+                _vm._v("\n                Přidat hospitalizaci "),
                 _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
               ]
             )
@@ -89277,12 +89300,33 @@ var render = function() {
             { staticClass: "scroll items" },
             _vm._l(_vm.hospitalizations, function(hosp) {
               return _c("div", { key: hosp.id }, [
-                _vm._v(
-                  "Začátek: " +
-                    _vm._s(hosp.date_start) +
-                    " Konec: " +
-                    _vm._s(hosp.date_end) +
-                    " "
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "hospitalizationDetail?hospitalizationId=" +
+                        hosp.id +
+                        "&patientId=" +
+                        hosp.patient_id
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                   " +
+                        _vm._s(
+                          _vm._f("moment")(hosp.date_start, "DD.MM.YYYY")
+                        ) +
+                        " - "
+                    ),
+                    hosp.date_end == null
+                      ? _c("span", [_vm._v("AKTIVNÍ")])
+                      : _vm._e(),
+                    _vm._v(
+                      _vm._s(_vm._f("moment")(hosp.date_end, "DD.MM.YYYY")) +
+                        "\n               "
+                    )
+                  ]
                 )
               ])
             }),
@@ -89305,7 +89349,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n                Přidat zákrok "),
+                _vm._v("\n                Přidat zákrok "),
                 _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
               ]
             )
@@ -89316,7 +89360,19 @@ var render = function() {
             { staticClass: "scroll items" },
             _vm._l(_vm.interventions, function(int) {
               return _c("div", { key: int.id }, [
-                _vm._v("Datum: " + _vm._s(int.date))
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "interventionDetail?interventionId=" +
+                        int.id +
+                        "&patientId=" +
+                        int.patient_id
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm._f("moment")(int.date, "DD.MM.YYYY")))]
+                )
               ])
             }),
             0
@@ -89361,7 +89417,7 @@ var render = function() {
                       domProps: { textContent: _vm._s(result.name) },
                       on: {
                         click: function($event) {
-                          return _vm.setDoc(result)
+                          return _vm.setDoc(result.userable_id)
                         }
                       }
                     })
@@ -108077,8 +108133,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/LaravelProjects/pis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/Projects_Laravel/Project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -13,7 +13,6 @@
         </div>
         <div class="title-box">
             <h4>Průběh</h4>
-            <div>{{this.interventionObj.record}}</div>
         </div>
         <div class="text-box">{{this.interventionObj.record}}</div>
     </div>
@@ -24,14 +23,14 @@
                     <h4>Sestry</h4>
                     <i v-on:click="clearNurses()" class="material-icons cursor right-m">clear</i>
                 </div>
-                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: <a :href="'/users/userDetail?id='+nurse.id">{{getName(nurse)}}</a></div>
+                <div class="inner-list" v-for="nurse of chosenNurses" v-bind:key="nurse.id">Jméno: <a :href="'/users/userDetail?id='+getUserId(nurse)">{{getName(nurse)}}</a></div>
             </div>
             <div class="doctors-list">
                 <div class="title-box">
                     <h4>Doktoři</h4>
                     <i v-on:click="clearDoctors()" class="material-icons cursor right-m">clear</i>
                 </div>
-                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: <a :href="'/users/userDetail?id='+doc.id">{{getName(doc)}}</a></div>
+                <div class="inner-list" v-for="doc of chosenDoctors" v-bind:key="doc.id">Jméno: <a :href="'/users/userDetail?id='+getUserId(doc)">{{getName(doc)}}</a></div>
             </div>
         </div>
         <div class="autocompletes">
@@ -236,6 +235,13 @@ export default {
             return obj.user.name;
         }
     },
+      getUserId(obj){
+        if (obj.user == undefined){
+            return obj.name;
+        } else {
+            return obj.user.id;
+        }
+      },
     clearNurses(){
         this.chosenNurses = [];
     },

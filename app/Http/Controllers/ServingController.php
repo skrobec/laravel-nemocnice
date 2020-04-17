@@ -87,14 +87,13 @@ class ServingController extends Controller
         ], 201);
     }
 
-    public function deleteServing($id){
-        $serving = Serving::find($id);
+    public function deleteServing(Request $request){
+        $serving = Serving::find($request->get('id'));
         $serving->delete();
 
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
-            'id' => $serving->id
         ], 201);
     }
 

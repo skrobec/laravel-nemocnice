@@ -1,7 +1,7 @@
 <template>
 <div class="screen-center">
   <div class="middle-container">
-  
+
     <h2>Správa uživatele</h2>
     <div class="patient-info">
         <div class="title-box">
@@ -187,7 +187,7 @@ export default {
   methods: {
     endUser(){
          this.termination_date =  this.$moment(this.termination_date).format('YYYY-MM-DD');
-         axios.post('/user/end',{ id: this.userId, termination_date: this.termination_date  }).then(response => {
+         axios.post('/user/end',{ id: this.userId, termination_date: this.termination_date }).then(response => {
           console.log(response);
           this.fields = {};
           this.loaded = true;
@@ -201,7 +201,7 @@ export default {
         });
     },
     getJob(type){
-        if (type == null) return 'Admin';
+        if (type == null) return '';
         return (type=='doctor') ? 'Doktor' : 'Sestra';
     },
     back(){
@@ -227,7 +227,7 @@ export default {
     },
     getInfo(){
 
-        
+
          console.log(this.user);
 
         axios.post('/user/getInfo', {id: this.userId}).then(response => {
@@ -240,7 +240,7 @@ export default {
           if (this.userInfo.section_id !== null) {
              this.section = this.results.find(sec => sec.id == this.userInfo.section_id.id).name;
           }
-         
+
           return axios.get('/user/isAdmin');
         }).then(response => {
           this.admin = response.data.isAdmin;

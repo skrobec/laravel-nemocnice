@@ -148,7 +148,7 @@ export default {
   },
   methods: {
     getJob(type){
-        if (type == null) return "Admin";
+        if (type == null) return "";
         return (type == 'App\\Doctor') ? 'Doktor' : 'Sestra';
     },
 
@@ -162,7 +162,7 @@ export default {
         window.history.replaceState({}, '', "http://homestead.test/users" + '?id=' + id);
         this.detailProp = this.users.find(pat => pat.id == id);*/
         window.location.href = "http://homestead.test/users/userDetail" + '?id=' + id;
-    
+
     },
     getUsers(){
         axios.get('/user/getAll').then(response => {

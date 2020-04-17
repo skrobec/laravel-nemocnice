@@ -84,14 +84,13 @@ class ExamController extends Controller
         ], 201);
     }
 
-    public function deleteExam($id){
-        $exam = Exam::find($id);
+    public function deleteExam(Request $request){
+        $exam = Exam::find($request->get('id'));
         $exam->delete();
 
         return response()->json([
             'status' => 'success',
             'msg'    => 'Okay',
-            'id' => $exam->id,
         ], 201);
     }
 

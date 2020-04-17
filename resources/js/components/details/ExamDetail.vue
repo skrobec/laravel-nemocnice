@@ -235,9 +235,7 @@ export default {
             this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
             return  axios.get('/user/getDoctors');
-
         }).then( response => {
-
              this.doctors = response.data;
             return  axios.get('/user/getNurses');
         }).then( response => {
@@ -250,11 +248,8 @@ export default {
         });
     },
     getEditInfo(){
-        console.log("chci id ",this.examId);
         axios.post('/exam/getInfo',{id: this.examId}).then(response => {
           this.loadedExam = response.data;
-          console.log(this.loadedExam);
-          console.log('gangow');
           this.loadedNurse = this.nurses.find(section => section.userable_id == this.loadedExam.doctor_id );
           this.loadedDoctor = this.doctors.find(section => section.userable_id == this.loadedExam.nurse_id );
 
@@ -272,9 +267,7 @@ export default {
         this.fields.doctor_id = this.doctorObj ? this.doctorObj.userable_id : null;
         this.fields.nurse_id = this.nurseObj ? this.nurseObj.userable_id : null;
         this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
-            console.log(this.fields);
         axios.post('/exams/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

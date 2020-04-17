@@ -12,17 +12,17 @@ class DoctorsTableSeeder extends Seeder
 
         DB::table('doctors')->insert([
             'entry_date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'termination_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'termination_date' => null,
         ]);
 
         DB::table('doctors')->insert([
             'entry_date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'termination_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'termination_date' => null,
         ]);
 
         DB::table('doctors')->insert([
             'entry_date' => Carbon::now()->format('Y-m-d H:i:s'),
-            'termination_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'termination_date' => null,
         ]);
     }
 }

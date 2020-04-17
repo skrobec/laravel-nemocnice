@@ -13,7 +13,6 @@
                 <div class="exam-item" v-for="exam of filteredResults" v-bind:key="exam.id">
                     <span>Datum: {{exam.date | moment('DD.MM.YYYY')}}</span>
                     <span>Jméno pacienta: {{getPatient(exam.patient_id)}}</span>
-                    <!--span>Jméno oddělení: {{getSection(exam.section_id)}}</span-->
                     <div v-on:click="connect(exam.id,exam.patient_id)" class="connect">
                         <i class="material-icons">build</i>
                     </div>
@@ -126,7 +125,6 @@ export default {
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       const id = urlParams.searchParams.get('id');
-      console.log(id);
 
       if (id !== null && id !== undefined) {
           this.enterId = id;
@@ -142,13 +140,9 @@ export default {
   },
   methods: {
     getPatient(id){
-        console.log(this.patients);
-        console.log(id);
         return this.patients.find(pat => pat.id == id).name;
     },
     getSection(id){
-        console.log(this.patients);
-        console.log(id);
         return this.sections.find(pat => pat.id == id).name;
     },
     connect(id,patientId){
@@ -156,15 +150,12 @@ export default {
     },
     getExams(){
         axios.get('/exams/getAll').then(response => {
-          console.log(this.enterId);
           this.buffer = response.data;
           return axios.get('/pat/get');
         }).then( response => {
-            console.log('this.enterId');
             this.patients = response.data;
             return axios.get('/sections/getAll');
         }).then( response => {
-            console.log('kg');
             this.sections = response.data;
             this.exams = this.buffer.map( exam => {
                 return {
@@ -180,7 +171,6 @@ export default {
             if (this.enterId !== 0) {
                 this.connect(this.enterId);
             }
-            console.log('ebin');
         });
 
     },
