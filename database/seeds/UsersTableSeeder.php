@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Petr Petr',
+            'name' => 'Marek Petr',
             'email' => 'test1@test.test',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),

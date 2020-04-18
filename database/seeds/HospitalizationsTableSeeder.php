@@ -13,7 +13,7 @@ class HospitalizationsTableSeeder extends Seeder
         DB::table('hospitalizations')->insert([
             'date_start' => Carbon::now()->format('Y-m-d H:i:s'),
             'date_end' => Carbon::now()->format('Y-m-d H:i:s'),
-            'reason' => "bylo mu blbě",
+            'reason' => "Špatné dýchání, dušnost. Ponechán na pozorování.",
             'patient_id' => 1,
             'section_id' =>1,
         ]);
@@ -22,7 +22,7 @@ class HospitalizationsTableSeeder extends Seeder
         DB::table('hospitalizations')->insert([
             'date_start' => Carbon::now()->format('Y-m-d H:i:s'),
             'date_end' => null,
-            'reason' => "bylo mu blbě znova",
+            'reason' => "Opakované problémy z minulé hospitalizace, dýchací obtíže.",
             'patient_id' => 1,
             'section_id' =>1,
         ]);

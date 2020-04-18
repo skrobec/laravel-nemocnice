@@ -15,7 +15,7 @@ class ExamsTableSeeder extends Seeder
             'patient_id' => 1,
             'doctor_id' => 1,
             'nurse_id' => 1,
-            'record' => "Exam probehlo v poradku.",
+            'record' => "Vyšetření neodhalilo žádný problém.",
         ]);
     }
 

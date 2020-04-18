@@ -12,7 +12,7 @@ class DrugServingTableSeeder extends Seeder
         DB::table('drug_serving')->insert([
            'drug_id' => 1,
            'serving_id' =>1,
-           'amount' => 10,
+           'amount' => 5,
         ]);
     }
 }

@@ -13,13 +13,13 @@ class InterventionsTableSeeder extends Seeder
         DB::table('interventions')->insert([
             'date' => Carbon::now()->format('Y-m-d H:i:s'),
             'patient_id' => 1,
-            'record' => 'vse probehlo v poradku',
+            'record' => 'Provedena operace v oblasti hrudníku. Vše v pořádku.',
         ]);
 
         DB::table('interventions')->insert([
             'date' => Carbon::now()->format('Y-m-d H:i:s'),
             'patient_id' => 1,
-            'record' => 'vse probehlo v poradku',
+            'record' => 'Mírné komplikace probrání z narkózy. Řešeno přidáním kyslíku.',
         ]);
     }
 }

@@ -26,6 +26,11 @@ class SectionsTableSeeder extends Seeder
 
         DB::table('sections')->insert([
             'name' => 'JIP',
+            'capacity' => 11,
+        ]);
+
+        DB::table('sections')->insert([
+            'name' => 'ARO',
             'capacity' => 32,
         ]);
     }
