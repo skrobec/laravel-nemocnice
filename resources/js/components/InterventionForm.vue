@@ -122,7 +122,7 @@ export default {
     }
   },
   created(){
-     
+
       this.getInterventions();
 
 
@@ -141,17 +141,15 @@ export default {
     },
     getInterventions(){
         axios.get('/interventions/getAll').then(response => {
-       
+
           this.buffer = response.data;
           return axios.get('/pat/get');
         }).then( response => {
-          
+
             this.patients = response.data;
             return axios.get('/hospitalizations/getAll');
         }).then( response => {
-            console.log('kg');
             this.hospitalizations = response.data;
-
             this.interventions = this.buffer.map( intervention => {
                 return {
                     id: intervention.id,
@@ -161,20 +159,15 @@ export default {
                     patientName: this.patients.find(pat => pat.id == intervention.patient_id).name
                     }
             });
-          
-            console.log('ebin');
         });
-
     },
     deleteIntervention(id){
         this.fields.id = id;
         axios.post('/interventions/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getInterventions();
         });
     },
-
   },
 }
 </script>

@@ -192,7 +192,6 @@ export default {
     endUser(){
          this.termination_date =  this.$moment(this.termination_date).format('YYYY-MM-DD');
          axios.post('/user/end',{ id: this.userId, termination_date: this.termination_date }).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
@@ -238,9 +237,6 @@ export default {
     },
     getInfo(){
 
-
-         console.log(this.user);
-
         axios.post('/user/getInfo', {id: this.userId}).then(response => {
 
           this.userInfo = response.data;
@@ -255,7 +251,6 @@ export default {
           return axios.get('/user/isAdmin');
         }).then(response => {
           this.admin = response.data.isAdmin;
-          console.log(this.admin)
         });
     },
     submit(){
@@ -266,7 +261,6 @@ export default {
         this.fields.entry_date = this.$moment(this.fields.entry_date).format('YYYY-MM-DD');
         const postData = {id: this.userInfo.id, job: this.job, entry_date: this.fields.entry_date, section: this.sectionId };
         axios.post('/user/addJob', postData).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

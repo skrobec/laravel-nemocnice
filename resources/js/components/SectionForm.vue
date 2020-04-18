@@ -160,7 +160,6 @@ export default {
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       const id = urlParams.searchParams.get('id');
-      console.log(id);
 
       if (id !== null && id !== undefined) {
           this.enterId = id;
@@ -185,15 +184,12 @@ export default {
     },
     getSections(){
         axios.get('/sections/getAll').then(response => {
-          console.log(this.enterId);
           this.sections = response.data;
         });
     },
     deleteSection(id){
         this.fields.id = id;
-        console.log(this.fields);
         axios.post('/sections/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getSections();
         });
@@ -206,7 +202,6 @@ export default {
             this.errors = {};
             this.fields.id = this.sectionId;
             axios.post('/sections/edit', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.loaded = true;
             this.success = true;
@@ -217,7 +212,7 @@ export default {
                 this.errors = error.response.data.errors || {};
             }
             });
-      }
+        }
     },
     submit() {
       if (this.loaded) {
@@ -225,7 +220,6 @@ export default {
         this.success = false;
         this.errors = {};
         axios.post('/sections/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

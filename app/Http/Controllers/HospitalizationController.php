@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Hospitalization;
 use App\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -122,7 +121,6 @@ class HospitalizationController extends Controller
     }
 
     public function endHospitalization(Request $request){
-        Log::info($request);
         $hospitalization = Hospitalization::find($request->get('id'));
         $hospitalization->date_end = $request->get('date_end');
         $hospitalization->save();

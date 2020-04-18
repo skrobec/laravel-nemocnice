@@ -5,12 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Patient;
-use App\Exam;
-use App\Hospitalization;
-use App\Intervention;
-use App\Serving;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PatientController extends Controller {

@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Marek Petr',
-            'email' => 'test1@test.test',
+            'email' => 'marek@gmail.com',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'password' =>  Hash::make('123456789'),
             'userable_type' => 'App\Doctor',

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Section;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class SectionController extends Controller
 {
@@ -53,7 +52,6 @@ class SectionController extends Controller
     }
 
     public function deleteSection(Request $request){
-        Log::info($request);
         $section = Section::find($request->id);
         $section->delete();
 

@@ -177,7 +177,6 @@ export default {
     deleteExam(id){
         this.fields.id = id;
         axios.post('/exams/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getExams();
         });

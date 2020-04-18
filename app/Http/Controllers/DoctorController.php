@@ -5,14 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Doctor;
-use App\Exam;
-use App\Hospitalization;
-use App\Intervention;
 use App\Patient;
-use App\Serving;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 
 class DoctorController extends Controller {
 
@@ -26,9 +20,6 @@ class DoctorController extends Controller {
             'doctor_id' => 'required'
         ]);
 
-        Log::info("tak schvalne");
-        Log::info("patient_id" . $request->get('patient_id'));
-        Log::info("doctor_id " . $request->get('doctor_id'));
         $patient = Patient::find($request->get('patient_id'));
         $patient->doctor_id = $request->get('doctor_id');
         $patient->save();

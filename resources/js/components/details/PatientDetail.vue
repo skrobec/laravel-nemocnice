@@ -228,7 +228,6 @@ export default {
       window.location.href = "http://homestead.test/" + destination + "?patientId=" + this.parentData.id;
     },
     setDoctor(id){
-        console.log("setdoctor id = " + id);
         const postData = {patient_id: this.parentData.id, doctor_id: id};
         axios.post('/doctor/setPatient', postData).then(response => { // TODO
           this.getInfo();

@@ -160,7 +160,6 @@ export default {
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       const id = urlParams.searchParams.get('id');
-      console.log(id);
 
       if (id !== null && id !== undefined) {
           this.enterId = id;
@@ -185,15 +184,12 @@ export default {
     },
     getDrugs(){
         axios.get('/drugs/getAll').then(response => {
-          console.log(this.enterId);
           this.drugs = response.data;
         });
     },
     deleteDrug(id){
         this.fields.id = id;
-        console.log(this.fields);
         axios.post('/drugs/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getDrugs();
         });
@@ -206,7 +202,6 @@ export default {
             this.errors = {};
             this.fields.id = this.drugId;
             axios.post('/drugs/edit', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.loaded = true;
             this.success = true;
@@ -225,7 +220,6 @@ export default {
         this.success = false;
         this.errors = {};
         axios.post('/drugs/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

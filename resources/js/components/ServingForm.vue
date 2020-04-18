@@ -128,7 +128,7 @@ export default {
     }
   },
   created(){
-     
+
       this.getServings();
 
 
@@ -140,8 +140,6 @@ export default {
   },
   methods: {
     getPatient(id){
-        console.log(this.patients);
-        console.log(id);
         return this.patients.find(pat => pat.id == id).name;
     },
     connect(id,patient_id){
@@ -162,7 +160,6 @@ export default {
     deleteServing(id){
         this.fields.id = id;
         axios.post('/servings/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getServings();
         });
@@ -175,7 +172,6 @@ export default {
             this.errors = {};
             this.fields.id = this.servingId;
             axios.post('/servings/edit', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.loaded = true;
             this.success = true;
@@ -186,7 +182,7 @@ export default {
                 this.errors = error.response.data.errors || {};
             }
             });
-      }
+        }
     },
     submit() {
       if (this.loaded) {
@@ -194,7 +190,6 @@ export default {
         this.success = false;
         this.errors = {};
         axios.post('/servings/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Drug;
 use App\Serving;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ServingController extends Controller
