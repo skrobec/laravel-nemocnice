@@ -78,7 +78,7 @@
             </div>
         </div>
     </div>
-    
+
 
   </div>
 </div>
@@ -205,7 +205,6 @@ export default {
       const urlParams = new URL(queryString);
       this.patientId = urlParams.searchParams.get('patientId');
       this.hospitalizationId = urlParams.searchParams.get('hospitalizationId');
-      console.log(this.hospitalizationId);
 
       if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
         this.editActive = false;
@@ -236,9 +235,6 @@ export default {
         }).then( response => {
             this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
-            console.log('data');
-            console.log( this.sections);
-            console.log(this.patients);
              if (this.hospitalizationId !== undefined && this.hospitalizationId !== null ) {
                 this.getEditInfo();
             }
@@ -256,7 +252,6 @@ export default {
     endHospitalization(){
         this.hospitalization_date_end =  this.$moment(this.hospitalization_date_end).format('YYYY-MM-DD');
         axios.post('/hospitalizations/end',{ id: this.hospitalizationId, date_end: this.hospitalization_date_end  }).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
@@ -276,9 +271,7 @@ export default {
         this.fields.patient_id = this.patientObj.id;
         this.fields.section_id = this.sectionObj.id;
         this.fields.date_start = this.$moment(this.fields.date_start).format('YYYY-MM-DD');
-        console.log(this.fields);
         axios.post('/hospitalizations/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

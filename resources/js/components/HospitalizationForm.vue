@@ -143,13 +143,9 @@ export default {
   },
   methods: {
     getPatient(id){
-        console.log(this.patients);
-        console.log(id);
         return this.patients.find(pat => pat.id == id).name;
     },
     getSection(id){
-        console.log(this.patients);
-        console.log(id);
         return this.sections.find(pat => pat.id == id).name;
     },
     connect(id,patientId){
@@ -157,15 +153,15 @@ export default {
     },
     getHospitalizations(){
         axios.get('/hospitalizations/getAll').then(response => {
-         
+
           this.buffer = response.data;
           return axios.get('/pat/get');
         }).then( response => {
-            
+
             this.patients = response.data;
             return axios.get('/sections/getAll');
         }).then( response => {
-         
+
             this.sections = response.data;
             this.hospitalizations = this.buffer.map( hospitalization => {
                 return {
@@ -178,15 +174,14 @@ export default {
                     patientName: this.patients.find(pat => pat.id == hospitalization.patient_id).name
                     }
             });
-           
-           
+
+
         });
 
     },
     deleteHospitalization(id){
         this.fields.id = id;
         axios.post('/hospitalizations/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getHospitalizations();
         });

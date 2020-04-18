@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Intervention;
-use App\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class InterventionController extends Controller
@@ -26,8 +24,6 @@ class InterventionController extends Controller
             'record' => 'required',
             'patient_id' => 'required'
         );
-
-        Log::info($request->get('date'));
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {

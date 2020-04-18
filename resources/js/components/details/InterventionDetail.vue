@@ -287,11 +287,8 @@ export default {
         }).then( response => {
             this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
-            console.log('data');
-            console.log(this.nurses);
             this.chosenNurses = [];
-            console.log(this.chosenNurses);
-            console.log(this.patients);
+
 
             return  axios.get('/user/getDoctors');
         }).then( response => {
@@ -322,9 +319,7 @@ export default {
         this.fields.doctors = this.chosenDoctors.map(a => a.userable_id);
         this.fields.patient_id = this.patientObj.id;
         this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
-        console.log(this.fields);
         axios.post('/interventions/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

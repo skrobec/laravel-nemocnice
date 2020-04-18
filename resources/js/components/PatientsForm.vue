@@ -163,7 +163,6 @@ export default {
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       const id = urlParams.searchParams.get('id');
-      console.log(id);
 
       if (id !== null && id !== undefined) {
           this.enterId = id;
@@ -187,8 +186,6 @@ export default {
     connect(id){
         window.history.replaceState({}, '', "http://homestead.test/patients" + '?id=' + id);
         this.detailProp = this.patients.find(pat => pat.id == id);
-         console.log(id);
-        console.log(this.patients);
         this.detail = true;
     },
     prepareEdit(id){
@@ -200,7 +197,6 @@ export default {
     },
     getPatients(){
         axios.get('/pat/get').then(response => {
-          console.log(this.enterId);
           this.patients = response.data;
           if (this.enterId !== 0) {
             this.connect(this.enterId);
@@ -210,7 +206,6 @@ export default {
     deletePatient(id){
         this.fields.id = id;
         axios.post('/patients/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getPatients();
         });
@@ -223,7 +218,6 @@ export default {
             this.errors = {};
             this.fields.id = this.patientId;
             axios.post('/patients/edit', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.loaded = true;
             this.success = true;
@@ -234,7 +228,7 @@ export default {
                 this.errors = error.response.data.errors || {};
             }
             });
-      }
+        }
     },
     submit() {
       if (this.loaded) {
@@ -242,7 +236,6 @@ export default {
         this.success = false;
         this.errors = {};
         axios.post('/patients/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;

@@ -132,7 +132,6 @@ export default {
       const queryString = window.location.href;
       const urlParams = new URL(queryString);
       const id = urlParams.searchParams.get('id');
-      console.log(id);
 
       if (id !== null && id !== undefined) {
           this.enterId = id;
@@ -158,15 +157,11 @@ export default {
         window.history.replaceState({}, '',  "http://homestead.test/users");
     },
     connect(id){
-       /* window.history.pushState({}, '', "http://homestead.test/users");
-        window.history.replaceState({}, '', "http://homestead.test/users" + '?id=' + id);
-        this.detailProp = this.users.find(pat => pat.id == id);*/
         window.location.href = "http://homestead.test/users/userDetail" + '?id=' + id;
 
     },
     getUsers(){
         axios.get('/user/getAll').then(response => {
-          console.log(this.enterId);
           this.users = response.data;
           if (this.enterId !== 0) {
             this.connect(this.enterId);
@@ -176,7 +171,6 @@ export default {
     deleteUser(id){
         this.fields.id = id;
         axios.post('/user/del', this.fields).then(response => {
-            console.log(response);
             this.fields = {};
             this.getUsers();
         });

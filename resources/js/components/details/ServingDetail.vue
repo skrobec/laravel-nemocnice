@@ -78,8 +78,8 @@
             </div>
         </div>
     </div>
-    
-      
+
+
 
   </div>
 </div>
@@ -245,14 +245,9 @@ export default {
         }).then( response => {
             this.patients = response.data;
             this.patientObj = this.patients.find(pat => pat.id == this.patientId );
-            console.log('data');
-            console.log( this.nurses);
-            console.log(this.patients);
-
             return  axios.get('/drugs/getAll');
         }).then( response => {
             this.drugs = response.data;
-             console.log(this.drugs);
 
             if (this.servingId !== undefined && this.servingId !== null ) {
                 this.getEditInfo();
@@ -263,9 +258,7 @@ export default {
     getEditInfo(){
 
         axios.post('/serving/getInfo',{id: this.servingId}).then(response => {
-            console.log("aa");
-            this.servingObj = response.data;
-            console.log(this.servingObj);
+          this.servingObj = response.data;
           this.loadedNurse = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );
           this.nurseObj = this.nurses.find(nurse => nurse.userable_id == this.servingObj.nurse_id );
           this.nurse = this.nurseObj.name;
@@ -274,9 +267,6 @@ export default {
           this.loadedQuantity = response.data.quantity;
           this.drugObj = this.drugs.find(drug => drug.id == this.servingObj.drug_id );
           this.fields.quantity = response.data.quantity;
-          //this.fields.date = response.data.date;
-          console.log('ok');
-          console.log(this.loadedNurse);
         });
     },
     relink() {
@@ -289,9 +279,7 @@ export default {
         this.errors = {};
         this.fields.patient_id = this.patientId;
         this.fields.date = this.$moment(this.fields.date).format('YYYY-MM-DD');
-        console.log(this.fields);
         axios.post('/servings/add', this.fields).then(response => {
-          console.log(response);
           this.fields = {};
           this.loaded = true;
           this.success = true;
